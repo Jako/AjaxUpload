@@ -2,4 +2,6 @@ History
 ================================================================================
 
 - 1.0
-    - initial release for MODX Revolution
+    - Initial release for MODX Revolution
+- 1.1
+    - Generic thumbnail generation

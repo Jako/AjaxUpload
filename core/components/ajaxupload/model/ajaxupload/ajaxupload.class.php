@@ -91,7 +91,7 @@ class AjaxUpload {
 			'addCss' => $this->modx->getOption('addCss', $config, TRUE),
 			'uploadAction' => $assetsUrl . 'connector.php',
 			'newFilePermissions' => '0664',
-			'filecopierPath' => $this->modx->getOption('filecopierPath', $config, ''),
+			'filecopierPath' => $this->modx->getOption('filecopierPath', $config, ''), // not implemented yet
 			'debug' => (bool) $this->modx->getOption('debug', $config, $this->modx->getOption('ajaxupload.debug', NULL, FALSE))
 		));
 		$this->debug = array();
@@ -165,29 +165,36 @@ class AjaxUpload {
 		if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
 			if (!$fileInfo['thumbName']) {
 				$path_info = pathinfo($fileInfo['uniqueName']);
+				$thumbOptions = array();
+				if (in_array(strtolower($path_info['extension']), array('jpg', 'jpeg', 'png', 'gif'))) {
+					$thumbOptions['src'] = $fileInfo['path'] . $fileInfo['uniqueName'];
+					$thumbOptions['w'] = $this->config['thumbX'];
+					$thumbOptions['h'] = $this->config['thumbY'];
+					$thumbOptions['zc'] = '1';
+				} else {
+					$thumbOptions['src'] = $this->config['assetsPath'] . '/images/generic.png';
+					$thumbOptions['aoe'] = '1';
+					$thumbOptions['fltr'] = array('wmt|' . strtoupper($path_info['extension']) . '|5|C|000000');
+					$thumbOptions['w'] = $this->config['thumbX'];
+					$thumbOptions['h'] = $this->config['thumbY'];
+					$thumbOptions['f'] = 'png';
+					$path_info['extension'] = 'png';
+				}
 				$thumbName = md5($path_info['basename'] . time() . '.thumb') . '.' . $path_info['extension'];
-				$thumbOptions = array(
-					'w' => $this->config['thumbX'],
-					'h' => $this->config['thumbY'],
-					'zc' => '1'
-				);
 				// generate Thumbnail & save it
 				$phpThumb = new modPhpThumb($this->modx, $thumbOptions);
 				$phpThumb->initialize();
-				$phpThumb->set($fileInfo['path'] . $fileInfo['uniqueName']);
 				if ($phpThumb->GenerateThumbnail()) {
 					if (!$phpThumb->RenderToFile($fileInfo['path'] . $thumbName)) {
-						die('[AjaxUpload] Thumbnail generation: Thumbnail not saved.');
-						$this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Thumbnail not saved.');
-						$this->debug[] = 'Thumbnail generation: Thumbnail not saved.';
+						$this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Thumbnail not saved.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages));
+						$this->debug[] = 'Thumbnail generation: Thumbnail not saved.' . "\nDebugmessaes:\n" . implode("\n", $phpThumb->debugmessages);
 					} else {
 						$filePerm = (int) $this->config['newFilePermissions'];
 						@chmod($fileInfo['path'] . $thumbName, octdec($filePerm));
 					}
 				} else {
-					die('[AjaxUpload] Thumbnail generation: Thumbnail not created.');
-					$this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Thumbnail not created.');
-					$this->debug[] = 'Thumbnail generation: Thumbnail not created.';
+					$this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Thumbnail not created.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages));
+					$this->debug[] = 'Thumbnail generation: Thumbnail not created.' . "\nDebugmessaes:\n" . implode("\n", $phpThumb->debugmessages);
 				}
 				$fileInfo['thumbName'] = $thumbName;
 			}

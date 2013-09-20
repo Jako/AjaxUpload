@@ -1,8 +1,11 @@
 AjaxUpload
 ================================================================================
 
-MODX Snippet/jQuery Script Wrapper for Andrew Valums great file upload script
-(https://github.com/Valums-File-Uploader/file-uploader)
+Display an upload button for uploading multiple files with progress counter. The
+upload queue could be filled and saved by Formit hooks.
+
+MODX Revolution Snippet and jQuery Script Wrapper for Andrew Valums great file
+upload script (https://github.com/Valums-File-Uploader/file-uploader).
 
 Features:
 --------------------------------------------------------------------------------
@@ -11,8 +14,10 @@ progress-bar is generated. Works well in FF3.6+, Safari4+, Chrome and falls
 back to hidden iframe based upload in other browsers, providing good user
 experience everywhere.
 
-All uploaded images and thumbnails are given random filenames to avoid
-hotlinking uploaded fullsize images.
+All uploaded images and generated thumbnails are given random filenames to avoid
+hotlinking uploaded not published fullsize images. Automatic thumbnail
+generation for uploaded jpeg, png and gif files. Other uploaded files will get
+a generic icon.
 
 With two Formit hooks the upload queue could be pre filled from Formit field
 value and saved into Formit field value.
