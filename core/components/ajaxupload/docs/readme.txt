@@ -31,18 +31,15 @@ Usage
 
 Insert in Formit form
 
-```
 [[!AjaxUpload?
 &uid=`image`
 &allowedExtensions=`jpg,jpeg,png,gif`
 &thumbX=`75`
 &thumbY=`75`
 ]]
-```
 
 and use the Formit hooks
 
-```
 [[!Formit?
 ...
 &preHooks=`Formit2AjaxUpload`
@@ -51,7 +48,6 @@ and use the Formit hooks
 &ajaxuploadTarget=`images/user/`
 &ajaxuploadUid=`image`
 ]]
-```
 
 Parameters
 --------------------------------------------------------------------------------
@@ -78,9 +74,9 @@ Property | Description | Default
 ajaxuploadUid | Unique upload queue id |  md5 of MODX 'site_url' setting
 ajaxuploadFieldname | Formit field, the filenames/paths of the (already) uploaded files are saved in | jpg,jpeg,png,gif
 ajaxuploadTarget | Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']) | 8
-ajaxuploadFieldformat | Format of the data saved in `ajaxuploadFieldname` | csv
+ajaxuploadFieldformat | Format of the data saved in ajaxuploadFieldname | csv
 
 Notes:
 --------------------------------------------------------------------------------
 1. The uploaded images will be saved with an unique filename.
-2. The parameter `uid` should be set different for each upload button (separate multiple upload queues).
+2. The parameter uid should be set different for each upload button (separate multiple upload queues).
