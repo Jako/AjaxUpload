@@ -10,7 +10,7 @@ upload script (https://github.com/Valums-File-Uploader/file-uploader).
 Features:
 --------------------------------------------------------------------------------
 With this snippet an upload button for uploading multiple files with
-progress-bar is generated. Works well in FF3.6+, Safari4+, Chrome and falls
+progress counter is generated. Works well in FF3.6+, Safari4+, Chrome and falls
 back to hidden iframe based upload in other browsers, providing good user
 experience everywhere.
 
