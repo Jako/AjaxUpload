@@ -14,10 +14,10 @@ progress counter is generated. Works well in FF3.6+, Safari4+, Chrome and falls
 back to hidden iframe based upload in other browsers, providing good user
 experience everywhere.
 
-All uploaded images and generated thumbnails are given random filenames to avoid
-hotlinking uploaded not published fullsize images. Automatic thumbnail
-generation for uploaded jpeg, png and gif files. Other uploaded files will get
-a generic icon.
+All uploaded files and generated thumbnails are given random filenames to avoid
+hotlinking uploaded not published files. Automatic thumbnail generation for
+uploaded jpeg, png and gif files. Other uploaded files will get a generic icon
+the file extension.
 
 With two Formit hooks the upload queue could be pre filled from Formit field
 value and saved into Formit field value.
