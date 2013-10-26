@@ -24,7 +24,7 @@
 $ajaxuploadCorePath = $modx->getOption('ajaxupload.core_path', NULL, $modx->getOption('core_path') . 'components/ajaxupload/');
 $debug = $modx->getOption('debug', $scriptProperties, $modx->getOption('ajaxupload.debug', NULL, FALSE));
 if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', TRUE, TRUE)) {
-	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load modPhpThumb class.');
+	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load AjaxUpload class.');
 	if ($debug) {
 		return 'Could not load AjaxUpload class.';
 	} else {
