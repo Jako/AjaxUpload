@@ -168,15 +168,28 @@ class AjaxUpload {
 				$thumbOptions = array();
 				if (in_array(strtolower($path_info['extension']), array('jpg', 'jpeg', 'png', 'gif'))) {
 					$thumbOptions['src'] = $fileInfo['path'] . $fileInfo['uniqueName'];
-					$thumbOptions['w'] = $this->config['thumbX'];
-					$thumbOptions['h'] = $this->config['thumbY'];
-					$thumbOptions['zc'] = '1';
+					if ($this->config['thumbX']) {
+						$thumbOptions['w'] = $this->config['thumbX'];
+					}
+					if ($this->config['thumbY']) {
+						$thumbOptions['h'] = $this->config['thumbY'];
+					}
+					if ($this->config['thumbX'] && $this->config['thumbY']) {
+						$thumbOptions['zc'] = '1';
+					}
 				} else {
 					$thumbOptions['src'] = $this->config['assetsPath'] . '/images/generic.png';
 					$thumbOptions['aoe'] = '1';
 					$thumbOptions['fltr'] = array('wmt|' . strtoupper($path_info['extension']) . '|5|C|000000');
-					$thumbOptions['w'] = $this->config['thumbX'];
-					$thumbOptions['h'] = $this->config['thumbY'];
+					if ($this->config['thumbX']) {
+						$thumbOptions['w'] = $this->config['thumbX'];
+					}
+					if ($this->config['thumbY']) {
+						$thumbOptions['h'] = $this->config['thumbY'];
+					}
+					if ($this->config['thumbX'] && $this->config['thumbY']) {
+						$thumbOptions['zc'] = '1';
+					}
 					$thumbOptions['f'] = 'png';
 					$path_info['extension'] = 'png';
 				}

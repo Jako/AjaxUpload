@@ -5,29 +5,29 @@
 
 	var pluginName = 'ajaxUpload',
 			defaults = {
-		debug: false,
-		uploadAction: '',
-		uid: '',
-		dragText: 'Drop files here to upload',
-		uploadButtonText: 'Upload a file',
-		cancelButtonText: 'Cancel',
-		failUploadText: 'Upload failed',
-		deleteText: '{$_lang.deleteButton}',
-		clearText: '{$_lang.clearButton}',
-		hideShowDropArea: true,
-		thumbX: '100px',
-		thumbY: '100px',
-		allowedExtensions: [],
-		sizeLimit: 0,
-		maxFiles: 3,
-		messages: {
-			typeError: "{file} has invalid extension. Only {extensions} are allowed.",
-			sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
-			minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
-			emptyError: "{file} is empty, please select files again without it.",
-			onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
-		}
-	};
+				debug: false,
+				uploadAction: '',
+				uid: '',
+				dragText: 'Drop files here to upload',
+				uploadButtonText: 'Upload a file',
+				cancelButtonText: 'Cancel',
+				failUploadText: 'Upload failed',
+				deleteText: 'Delete a file',
+				clearText: 'Delete all files',
+				hideShowDropArea: true,
+				thumbX: '100',
+				thumbY: '100',
+				allowedExtensions: [],
+				sizeLimit: 0,
+				maxFiles: 3,
+				messages: {
+					typeError: "{file} has invalid extension. Only {extensions} are allowed.",
+					sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+					minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+					emptyError: "{file} is empty, please select files again without it.",
+					onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+				}
+			};
 
 	// The actual Plugin constructor
 	function Plugin(el, options) {
@@ -80,12 +80,18 @@
 							type: 'hidden'
 						});
 						var thumb = $('<img>').attr({
-							src: uploadAnswer.filename
+							src: uploadAnswer.filename,
+							alt: uploadAnswer.origname,
+							title: uploadAnswer.origname
 						}).css({
-							width: _this.options.thumbX,
-							height: _this.options.thumbY,
 							position: 'relative'
 						});
+						if (_this.options.thumbX > 0) {
+							thumb.css('width', _this.options.thumbX + 'px');
+						}
+						if (_this.options.thumbY > 0) {
+							thumb.css('height', _this.options.thumbY + 'px');
+						}
 
 						uploadItems.append(fileWrap.append(input, thumb, deleteButton));
 						$('.qq-upload-list li', _this.$el).eq(id).hide();
