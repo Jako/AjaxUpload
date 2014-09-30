@@ -75,9 +75,9 @@ addCss | Add the snippet css ad the end of the head | Yes
 
 Property | Description | Default
 ---- | ----------- | -------
-ajaxuploadUid | Unique upload queue id |  md5 of MODX 'site_url' setting
-ajaxuploadFieldname | Formit field, the filenames/paths of the (already) uploaded files are saved in | jpg,jpeg,png,gif
-ajaxuploadTarget | Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']) | 8
+ajaxuploadUid | Unique upload queue id |md5 of MODX 'site_url' setting
+ajaxuploadFieldname | (required) Formit field, the filenames/paths of the (already) uploaded files are saved in | -
+ajaxuploadTarget | (required) Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']) | 8
 ajaxuploadFieldformat | Format of the data saved in `ajaxuploadFieldname` | csv
 
 Notes:
