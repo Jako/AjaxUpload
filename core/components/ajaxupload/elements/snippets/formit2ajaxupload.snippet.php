@@ -52,7 +52,7 @@ if (!$ajaxUpload->initialize()) {
 $success = TRUE;
 switch (TRUE) {
 	case (empty($ajaxuploadFieldname)) :
-		$hook->addError('message', 'Missing parameter ajaxuploadTarget.');
+		$hook->addError('message', 'Missing parameter ajaxuploadFieldname.');
 		$success = FALSE;
 		break;
 	case (empty($ajaxuploadTarget)) :
