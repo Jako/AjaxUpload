@@ -16,13 +16,13 @@ class qqCopyFile {
 				'size' => filesize($filepath)
 			);
 		} else {
-			$this->file = FALSE;
+			$this->file = false;
 		}
 	}
 
 	/**
 	 * Save the file to the specified path
-	 * @return boolean TRUE on success
+	 * @return boolean true on success
 	 */
 	function save($path) {
 		if (!copy($this->file['fullpath'], $path)) {
@@ -80,7 +80,7 @@ class qqFileCopier {
 	/**
 	 * Returns array('success'=>true) or array('error'=>'error message')
 	 */
-	function handleUpload($uploadDirectory, $replaceOldFile = FALSE, $messages = array()) {
+	function handleUpload($uploadDirectory, $replaceOldFile = false, $messages = array()) {
 		if (!is_writable($uploadDirectory)) {
 			return array('error' => $messages['notWritable']);
 		}

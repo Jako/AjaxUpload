@@ -2,28 +2,17 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013 by Thomas Jakobi <thomas.jakobi@partout.info>
- *
- * AjaxUpload is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 2 of the License, or (at your option) any
- * later version.
- *
- * AjaxUpload is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * AjaxUpload; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage snippet
  */
-$ajaxuploadCorePath = $modx->getOption('ajaxupload.core_path', NULL, $modx->getOption('core_path') . 'components/ajaxupload/');
-$debug = $modx->getOption('debug', $scriptProperties, $modx->getOption('ajaxupload.debug', NULL, FALSE));
-if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', TRUE, TRUE)) {
+$ajaxuploadCorePath = $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/');
+$ajaxuploadAssetsPath = $modx->getOption('ajaxupload.assets_path', null, $modx->getOption('assets_path') . 'components/ajaxupload/');
+$ajaxuploadAssetsUrl = $modx->getOption('ajaxupload.assets_url', null, $modx->getOption('assets_url') . 'components/ajaxupload/');
+$debug = $modx->getOption('debug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false));
+
+if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', true, true)) {
 	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load AjaxUpload class.');
 	if ($debug) {
 		return 'Could not load AjaxUpload class.';
@@ -31,8 +20,12 @@ if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', T
 		return '';
 	}
 }
+
+$scriptProperties['ajaxupload.core_path'] = $ajaxuploadCorePath;
+$scriptProperties['ajaxupload.assets_path'] = $ajaxuploadAssetsPath;
+$scriptProperties['ajaxupload.assets_url'] = $ajaxuploadAssetsUrl;
 $ajaxUpload = new AjaxUpload($modx, $scriptProperties);
-if (!$ajaxUpload->initialize()) {
+if (!$ajaxUpload->initialize($scriptProperties)) {
 	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not initialize AjaxUpload class.');
 	if ($debug) {
 		return 'Could not load initialize AjaxUpload class.';

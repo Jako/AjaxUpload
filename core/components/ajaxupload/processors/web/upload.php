@@ -2,21 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013 by Thomas Jakobi <thomas.jakobi@partout.info>
- *
- * AjaxUpload is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 2 of the License, or (at your option) any
- * later version.
- *
- * AjaxUpload is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * AjaxUpload; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage processor
@@ -25,16 +11,16 @@
  */
 // delete uploaded images
 
-$delete = $modx->getOption('delete', $scriptProperties, FALSE);
-$uid = htmlspecialchars(trim($modx->getOption('uid', $scriptProperties, FALSE)));
+$delete = $modx->getOption('delete', $scriptProperties, false);
+$uid = htmlspecialchars(trim($modx->getOption('uid', $scriptProperties, false)));
 $output = '';
 
 if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
 	$modx->ajaxupload = new AjaxUpload($modx, $_SESSION['ajaxupload'][$uid . 'config']);
-	$modx->ajaxupload->initialize();
+	$modx->ajaxupload->initialize($_SESSION['ajaxupload'][$uid . 'config']);
 
 	$result = array();
-	if ($delete !== FALSE) {
+	if ($delete !== false) {
 		if (strtolower($delete) == 'all') {
 			// delete all uploaded files/thumbs & clean session
 			if (is_array($_SESSION['ajaxupload'][$uid])) {
@@ -51,7 +37,7 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
 				}
 			}
 			$_SESSION['ajaxupload'][$uid] = array();
-			$result['success'] = TRUE;
+			$result['success'] = true;
 		} else {
 			// delete one uploaded file/thumb & remove session entry
 			$fileId = intval($delete);
@@ -67,7 +53,7 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
 				}
 				$_SESSION['ajaxupload'][$uid . 'delete'][] = $fileInfo;
 				unset($_SESSION['ajaxupload'][$uid][$fileId]);
-				$result['success'] = TRUE;
+				$result['success'] = true;
 			} else {
 				$result['error'] = $modx->lexicon('ajaxupload.notFound', array('maxFiles' => $modx->ajaxupload->config['maxFiles']));
 			}
@@ -80,7 +66,7 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
 			$uploader = new qqFileUploader($modx->ajaxupload->config['allowedExtensions'], $modx->ajaxupload->config['sizeLimit']);
 		}
 		// to pass data through iframe you will need to encode all html tags
-		$result = $uploader->handleUpload($modx->ajaxupload->config['cachePath'], TRUE, $modx->lexicon->fetch('ajaxupload.', TRUE));
+		$result = $uploader->handleUpload($modx->ajaxupload->config['cachePath'], true, $modx->lexicon->fetch('ajaxupload.', true));
 
 		// file successful uploaded
 		if ($result['success']) {

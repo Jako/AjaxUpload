@@ -29,7 +29,7 @@ class qqUploadedFileXhr {
 
 	/**
 	 * Save the file to the specified path
-	 * @return boolean TRUE on success
+	 * @return boolean true on success
 	 */
 	function save($path) {
 		$input = fopen("php://input", "r");
@@ -70,7 +70,7 @@ class qqUploadedFileForm {
 
 	/**
 	 * Save the file to the specified path
-	 * @return boolean TRUE on success
+	 * @return boolean true on success
 	 */
 	function save($path) {
 		if (!move_uploaded_file($_FILES['qqfile']['tmp_name'], $path)) {
@@ -147,7 +147,7 @@ class qqFileUploader {
 	/**
 	 * Returns array('success'=>true) or array('error'=>'error message')
 	 */
-	function handleUpload($uploadDirectory, $replaceOldFile = FALSE, $messages = array()) {
+	function handleUpload($uploadDirectory, $replaceOldFile = false, $messages = array()) {
 		if (!is_writable($uploadDirectory)) {
 			return array('error' => $messages['notWritable']);
 		}
