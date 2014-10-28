@@ -27,10 +27,12 @@ echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
  */
 class qqUploadedFileXhr {
 
-	/**
-	 * Save the file to the specified path
-	 * @return boolean true on success
-	 */
+    /**
+     * Save the file to the specified path
+     * @param $path
+     * @throws Exception
+     * @return boolean true on success
+     */
 	function save($path) {
 		$input = fopen("php://input", "r");
 		$temp = tmpfile();
@@ -68,10 +70,11 @@ class qqUploadedFileXhr {
  */
 class qqUploadedFileForm {
 
-	/**
-	 * Save the file to the specified path
-	 * @return boolean true on success
-	 */
+    /**
+     * Save the file to the specified path
+     * @param $path
+     * @return boolean true on success
+     */
 	function save($path) {
 		if (!move_uploaded_file($_FILES['qqfile']['tmp_name'], $path)) {
 			return false;
@@ -116,8 +119,7 @@ class qqFileUploader {
 	}
 
 	public function getName(){
-		if ($this->file)
-			return $this->file->getName();
+		return ($this->file) ? $this->file->getName() : false;
 	}
 
 	private function checkServerSettings() {
@@ -144,9 +146,14 @@ class qqFileUploader {
 		return $val;
 	}
 
-	/**
-	 * Returns array('success'=>true) or array('error'=>'error message')
-	 */
+    /**
+     * Handle upload
+     *
+     * @param $uploadDirectory
+     * @param bool $replaceOldFile
+     * @param array $messages
+     * @return array array('success'=>true) or array('error'=>'error message')
+     */
 	function handleUpload($uploadDirectory, $replaceOldFile = false, $messages = array()) {
 		if (!is_writable($uploadDirectory)) {
 			return array('error' => $messages['notWritable']);

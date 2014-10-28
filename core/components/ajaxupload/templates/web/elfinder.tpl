@@ -39,7 +39,7 @@
                     elfinder: 1,
                     elfinderfile: file
                 },
-                success: function (data) {
+                success: function () {
                     var fileid = uploadAnswer.fileid;
                     if (uploadAnswer.success) {
                         var imageWrap = $('<div>').addClass('image-wrap').addClass('image' + fileid);

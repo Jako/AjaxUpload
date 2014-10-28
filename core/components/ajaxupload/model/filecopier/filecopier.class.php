@@ -20,10 +20,11 @@ class qqCopyFile {
 		}
 	}
 
-	/**
-	 * Save the file to the specified path
-	 * @return boolean true on success
-	 */
+    /**
+     * Save the file to the specified path
+     * @param $path
+     * @return boolean true on success
+     */
 	function save($path) {
 		if (!copy($this->file['fullpath'], $path)) {
 			return false;
@@ -63,23 +64,14 @@ class qqFileCopier {
 		}
 	}
 
-	private function toBytes($str) {
-		$val = trim($str);
-		$last = strtolower($str[strlen($str) - 1]);
-		switch ($last) {
-			case 'g' :
-				$val *= 1024;
-			case 'm' :
-				$val *= 1024;
-			case 'k' :
-				$val *= 1024;
-		}
-		return $val;
-	}
-
-	/**
-	 * Returns array('success'=>true) or array('error'=>'error message')
-	 */
+    /**
+     * Handle the upload
+     *
+     * @param $uploadDirectory
+     * @param bool $replaceOldFile
+     * @param array $messages
+     * @return array('success'=>true) or array('error'=>'error message')
+     */
 	function handleUpload($uploadDirectory, $replaceOldFile = false, $messages = array()) {
 		if (!is_writable($uploadDirectory)) {
 			return array('error' => $messages['notWritable']);

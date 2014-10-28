@@ -9,6 +9,13 @@
  *
  * Functions for building
  */
+
+/**
+ * Get snippet content
+ *
+ * @param $filename
+ * @return bool|mixed|string
+ */
 function getSnippetContent($filename)
 {
     $o = file_get_contents($filename);

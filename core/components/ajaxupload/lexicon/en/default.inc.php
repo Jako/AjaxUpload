@@ -30,4 +30,3 @@ $_lang['ajaxupload.sizeError'] = "{file} is too large, maximum file size is {siz
 $_lang['ajaxupload.minSizeError'] = "{file} is too small, minimum file size is {minSizeLimit}.";
 $_lang['ajaxupload.emptyError'] = "{file} is empty, please select files again without it.";
 $_lang['ajaxupload.onLeave'] = "The files are being uploaded, if you leave now the upload will be cancelled.";
-?>

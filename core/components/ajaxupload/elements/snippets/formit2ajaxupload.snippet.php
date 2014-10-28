@@ -73,4 +73,3 @@ switch (true) {
 		$success = true;
 }
 return $success;
-?>

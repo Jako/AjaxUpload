@@ -21,7 +21,7 @@ set_time_limit(0);
 define('PKG_NAME', 'AjaxUpload');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 define('PKG_VERSION', '1.1.1');
-define('PKG_RELEASE', 'pl');
+define('PKG_RELEASE', 'pl2');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)) . '/';

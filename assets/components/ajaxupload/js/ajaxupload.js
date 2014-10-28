@@ -71,7 +71,7 @@
                     if (uploadAnswer.success) {
                         var fileWrap = $('<div>').addClass('file-wrap').data('fileid', fileid);
                         var deleteButton = $('<div>').addClass('delete-button').html(_this.options.deleteText).click(function () {
-                            _this.delete(fileWrap, fileid);
+                            _this.remove(fileWrap, fileid);
                         });
                         var input = $('<input>').attr({
                             name: _this.options.uid + '_fileid[]',
@@ -105,7 +105,7 @@
             $('.file-uploader-items .file-wrap .delete-button', _this.$el).click(function () {
                 var fileWrap = $(this).parent();
                 var fileid = fileWrap.data('fileid');
-                _this.delete(fileWrap, fileid);
+                _this.remove(fileWrap, fileid);
             });
             // append clear button
             var clearButton = $('<div>').addClass('qq-clear-button').html(_this.options.clearText).click(function () {
@@ -115,7 +115,7 @@
                 $('.qq-upload-button', _this.$el).after(clearButton);
             }
         },
-        delete: function (el, fileid) {
+        remove: function (el, fileid) {
             var _this = this;
 
             $.get(_this.options.uploadAction, {

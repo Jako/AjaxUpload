@@ -109,4 +109,3 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
 	} $output = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
 }
 return $output;
-?>

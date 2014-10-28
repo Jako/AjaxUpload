@@ -34,4 +34,3 @@ if (!$ajaxUpload->initialize($scriptProperties)) {
 	}
 }
 return $ajaxUpload->output() . $ajaxUpload->debugOutput();
-?>

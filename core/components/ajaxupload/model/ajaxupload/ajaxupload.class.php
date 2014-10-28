@@ -79,7 +79,7 @@ class AjaxUpload
      * @access public
      * @return boolean success state of initialization
      */
-    public function initialize($properties)
+    public function initialize($properties = array())
     {
         if (!$this->modx->getService('smarty', 'smarty.modSmarty')) {
             $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load modSmarty service.');
@@ -219,7 +219,7 @@ class AjaxUpload
      * Retreive already uploaded files.
      *
      * @access public
-     * @param string $files Array of filenames (relative to $modx->getOption['assetsPath'])
+     * @param array| $files Array of filenames (relative to $modx->getOption['assetsPath'])
      * @return void
      */
     public function retrieveUploads($files = array())
@@ -298,10 +298,9 @@ class AjaxUpload
      * Delete existing files in target that are deleted in $_SESSION.
      *
      * @access public
-     * @param string $target Target path (relative to $modx->getOption['assetsPath'])
      * @return void
      */
-    public function deleteExisting($target)
+    public function deleteExisting()
     {
         foreach ($_SESSION['ajaxupload'][$this->config['uid'] . 'delete'] as &$fileInfo) {
             if (file_exists($fileInfo['originalPath'] . $fileInfo['originalName'])) {
@@ -418,5 +417,3 @@ class AjaxUpload
     }
 
 }
-
-?>
