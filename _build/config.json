@@ -1,0 +1,136 @@
+{
+  "name": "AjaxUpload",
+  "lowCaseName": "ajaxupload",
+  "description": "Upload button for uploading multiple files with progress-bar",
+  "author": "Thomas Jakobi",
+  "version": "1.2.0",
+  "package": {
+    "elements": {
+      "snippets": [
+        {
+          "name": "AjaxUpload",
+          "description": "Show upload button for uploading multiple files with progress-bar",
+          "file": "ajaxupload.snippet.php",
+          "properties": [
+            {
+              "name": "uid",
+              "value": ""
+            },
+            {
+              "name": "language",
+              "value": ""
+            },
+            {
+              "name": "allowedExtensions",
+              "value": "jpg,jpeg,png,gif"
+            },
+            {
+              "name": "maxFilesizeMb",
+              "value": "8"
+            },
+            {
+              "name": "maxFiles",
+              "value": "3"
+            },
+            {
+              "name": "thumbX",
+              "value": "100"
+            },
+            {
+              "name": "thumbY",
+              "value": "100"
+            },
+            {
+              "name": "addJquery",
+              "type": "combo-boolean",
+              "value": "0"
+            },
+            {
+              "name": "addJscript",
+              "type": "combo-boolean",
+              "value": "1"
+            },
+            {
+              "name": "addCss",
+              "type": "combo-boolean",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "name": "AjaxUpload2Formit",
+          "description": "AjaxUpload Formit hook. Save the upload queue into Formit field.",
+          "file": "ajaxupload2formit.snippet.php",
+          "properties": [
+            {
+              "name": "ajaxuploadUid",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadFieldname",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadTarget",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadFieldformat",
+              "type": "list",
+              "options": [
+                {
+                  "text": "CSV",
+                  "value": "csv"
+                },
+                {
+                  "text": "JSON",
+                  "value": "json"
+                }
+              ],
+              "value": "csv"
+            }
+          ]
+        },
+        {
+          "name": "Formit2AjaxUpload",
+          "description": "AjaxUpload Formit preHook. Prefill the upload queue from Formit field.",
+          "file": "formit2ajaxupload.snippet.php",
+          "properties": [
+            {
+              "name": "ajaxuploadUid",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadFieldname",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadTarget",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadFieldformat",
+              "type": "list",
+              "options": [
+                {
+                  "text": "CSV",
+                  "value": "csv"
+                },
+                {
+                  "text": "JSON",
+                  "value": "json"
+                }
+              ],
+              "value": "csv"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "build": {
+    "readme": "docs/readme.txt",
+    "license": "docs/license.txt",
+    "changelog": "docs/changelog.txt"
+  }
+}
