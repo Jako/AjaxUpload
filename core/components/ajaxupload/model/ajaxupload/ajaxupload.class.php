@@ -64,7 +64,7 @@ class AjaxUpload
 
         // Set parameters
         $this->config = array_merge($this->config, array(
-            'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url')), true),
+            'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $this->modx->resource->get('id')), true),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
             'filecopierPath' => '', // not implemented yet
@@ -100,6 +100,9 @@ class AjaxUpload
         if (!isset($_SESSION['ajaxupload'][$this->config['uid']])) {
             $_SESSION['ajaxupload'][$this->config['uid']] = array();
         }
+        if (!isset($_SESSION['ajaxupload'][$this->config['uid'] . 'delete'])) {
+            $_SESSION['ajaxupload'][$this->config['uid'] . 'delete'] = array();
+        }
         if (count($properties)) {
             $allowedExtensions = $this->modx->getOption('allowedExtensions', $properties, 'jpg,jpeg,png,gif');
             $allowedExtensions = (!is_array($allowedExtensions)) ? explode(',', $allowedExtensions) : $allowedExtensions;
@@ -119,7 +122,10 @@ class AjaxUpload
             $_SESSION['ajaxupload'][$this->config['uid'] . 'config'] = $this->config;
         }
         if (!@is_dir($this->config['cachePath'])) {
-            @mkdir($this->config['cachePath'], 0755);
+            if (!@mkdir($this->config['cachePath'], 0755)) {
+                $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not create the cache path.');
+            };
+
         }
         $this->clearCache();
         return true;
@@ -199,7 +205,9 @@ class AjaxUpload
                         $this->debug[] = 'Thumbnail generation: Thumbnail not saved.' . "\nDebugmessaes:\n" . implode("\n", $phpThumb->debugmessages);
                     } else {
                         $filePerm = (int)$this->config['newFilePermissions'];
-                        @chmod($fileInfo['path'] . $thumbName, octdec($filePerm));
+                        if (!@chmod($fileInfo['path'] . $thumbName, octdec($filePerm))) {
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not change the thumbnail file permission.');
+                        };
                     }
                 } else {
                     $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Thumbnail not created.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages));
@@ -256,9 +264,13 @@ class AjaxUpload
                 if (empty($fileInfo['uniqueName'])) {
                     $fileInfo['uniqueName'] = md5($originalFilename . time()) . '.' . $originalExtension;
                 }
-                @copy($fileInfo['originalPath'] . $fileInfo['originalName'], $fileInfo['path'] . $fileInfo['uniqueName']);
+                if (!@copy($fileInfo['originalPath'] . $fileInfo['originalName'], $fileInfo['path'] . $fileInfo['uniqueName'])) {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not copy the uploaded file to the upload cache.');
+                };
                 $filePerm = (int)$this->config['newFilePermissions'];
-                @chmod($fileInfo['path'] . $fileInfo['uniqueName'], octdec($filePerm));
+                if (!@chmod($fileInfo['path'] . $fileInfo['uniqueName'], octdec($filePerm))) {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not change the uploaded file permission in the upload cache.');
+                };
 
                 // create thumbnail
                 $fileInfo['thumbName'] = $this->generateThumbnail($fileInfo);
@@ -287,9 +299,12 @@ class AjaxUpload
     {
         foreach ($_SESSION['ajaxupload'][$this->config['uid']] as &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-                @copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName']);
-                $fileInfo['originalPath'] = $this->modx->getOption('assets_path') . $target;
-                $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
+                if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName'])) {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not copy the uploaded file to the target.');
+                } else {
+                    $fileInfo['originalPath'] = $this->modx->getOption('assets_path') . $target;
+                    $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
+                }
             }
         }
     }

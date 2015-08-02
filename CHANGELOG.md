@@ -1,5 +1,11 @@
 #Changelog for AjaxUpload
 
+###AjaxUpload 1.2
+
+- Bugfix for deleteExisting method
+- Log file file/folder copying/creating errors in the MODX error log
+- The default upload queue uid is resource specific
+
 ###AjaxUpload 1.1.1
 
 - Logging errors in MODX system log
