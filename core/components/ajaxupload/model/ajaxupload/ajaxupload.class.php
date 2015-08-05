@@ -64,7 +64,7 @@ class AjaxUpload
 
         // Set parameters
         $this->config = array_merge($this->config, array(
-            'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $this->modx->resource->get('id')), true),
+            'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . ($this->modx->resource) ? $this->modx->resource->get('id') : 0), true),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
             'filecopierPath' => '', // not implemented yet
