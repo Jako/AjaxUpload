@@ -63,8 +63,9 @@ class AjaxUpload
         );
 
         // Set parameters
+        $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
         $this->config = array_merge($this->config, array(
-            'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . ($this->modx->resource) ? $this->modx->resource->get('id') : 0), true),
+            'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $resourceId), true),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
             'filecopierPath' => '', // not implemented yet
@@ -196,6 +197,7 @@ class AjaxUpload
                     $path_info['extension'] = 'png';
                 }
                 $thumbName = md5($path_info['basename'] . time() . '.thumb') . '.' . $path_info['extension'];
+
                 // generate Thumbnail & save it
                 $phpThumb = new modPhpThumb($this->modx, $thumbOptions);
                 $phpThumb->initialize();
@@ -410,6 +412,7 @@ class AjaxUpload
         }
 
         // preload files from $_SESSION
+        $itemList = '';
         if (is_array($_SESSION['ajaxupload'][$this->config['uid']])) {
             $itemList = $this->loadFiles($_SESSION['ajaxupload'][$this->config['uid']]);
         }
