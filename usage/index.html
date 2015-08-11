@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Usage - AjaxUpload for MODX Revolution</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Usage";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> AjaxUpload for MODX Revolution</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../installation/">Installation</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Usage</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#display-the-upload-button">Display the Upload Button</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#formit-hooks">FormIt Hooks</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#formit-attachments">FormIt Attachments</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../contributors/">Contributors</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../donate/">Donate</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">AjaxUpload for MODX Revolution</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Usage</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/Jako/AjaxUpload" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="display-the-upload-button">Display the Upload Button</h2>
+<p>To display the upload button, you have to insert the AjaxUpload snippet call somewhere in a Resource. If you want to 
+use it with FormIt, you should place the snippet call in the FormIt form:</p>
+<pre><code>[[!AjaxUpload?
+&amp;uid=`image`
+&amp;allowedExtensions=`jpg,jpeg,png,gif`
+&amp;thumbX=`75`
+&amp;thumbY=`75`
+]]
+</code></pre>
+
+<p>The AjaxUpload snippet could use the following properties:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uid</td>
+<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup></td>
+<td>md5 of MODX 'site_url' setting and the current resource id</td>
+</tr>
+<tr>
+<td>language</td>
+<td>Snippet/Javascript language</td>
+<td>-</td>
+</tr>
+<tr>
+<td>allowedExtensions</td>
+<td>Allowed file extensions for upload</td>
+<td>jpg,jpeg,png,gif</td>
+</tr>
+<tr>
+<td>maxFilesizeMb</td>
+<td>Maximum size for one file to upload</td>
+<td>8</td>
+</tr>
+<tr>
+<td>maxFiles</td>
+<td>Maximum count of files to upload</td>
+<td>3</td>
+</tr>
+<tr>
+<td>thumbX</td>
+<td>Horizontal size of generated thumb</td>
+<td>100</td>
+</tr>
+<tr>
+<td>thumbY</td>
+<td>Vertical size of generated thumb</td>
+<td>100</td>
+</tr>
+<tr>
+<td>addJquery</td>
+<td>Add jQuery script at the end of the body</td>
+<td>No</td>
+</tr>
+<tr>
+<td>addJscript</td>
+<td>Add the snippet javascript and the fileuploader script at the end of the body</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>addCss</td>
+<td>Add the snippet css ad the end of the head</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="formit-hooks">FormIt Hooks</h2>
+<p>To set/retreive the uploaded images in the upload queue by FormIt, you have to use the FormIt hooks in the FormIt call:</p>
+<pre><code>[[!FormIt?
+...
+&amp;preHooks=`Formit2AjaxUpload`
+&amp;hooks=`AjaxUpload2Formit`
+&amp;ajaxuploadFieldname=`image`
+&amp;ajaxuploadTarget=`images/user/`
+&amp;ajaxuploadUid=`image`
+...
+]]
+</code></pre>
+
+<p>The AjaxUpload2Formit and the Formit2AjaxUpload Hook use the same properties:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ajaxuploadUid</td>
+<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup></td>
+<td>md5 of MODX site_url setting and the current resource id</td>
+</tr>
+<tr>
+<td>ajaxuploadFieldname</td>
+<td>(required) FormIt field, the filenames/paths of the (already) uploaded files are saved in</td>
+<td>jpg,jpeg,png,gif</td>
+</tr>
+<tr>
+<td>ajaxuploadTarget</td>
+<td>(required) Target path for the (already) uploaded files (relative to $modx-&gt;getOption['assetsPath'])</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ajaxuploadFieldformat</td>
+<td>Format of the data saved in ajaxuploadFieldname</td>
+<td>csv</td>
+</tr>
+</tbody>
+</table>
+<h2 id="formit-attachments">FormIt Attachments</h2>
+<p>If you want to attach the uploaded files to the email, you have to add the
+AjaxUploadAttachments hook to the FormIt Call before the email hook:</p>
+<pre><code>[[!FormIt?
+...
+&amp;hooks=`AjaxUpload2Formit,AjaxUploadAttachments,email`
+]]
+</code></pre>
+
+<p>The AjaxUploadAttachments Hook uses the properties of the Hooks above.</p>
+<!-- Piwik -->
+
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.partout.info/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 13]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+
+<noscript><p><img src="//piwik.partout.info/piwik.php?idsite=13" style="border:0;" alt="" /></p></noscript>
+
+<!-- End Piwik Code -->
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>The parameter uid should be set different for each upload button on the site to separate multiple upload queues.&#160;<a class="footnote-backref" href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../contributors/" class="btn btn-neutral float-right" title="Contributors"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../contributors/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
