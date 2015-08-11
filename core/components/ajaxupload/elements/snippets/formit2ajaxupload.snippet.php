@@ -1,8 +1,8 @@
 <?php
 /**
- * AjaxUpload
+ * Formit2AjaxUpload
  *
- * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage prehook
@@ -20,56 +20,58 @@ $scriptProperties['uid'] = $modx->getOption('ajaxuploadUid', $scriptProperties, 
 $debug = $scriptProperties['debug'];
 
 if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', true, true)) {
-	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load modPhpThumb class.');
-	if ($debug) {
-		return 'Could not load AjaxUpload class.';
-	} else {
-		return '';
-	}
+    $modx->log(modX::LOG_LEVEL_ERROR, 'Could not load AjaxUpload class.', '', 'Formit2AjaxUpload');
+    if ($debug) {
+        return 'Could not load AjaxUpload class.';
+    } else {
+        return '';
+    }
 }
+
+$uidConfig = isset($_SESSION['ajaxupload'][$scriptProperties['uid'] . 'config']) ? $_SESSION['ajaxupload'][$scriptProperties['uid'] . 'config'] : array();
 
 $scriptProperties['ajaxupload.core_path'] = $ajaxuploadCorePath;
 $scriptProperties['ajaxupload.assets_path'] = $ajaxuploadAssetsPath;
 $scriptProperties['ajaxupload.assets_url'] = $ajaxuploadAssetsUrl;
 $ajaxUpload = new AjaxUpload($modx, $scriptProperties);
-if (!$ajaxUpload->initialize()) {
-	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not initialize AjaxUpload class.');
-	if ($debug) {
-		return 'Could not load initialize AjaxUpload class.';
-	} else {
-		return '';
-	}
+if (!$ajaxUpload->initialize($uidConfig)) {
+    $modx->log(modX::LOG_LEVEL_ERROR, 'Could not initialize AjaxUpload class.', '', 'Formit2AjaxUpload');
+    if ($debug) {
+        return 'Could not load initialize AjaxUpload class.';
+    } else {
+        return '';
+    }
 }
 
 $success = true;
 switch (true) {
-	case (empty($ajaxuploadFieldname)) :
-		$hook->addError($scriptProperties['uid'], 'Missing parameter ajaxuploadFieldname.');
-        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadFieldname.', '', 'AjaxUpload');
-		$success = false;
-		break;
-	case (empty($ajaxuploadTarget)) :
-		$hook->addError($scriptProperties['uid'], 'Missing parameter ajaxuploadTarget.');
-        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'AjaxUpload');
-		$success = false;
-		break;
-	default :
-		if (!isset($_POST)) {
-			$ajaxuploadValue = $hook->getValue($ajaxuploadFieldname);
-		} else {
-			$ajaxuploadValue = $ajaxUpload->getValue($ajaxuploadFieldformat);
-		}
-		if ($ajaxuploadValue) {
-			switch ($ajaxuploadFieldformat) {
-				case 'json' :
-					$ajaxuploadValue = json_decode($ajaxuploadValue);
-					break;
-				case 'csv':
-				default :
-					$ajaxuploadValue = explode(',', $ajaxuploadValue);
-			}
-			$ajaxUpload->retrieveUploads($ajaxuploadValue);
-		}
-		$success = true;
+    case (empty($ajaxuploadFieldname)) :
+        $hook->addError($scriptProperties['uid'], 'Missing parameter ajaxuploadFieldname.');
+        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadFieldname.', '', 'Formit2AjaxUpload');
+        $success = false;
+        break;
+    case (empty($ajaxuploadTarget)) :
+        $hook->addError($scriptProperties['uid'], 'Missing parameter ajaxuploadTarget.');
+        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'Formit2AjaxUpload');
+        $success = false;
+        break;
+    default :
+        if (!isset($_POST)) {
+            $ajaxuploadValue = $hook->getValue($ajaxuploadFieldname);
+        } else {
+            $ajaxuploadValue = $ajaxUpload->getValue($ajaxuploadFieldformat);
+        }
+        if ($ajaxuploadValue) {
+            switch ($ajaxuploadFieldformat) {
+                case 'json' :
+                    $ajaxuploadValue = json_decode($ajaxuploadValue);
+                    break;
+                case 'csv':
+                default :
+                    $ajaxuploadValue = explode(',', $ajaxuploadValue);
+            }
+            $ajaxUpload->retrieveUploads($ajaxuploadValue);
+        }
+        $success = true;
 }
 return $success;

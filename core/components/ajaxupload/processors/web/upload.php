@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage processor
@@ -76,6 +76,7 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
 			// check if count of uploaded files are below max file count
 			if (count($_SESSION['ajaxupload'][$uid]) < $modx->ajaxupload->config['maxFiles']) {
 				$fileInfo['originalName'] = $originalName;
+				$fileInfo['originalBaseUrl'] =  $modx->ajaxupload->config['cachePath'];
 				$fileInfo['path'] = $path;
 				$fileInfo['base_url'] = $modx->ajaxupload->config['cacheUrl'];
 
@@ -92,7 +93,8 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
 					$_SESSION['ajaxupload'][$uid][] = $fileInfo;
 					// prepare returned values (filename & fileid)
 					$result['filename'] = $fileInfo['base_url'] . $fileInfo['thumbName'];
-					$result['fileid'] = end(array_keys($_SESSION['ajaxupload'][$uid]));
+					$arrayKeys = array_keys($_SESSION['ajaxupload'][$uid]);
+					$result['fileid'] = end($arrayKeys);
 				} else {
 					unset($result['success']);
 					$result['error'] = $modx->lexicon('ajaxupload.thumbnailGenerationProblem');

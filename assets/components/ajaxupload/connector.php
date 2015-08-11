@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage connector
@@ -25,9 +25,10 @@ require_once MODX_CONNECTORS_PATH . 'index.php';
 $ajaxuploadCorePath = realpath($modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/')) . '/';
 
 if (!$modx->loadClass('AjaxUpload', $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/ajaxupload/') . 'model/ajaxupload/', true, true)) {
-    $modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load AjaxUpload class.');
+    $modx->log(modX::LOG_LEVEL_ERROR, 'Could not load AjaxUpload class.', '', 'AjaxUpload');
     return '';
 }
+
 if ($_REQUEST['action'] == 'web/upload') {
     $version = $modx->getVersionData();
     if (version_compare($version['full_version'], '2.1.1-pl') >= 0) {
@@ -44,7 +45,7 @@ if ($_REQUEST['action'] == 'web/upload') {
 }
 
 /* handle request */
-$path = $modx->getOption('processorsPath', $modx->ajaxupload->config, $ajaxuploadCorePath . 'processors/');
+$path = $modx->getOption('processorsPath', null, $ajaxuploadCorePath . 'processors/');
 $modx->request->handleRequest(array(
     'processors_path' => $path,
     'location' => '',

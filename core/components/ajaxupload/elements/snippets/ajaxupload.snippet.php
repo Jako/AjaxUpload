@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage snippet
@@ -13,12 +13,12 @@ $ajaxuploadAssetsUrl = $modx->getOption('ajaxupload.assets_url', null, $modx->ge
 $debug = $modx->getOption('debug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false));
 
 if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', true, true)) {
-	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load AjaxUpload class.');
-	if ($debug) {
-		return 'Could not load AjaxUpload class.';
-	} else {
-		return '';
-	}
+    $modx->log(modX::LOG_LEVEL_ERROR, 'Could not load AjaxUpload class.', '', 'AjaxUpload');
+    if ($debug) {
+        return 'Could not load AjaxUpload class.';
+    } else {
+        return '';
+    }
 }
 
 $scriptProperties['ajaxupload.core_path'] = $ajaxuploadCorePath;
@@ -26,11 +26,11 @@ $scriptProperties['ajaxupload.assets_path'] = $ajaxuploadAssetsPath;
 $scriptProperties['ajaxupload.assets_url'] = $ajaxuploadAssetsUrl;
 $ajaxUpload = new AjaxUpload($modx, $scriptProperties);
 if (!$ajaxUpload->initialize($scriptProperties)) {
-	$modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not initialize AjaxUpload class.');
-	if ($debug) {
-		return 'Could not load initialize AjaxUpload class.';
-	} else {
-		return '';
-	}
+    $modx->log(modX::LOG_LEVEL_ERROR, 'Could not initialize AjaxUpload class.', '', 'AjaxUpload');
+    if ($debug) {
+        return 'Could not load initialize AjaxUpload class.';
+    } else {
+        return '';
+    }
 }
 return $ajaxUpload->output() . $ajaxUpload->debugOutput();

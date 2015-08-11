@@ -3,7 +3,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage classfile
@@ -83,12 +83,12 @@ class AjaxUpload
     public function initialize($properties = array())
     {
         if (!$this->modx->getService('smarty', 'smarty.modSmarty')) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load modSmarty service.');
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not load modSmarty service.', '', 'AjaxUpload');
             $this->debug[] = 'Could not load modSmarty service.';
             return false;
         }
         if (!$this->modx->loadClass('modPhpThumb', $this->modx->getOption('core_path') . 'model/phpthumb/', true, true)) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load modPhpThumb class.');
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not load modPhpThumb class.', '', 'AjaxUpload');
             $this->debug[] = 'Could not load modPhpThumb class.';
             return false;
         }
@@ -124,7 +124,7 @@ class AjaxUpload
         }
         if (!@is_dir($this->config['cachePath'])) {
             if (!@mkdir($this->config['cachePath'], 0755)) {
-                $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not create the cache path.');
+                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the cache path.', '', 'AjaxUpload');
             };
 
         }
@@ -166,7 +166,7 @@ class AjaxUpload
     public function generateThumbnail($fileInfo = array())
     {
         if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-            if (!$fileInfo['thumbName']) {
+            if (!isset($fileInfo['thumbName'])) {
                 $path_info = pathinfo($fileInfo['uniqueName']);
                 $thumbOptions = array();
                 if (in_array(strtolower($path_info['extension']), array('jpg', 'jpeg', 'png', 'gif'))) {
@@ -203,23 +203,23 @@ class AjaxUpload
                 $phpThumb->initialize();
                 if ($phpThumb->GenerateThumbnail()) {
                     if (!$phpThumb->RenderToFile($fileInfo['path'] . $thumbName)) {
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Thumbnail not saved.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages));
+                        $this->modx->log(modX::LOG_LEVEL_ERROR, 'Thumbnail generation: Thumbnail not saved.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages), '', 'AjaxUpload');
                         $this->debug[] = 'Thumbnail generation: Thumbnail not saved.' . "\nDebugmessaes:\n" . implode("\n", $phpThumb->debugmessages);
                     } else {
                         $filePerm = (int)$this->config['newFilePermissions'];
                         if (!@chmod($fileInfo['path'] . $thumbName, octdec($filePerm))) {
-                            $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not change the thumbnail file permission.');
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not change the thumbnail file permission.', '', 'AjaxUpload');
                         };
                     }
                 } else {
-                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Thumbnail not created.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages));
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, 'Thumbnail generation: Thumbnail not created.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages), '', 'AjaxUpload');
                     $this->debug[] = 'Thumbnail generation: Thumbnail not created.' . "\nDebugmessaes:\n" . implode("\n", $phpThumb->debugmessages);
                 }
                 $fileInfo['thumbName'] = $thumbName;
             }
             return $fileInfo['thumbName'];
         } else {
-            $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Original file not found.');
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Thumbnail generation: Original file not found.', '', 'AjaxUpload');
             $this->debug[] = 'Thumbnail generation: Original file not found';
             return false;
         }
@@ -267,11 +267,11 @@ class AjaxUpload
                     $fileInfo['uniqueName'] = md5($originalFilename . time()) . '.' . $originalExtension;
                 }
                 if (!@copy($fileInfo['originalPath'] . $fileInfo['originalName'], $fileInfo['path'] . $fileInfo['uniqueName'])) {
-                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not copy the uploaded file to the upload cache.');
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not copy the uploaded file to the upload cache.', '', 'AjaxUpload');
                 };
                 $filePerm = (int)$this->config['newFilePermissions'];
                 if (!@chmod($fileInfo['path'] . $fileInfo['uniqueName'], octdec($filePerm))) {
-                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not change the uploaded file permission in the upload cache.');
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not change the uploaded file permission in the upload cache.', '', 'AjaxUpload');
                 };
 
                 // create thumbnail
@@ -282,7 +282,7 @@ class AjaxUpload
                         $_SESSION['ajaxupload'][$this->config['uid']][] = $fileInfo;
                     }
                 } else {
-                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Thumbnail generation: Original file not found.');
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, 'Thumbnail generation: Original file not found.', '', 'AjaxUpload');
                     $this->debug[] = 'Thumbnail generation: Original file not found';
                     @unlink($fileInfo['path'] . $fileInfo['uniqueName']);
                 }
@@ -299,16 +299,19 @@ class AjaxUpload
      */
     public function saveUploads($target)
     {
+        $errors = false;
         foreach ($_SESSION['ajaxupload'][$this->config['uid']] as &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
                 if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName'])) {
-                    $this->modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not copy the uploaded file to the target.');
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not copy the uploaded file to the target folder.', '', 'AjaxUpload');
+                    $errors = 'Could not copy the uploaded file to the target.';
                 } else {
                     $fileInfo['originalPath'] = $this->modx->getOption('assets_path') . $target;
                     $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
                 }
             }
         }
+        return $errors;
     }
 
     /**
@@ -320,7 +323,7 @@ class AjaxUpload
     public function deleteExisting()
     {
         foreach ($_SESSION['ajaxupload'][$this->config['uid'] . 'delete'] as &$fileInfo) {
-            if (file_exists($fileInfo['originalPath'] . $fileInfo['originalName'])) {
+            if (isset($fileInfo['originalPath']) && file_exists($fileInfo['originalPath'] . $fileInfo['originalName'])) {
                 @unlink($fileInfo['originalPath'] . $fileInfo['originalName']);
             }
         }
@@ -338,7 +341,7 @@ class AjaxUpload
     {
         $output = array();
         foreach ($_SESSION['ajaxupload'][$this->config['uid']] as $fileInfo) {
-            $output[] = $fileInfo['originalBaseUrl'] . $fileInfo['originalName'];
+            $output[] = (isset($fileInfo['originalBaseUrl']) ? $fileInfo['originalBaseUrl'] : $fileInfo['base_url']) . $fileInfo['originalName'];
         }
         switch ($format) {
             case 'json' :

@@ -1,8 +1,8 @@
 <?php
 /**
- * AjaxUpload
+ * AjaxUpload2Formit
  *
- * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage hook
@@ -20,7 +20,7 @@ $scriptProperties['uid'] = $modx->getOption('ajaxuploadUid', $scriptProperties, 
 $debug = $scriptProperties['debug'];
 
 if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', true, true)) {
-    $modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not load modPhpThumb class.');
+    $modx->log(modX::LOG_LEVEL_ERROR, 'Could not load AjaxUpload class.', '', 'AjaxUpload2Formit');
     if ($debug) {
         return 'Could not load AjaxUpload class.';
     } else {
@@ -33,7 +33,7 @@ $scriptProperties['ajaxupload.assets_path'] = $ajaxuploadAssetsPath;
 $scriptProperties['ajaxupload.assets_url'] = $ajaxuploadAssetsUrl;
 $ajaxUpload = new AjaxUpload($modx, $scriptProperties);
 if (!$ajaxUpload->initialize()) {
-    $modx->log(modX::LOG_LEVEL_ERROR, '[AjaxUpload] Could not initialize AjaxUpload class.');
+    $modx->log(modX::LOG_LEVEL_ERROR, 'Could not initialize AjaxUpload class.', '', 'AjaxUpload2Formit');
     if ($debug) {
         return 'Could not load initialize AjaxUpload class.';
     } else {
@@ -45,16 +45,20 @@ $success = true;
 switch (true) {
     case (empty($ajaxuploadFieldname)) :
         $hook->addError($scriptProperties['uid'], 'Missing parameter ajaxuploadFieldname.');
-        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadFieldname.', '', 'AjaxUpload');
+        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadFieldname.', '', 'AjaxUpload2Formit');
         $success = false;
         break;
     case (empty($ajaxuploadTarget)) :
         $hook->addError($scriptProperties['uid'], 'Missing parameter ajaxuploadTarget.');
-        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'AjaxUpload');
+        $modx->log(modX::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'AjaxUpload2Formit');
         $success = false;
         break;
     default :
-        $ajaxUpload->saveUploads($ajaxuploadTarget);
+        if ($errors = $ajaxUpload->saveUploads($ajaxuploadTarget)) {
+            $hook->addError($scriptProperties['uid'], $errors);
+            $success = false;
+            break;
+        }
         $ajaxUpload->deleteExisting($ajaxuploadTarget);
         $ajaxuploadValue = $ajaxUpload->getValue($ajaxuploadFieldformat);
         $hook->setValue($ajaxuploadFieldname, $ajaxuploadValue);

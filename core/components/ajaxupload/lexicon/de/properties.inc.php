@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2014 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage classfile
@@ -24,8 +24,12 @@ $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'] = 'Eindeutige ID für die U
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'] = 'Formit Feld, in dem Dateiname und Pfad der hochgeladenen Dateien gespeichert werden';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'] = 'Pfad in dem die hochgeladenen Dateien abgespeichert werden (Relative zo $modx->getOption[\'assetsPath\'])';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'] = 'Format der in \'ajaxuploadFieldname\' gespeicherten Daten';
+$_lang['ajaxupload.ajaxupload2formit.csv'] = 'CSV';
+$_lang['ajaxupload.ajaxupload2formit.json'] = 'JSON';
 
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadUid'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'];
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadFieldname'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'];
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadTarget'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'];
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadFieldformat'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'];
+$_lang['ajaxupload.formit2ajaxupload.csv'] = 'CSV';
+$_lang['ajaxupload.formit2ajaxupload.json'] = 'JSON';
