@@ -65,6 +65,7 @@ class AjaxUpload
         // Set parameters
         $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
         $this->config = array_merge($this->config, array(
+            'debug' => false,
             'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $resourceId), true),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',

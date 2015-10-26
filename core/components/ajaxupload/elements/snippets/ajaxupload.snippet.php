@@ -10,7 +10,7 @@
 $ajaxuploadCorePath = $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/');
 $ajaxuploadAssetsPath = $modx->getOption('ajaxupload.assets_path', null, $modx->getOption('assets_path') . 'components/ajaxupload/');
 $ajaxuploadAssetsUrl = $modx->getOption('ajaxupload.assets_url', null, $modx->getOption('assets_url') . 'components/ajaxupload/');
-$debug = $modx->getOption('debug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false));
+$debug = $modx->getOption('debug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false), true);
 
 if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', true, true)) {
     $modx->log(modX::LOG_LEVEL_ERROR, 'Could not load AjaxUpload class.', '', 'AjaxUpload');
