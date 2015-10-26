@@ -5,12 +5,14 @@ site_dir: _build/site
 repo_url: https://github.com/Jako/AjaxUpload
 
 pages:
-- [index.md, Home]
-- [installation.md, Installation]
-- [usage.md, Usage]
-- [contributors.md, Contributors]
-- [donate.md, Donate]
+- Home: 'index.md'
+- Installation: 'installation.md'
+- Usage: 'usage.md'
+- Contributors: 'contributors.md'
+- Donate: 'donate.md'
 
 theme: readthedocs
 
-markdown_extensions: [footnotes,tables]
+markdown_extensions:
+    - footnotes
+    - tables

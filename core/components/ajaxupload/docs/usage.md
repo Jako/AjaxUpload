@@ -43,7 +43,7 @@ To set/retreive the uploaded images in the upload queue by FormIt, you have to u
 ]]
 ```
 
-The AjaxUpload2Formit and the Formit2AjaxUpload Hook use the same properties:
+The AjaxUpload2Formit and the Formit2AjaxUpload hook use the same properties:
 
 Property | Description | Default
 ---------|-------------|--------
@@ -64,7 +64,7 @@ AjaxUploadAttachments hook to the FormIt Call before the email hook:
 ]]
 ```
 
-The AjaxUploadAttachments Hook uses the properties of the Hooks above.
+The AjaxUploadAttachments hook uses the properties of the hooks above.
 
 [^1]: The parameter uid should be set different for each upload button on the site to separate multiple upload queues.
 
