@@ -52,7 +52,12 @@
         }, 
         {
             "location": "/contributors/", 
-            "text": "The AjaxUpload project was started in 2012 by \nThomas Jakobi\n.\n\n\nMany thanks to everyone, who has contributed to this project:\n\n\n\n\n@bugakov\n\n\n@Jo\n\n\n\n\n\n\n\n\n  var _paq = _paq || [];\n  _paq.push(['trackPageView']);\n  _paq.push(['enableLinkTracking']);\n  (function() {\n    var u=\"//piwik.partout.info/\";\n    _paq.push(['setTrackerUrl', u+'piwik.php']);\n    _paq.push(['setSiteId', 13]);\n    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n  })();", 
+            "text": "Contributors\n\n\nThe AjaxUpload project was started in 2012 by \nThomas Jakobi\n.\n\n\nMany thanks to everyone, who has contributed to this project:\n\n\n\n\n@bugakov\n\n\n@Jo\n\n\n\n\n\n\n\n\n  var _paq = _paq || [];\n  _paq.push(['trackPageView']);\n  _paq.push(['enableLinkTracking']);\n  (function() {\n    var u=\"//piwik.partout.info/\";\n    _paq.push(['setTrackerUrl', u+'piwik.php']);\n    _paq.push(['setSiteId', 13]);\n    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n  })();", 
+            "title": "Contributors"
+        }, 
+        {
+            "location": "/contributors/#contributors", 
+            "text": "The AjaxUpload project was started in 2012 by  Thomas Jakobi .  Many thanks to everyone, who has contributed to this project:   @bugakov  @Jo    \n  var _paq = _paq || [];\n  _paq.push(['trackPageView']);\n  _paq.push(['enableLinkTracking']);\n  (function() {\n    var u=\"//piwik.partout.info/\";\n    _paq.push(['setTrackerUrl', u+'piwik.php']);\n    _paq.push(['setSiteId', 13]);\n    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];\n    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);\n  })();", 
             "title": "Contributors"
         }, 
         {
