@@ -68,6 +68,14 @@ The AjaxUploadAttachments hook uses the properties of the hooks above.
 
 [^1]: The parameter uid should be set different for each upload button on the site to separate multiple upload queues.
 
+## System Settings
+
+AjaxUpload uses the following system settings in the namespace `ajaxupload`:
+
+Key | Description | Default
+----|-------------|--------
+ajaxupload.cache_expires | Expire Time of the AjaxUpload cache (in hours) | 4
+
 <!-- Piwik -->
 <script type="text/javascript">
   var _paq = _paq || [];

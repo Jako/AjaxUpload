@@ -3,14 +3,13 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2016 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage classfile
  */
 class AjaxUpload
 {
-
     /**
      * A reference to the modX instance
      * @var modX $modx
@@ -70,6 +69,7 @@ class AjaxUpload
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
             'filecopierPath' => '', // not implemented yet
+            'cacheExpires' => intval($this->modx->getOption('cache_expires', $config, $this->modx->getOption('ajaxupload.cache_expires', null, 4)))
         ));
         $this->debug = array();
     }
@@ -129,7 +129,7 @@ class AjaxUpload
             };
 
         }
-        $this->clearCache();
+        $this->clearCache($this->config['cacheExpires']);
         return true;
     }
 

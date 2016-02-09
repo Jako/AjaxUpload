@@ -1,5 +1,9 @@
 Changelog for AjaxUpload
 
+AjaxUpload 1.4
+======================
+- cache_expires System Setting
+
 AjaxUpload 1.3
 ======================
 - New AjaxUploadAttachments snippet
