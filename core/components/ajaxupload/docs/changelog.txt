@@ -6,6 +6,7 @@ Changelog for AjaxUpload
     - Changed snippet property from cache_expires to cacheExpires respectively ajaxuploadCacheExpires
 - 1.4
     - cache_expires System Setting
+
 - 1.3
     - New AjaxUploadAttachments snippet
     - Improved error messages and error logging
