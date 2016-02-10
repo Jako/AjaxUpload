@@ -16,6 +16,7 @@ $ajaxuploadFieldformat = $modx->getOption('ajaxuploadFieldformat', $scriptProper
 $ajaxuploadTarget = $modx->getOption('ajaxuploadTarget', $scriptProperties, '');
 $scriptProperties['debug'] = $modx->getOption('ajaxuploadDebug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false));
 $scriptProperties['uid'] = $modx->getOption('ajaxuploadUid', $scriptProperties, '');
+$scriptProperties['cacheExpires'] = $modx->getOption('ajaxuploadCacheExpires', $scriptProperties, '');
 
 $debug = $scriptProperties['debug'];
 

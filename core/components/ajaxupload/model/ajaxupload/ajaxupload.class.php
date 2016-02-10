@@ -69,7 +69,7 @@ class AjaxUpload
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
             'filecopierPath' => '', // not implemented yet
-            'cacheExpires' => intval($this->modx->getOption('cache_expires', $config, $this->modx->getOption('ajaxupload.cache_expires', null, 4)))
+            'cacheExpires' => intval($this->modx->getOption('cacheExpires', $config, $this->modx->getOption('ajaxupload.cache_expires', null, 4), true))
         ));
         $this->debug = array();
     }
@@ -144,14 +144,14 @@ class AjaxUpload
     {
         $itemList = array();
 
-        foreach ($files as $id => &$fileInfo) {
+        foreach ($files as $id => $fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
                 $this->modx->smarty->assign('fileid', $id);
-                $fileInfo['thumbName'] = $this->generateThumbnail($fileInfo);
+                $files[$id]['thumbName'] = $this->generateThumbnail($fileInfo);
                 $this->modx->smarty->assign('thumbName', $fileInfo['base_url'] . $fileInfo['thumbName']);
                 $itemList[] = $this->modx->smarty->fetch($this->config['templatesPath'] . 'web/image.tpl');
             } else {
-                unset($fileInfo);
+                unset($files[$id]);
             }
         }
         return implode("\r\n", $itemList);
