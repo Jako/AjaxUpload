@@ -1,16 +1,13 @@
 <?php
 /**
- * AjaxUpload
- *
- * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Default Lexicon Entries for AjaxUpload
  *
  * @package ajaxupload
- * @subpackage classfile
- *
- * Default English Lexicon Entries for AjaxUpload
+ * @subpackage lexicon
  */
 $_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.notWritable'] = "Server error. Upload directory isn't writable.";
+$_lang['ajaxupload.targetNotWritable'] = "Could not copy the uploaded file to the target folder. Does the folder exist and is it writable?";
 $_lang['ajaxupload.noFile'] = "No files were uploaded.";
 $_lang['ajaxupload.emptyFile'] = "File is empty.";
 $_lang['ajaxupload.largeFile'] = "File is too large.";

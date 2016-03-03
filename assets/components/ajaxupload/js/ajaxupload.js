@@ -1,5 +1,11 @@
-// AjaxUpload Plugin
-// Author: Thomas Jakobi <thomas.jakobi@partout.info>
+/**
+ * AjaxUpload Plugin
+ *
+ * @author Thomas Jakobi <thomas.jakobi@partout.info>
+ *
+ * @package ajaxupload
+ * @subpackage javascriptpluginfile
+ */
 ;(function ($, window, document, undefined) {
 
     var pluginName = 'ajaxUpload',
@@ -79,9 +85,7 @@
                             type: 'hidden'
                         });
                         var thumb = $('<img>').attr({
-                            src: uploadAnswer.filename,
-                            alt: uploadAnswer.origname,
-                            title: uploadAnswer.origname
+                            src: uploadAnswer.filename
                         }).css({
                             position: 'relative'
                         });
@@ -98,7 +102,6 @@
                             alert('ID:' + id + '\nResponse:' + JSON.stringify(uploadAnswer));
                         }
                     }
-
                 }
             });
             // init delete buttons
@@ -111,8 +114,8 @@
             var clearButton = $('<div>').addClass('qq-clear-button').html(_this.options.clearText).click(function () {
                 _this.clear();
             });
-            if (_this.maxFiles > 1) {
-                $('.qq-upload-button', _this.$el).after(clearButton);
+            if (_this.options.maxFiles > 1) {
+                $('.qq-upload-button', _this.$el).after(clearButton).after(' ');
             }
         },
         remove: function (el, fileid) {

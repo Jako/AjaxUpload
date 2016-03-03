@@ -1,6 +1,9 @@
 Changelog for AjaxUpload
 ========================
 
+- 1.4.2
+    - Improved check for not existing files in the upload queue
+    - Improved check for post back in Formit2AjaxUpload hook
 - 1.4.1
     - Bugfix for removing not existing images from the queue
     - Changed snippet property from cache_expires to cacheExpires respectively ajaxuploadCacheExpires

@@ -236,7 +236,7 @@ class AjaxUpload
     public function retrieveUploads($files = array())
     {
         foreach ($files as $file) {
-            $file = str_replace($this->modx->getOption('assets_url'), '', $file);
+            $file = str_replace($this->modx->getOption('assets_url'), '', '/' . ltrim($file, '/'));
             $pathinfo = pathinfo($file);
             if (file_exists($this->modx->getOption('assets_path') . $file)) {
                 $fileInfo = array();
@@ -287,6 +287,15 @@ class AjaxUpload
                     $this->debug[] = 'Thumbnail generation: Original file not found';
                     @unlink($fileInfo['path'] . $fileInfo['uniqueName']);
                 }
+            } else {
+                // Check if not found file is in session and delete the unique file and the thumbnail
+                foreach ($_SESSION['ajaxupload'][$this->config['uid']] as $sessionInfo) {
+                    if ($sessionInfo['originalName'] === $pathinfo['basename']) {
+                        @unlink($this->config['cachePath'] . $sessionInfo['uniqueName']);
+                        @unlink($this->config['cachePath'] . $sessionInfo['thumbName']);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -295,8 +304,8 @@ class AjaxUpload
      * Save the uploaded files to the specified target.
      *
      * @access public
-     * @param string $target Target path (relative to $modx->getOption['assetsPath'])
-     * @return void
+     * @param string $target Target path (relative to $modx->getOption['assets_path'])
+     * @return boolean|string
      */
     public function saveUploads($target)
     {
@@ -304,8 +313,8 @@ class AjaxUpload
         foreach ($_SESSION['ajaxupload'][$this->config['uid']] as &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
                 if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName'])) {
-                    $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not copy the uploaded file to the target folder.', '', 'AjaxUpload');
-                    $errors = 'Could not copy the uploaded file to the target.';
+                    $errors = $this->modx->lexicon('ajaxupload.targetNotWritable');
+                    $this->modx->log(modX::LOG_LEVEL_ERROR, $errors, '', 'AjaxUpload');
                 } else {
                     $fileInfo['originalPath'] = $this->modx->getOption('assets_path') . $target;
                     $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
@@ -401,11 +410,16 @@ class AjaxUpload
             $this->modx->regClientScript('http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js');
         }
         if ($this->config['addCss']) {
-            $this->modx->regClientCSS($this->config['cssUrl'] . 'ajaxupload.css');
+            $cssfile = ($this->config['debug']) ? 'ajaxupload.css' : 'ajaxupload.min.css';
+            $this->modx->regClientCSS($this->config['cssUrl'] . $cssfile);
         }
         if ($this->config['addJscript']) {
-            $this->modx->regClientScript($this->config['jsUrl'] . 'fileuploader.js');
-            $this->modx->regClientScript($this->config['jsUrl'] . 'ajaxupload.js');
+            if ($this->config['debug']) {
+                $this->modx->regClientScript($this->config['jsUrl'] . 'fileuploader.js');
+                $this->modx->regClientScript($this->config['jsUrl'] . 'ajaxupload.js');
+            } else {
+                $this->modx->regClientScript($this->config['jsUrl'] . 'ajaxupload.min.js');
+            }
         }
         $this->modx->smarty->assign('_lang', $this->modx->lexicon->fetch('ajaxupload.', true));
         $this->modx->smarty->assign('params', $this->config);

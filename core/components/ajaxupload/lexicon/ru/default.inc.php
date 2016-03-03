@@ -1,16 +1,13 @@
 <?php
 /**
- * AjaxUpload
- *
- * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Default Lexicon Entries for AjaxUpload
  *
  * @package ajaxupload
- * @subpackage classfile
- *
- * Default Russian Lexicon Entries for AjaxUpload
+ * @subpackage lexicon
  */
 $_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.notWritable'] = "Ошибка сервера. Каталог загрузки закрыт для записи.";
+$_lang['ajaxupload.targetNotWritable'] = "Could not copy the uploaded file to the target folder. Does the folder exist and is it writable?";
 $_lang['ajaxupload.noFile'] = "Файлы не загружены.";
 $_lang['ajaxupload.emptyFile'] = "Файл пуст.";
 $_lang['ajaxupload.largeFile'] = "Файл слишком велик.";

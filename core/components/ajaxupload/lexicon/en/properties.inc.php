@@ -1,13 +1,9 @@
 <?php
 /**
- * AjaxUpload
- *
- * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Properties Lexicon Entries for AjaxUpload
  *
  * @package ajaxupload
- * @subpackage classfile
- *
- * Properties English Lexicon Entries for AjaxUpload
+ * @subpackage lexicon
  */
 $_lang['ajaxupload.ajaxupload.uid'] = 'Unique upload queue id';
 $_lang['ajaxupload.ajaxupload.language'] = 'Snippet/Javascript language';

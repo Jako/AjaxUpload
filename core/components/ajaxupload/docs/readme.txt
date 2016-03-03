@@ -27,10 +27,6 @@ Installation
 ------------
 MODX Package Management
 
-Usage
------
-Install via package manager and create a TV with input & output types of Image+
-
 Documentation
 -------------
 http://jako.github.io/AjaxUpload/

@@ -2,10 +2,12 @@
 /**
  * AjaxUpload2Formit
  *
- * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
- *
  * @package ajaxupload
  * @subpackage hook
+ *
+ * @var modx $modx
+ * @var array $scriptProperties
+ * @var fiHooks $hook
  */
 $ajaxuploadCorePath = $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/');
 $ajaxuploadAssetsPath = $modx->getOption('ajaxupload.assets_path', null, $modx->getOption('assets_path') . 'components/ajaxupload/');
@@ -55,12 +57,13 @@ switch (true) {
         $success = false;
         break;
     default :
-        if ($errors = $ajaxUpload->saveUploads($ajaxuploadTarget)) {
+        $errors = $ajaxUpload->saveUploads($ajaxuploadTarget);
+        if ($errors) {
             $hook->addError($scriptProperties['uid'], $errors);
             $success = false;
             break;
         }
-        $ajaxUpload->deleteExisting($ajaxuploadTarget);
+        $ajaxUpload->deleteExisting();
         $ajaxuploadValue = $ajaxUpload->getValue($ajaxuploadFieldformat);
         $hook->setValue($ajaxuploadFieldname, $ajaxuploadValue);
         $success = true;

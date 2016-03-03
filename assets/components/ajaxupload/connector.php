@@ -1,13 +1,11 @@
 <?php
 /**
- * AjaxUpload
- *
- * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * AjaxUpload Connector
  *
  * @package ajaxupload
  * @subpackage connector
  *
- * AjaxUpload connector
+ * @var modx $modx
  */
 /* Allow anonymous users */
 define('MODX_REQP', false);

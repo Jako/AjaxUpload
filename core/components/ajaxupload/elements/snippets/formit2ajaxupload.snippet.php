@@ -2,10 +2,12 @@
 /**
  * Formit2AjaxUpload
  *
- * Copyright 2013-2015 by Thomas Jakobi <thomas.jakobi@partout.info>
- *
  * @package ajaxupload
  * @subpackage prehook
+ *
+ * @var modx $modx
+ * @var array $scriptProperties
+ * @var fiHooks $hook
  */
 $ajaxuploadCorePath = $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/');
 $ajaxuploadAssetsPath = $modx->getOption('ajaxupload.assets_path', null, $modx->getOption('assets_path') . 'components/ajaxupload/');
@@ -57,21 +59,19 @@ switch (true) {
         $success = false;
         break;
     default :
-        if (!isset($_POST)) {
+        if (!count($_POST)) {
             $ajaxuploadValue = $hook->getValue($ajaxuploadFieldname);
-        } else {
-            $ajaxuploadValue = $ajaxUpload->getValue($ajaxuploadFieldformat);
-        }
-        if ($ajaxuploadValue) {
-            switch ($ajaxuploadFieldformat) {
-                case 'json' :
-                    $ajaxuploadValue = json_decode($ajaxuploadValue);
-                    break;
-                case 'csv':
-                default :
-                    $ajaxuploadValue = explode(',', $ajaxuploadValue);
+            if ($ajaxuploadValue) {
+                switch ($ajaxuploadFieldformat) {
+                    case 'json' :
+                        $ajaxuploadValue = json_decode($ajaxuploadValue);
+                        break;
+                    case 'csv':
+                    default :
+                        $ajaxuploadValue = explode(',', $ajaxuploadValue);
+                }
+                $ajaxUpload->retrieveUploads($ajaxuploadValue);
             }
-            $ajaxUpload->retrieveUploads($ajaxuploadValue);
         }
         $success = true;
 }
