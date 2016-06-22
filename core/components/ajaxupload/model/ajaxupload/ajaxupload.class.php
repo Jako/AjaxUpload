@@ -17,6 +17,18 @@ class AjaxUpload
     public $modx;
 
     /**
+     * The namespace
+     * @var string $namespace
+     */
+    public $namespace = 'ajaxupload';
+
+    /**
+     * The version
+     * @var string $version
+     */
+    public $version = '1.5.0';
+
+    /**
      * A configuration array
      * @var array $config
      */
@@ -38,12 +50,14 @@ class AjaxUpload
     {
         $this->modx = &$modx;
 
-        $corePath = $this->modx->getOption('ajaxupload.core_path', $config, $this->modx->getOption('core_path') . 'components/ajaxupload/');
-        $assetsPath = $this->modx->getOption('ajaxupload.assets_path', $config, $this->modx->getOption('assets_path') . 'components/ajaxupload/');
-        $assetsUrl = $this->modx->getOption('ajaxupload.assets_url', $config, $this->modx->getOption('assets_url') . 'components/ajaxupload/');
+        $corePath = $this->getOption('core_path', $config, $this->modx->getOption('core_path') . 'components/' . $this->namespace . '/');
+        $assetsPath = $this->getOption('assets_path', $config, $this->modx->getOption('assets_path') . 'components/' . $this->namespace . '/');
+        $assetsUrl = $this->getOption('assets_url', $config, $this->modx->getOption('assets_url') . 'components/' . $this->namespace . '/');
 
         // Load some default paths for easier management
         $this->config = array(
+            'namespace' => $this->namespace,
+            'version' => $this->version,
             'assetsPath' => $assetsPath,
             'assetsUrl' => $assetsUrl,
             'cssUrl' => $assetsUrl . 'css/',
@@ -54,9 +68,11 @@ class AjaxUpload
             'chunksPath' => $corePath . 'elements/chunks/',
             'pagesPath' => $corePath . 'elements/pages/',
             'snippetsPath' => $corePath . 'elements/snippets/',
+            'pluginsPath' => $corePath . 'elements/plugins/',
+            'controllersPath' => $corePath . 'controllers/',
             'processorsPath' => $corePath . 'processors/',
             'templatesPath' => $corePath . 'templates/',
-            'hooksPath' => $corePath . 'hooks/',
+            'connectorUrl' => $assetsUrl . 'connector.php',
             'cachePath' => $assetsPath . 'cache/',
             'cacheUrl' => $assetsUrl . 'cache/'
         );
@@ -65,13 +81,37 @@ class AjaxUpload
         $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
         $this->config = array_merge($this->config, array(
             'debug' => false,
-            'uid' => $this->modx->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $resourceId), true),
+            'uid' => $this->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $resourceId)),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
-            'filecopierPath' => '', // not implemented yet
-            'cacheExpires' => intval($this->modx->getOption('cacheExpires', $config, $this->modx->getOption('ajaxupload.cache_expires', null, 4), true))
+            'maxConnections' => 1,
+            'cacheExpires' => intval($this->getOption('cacheExpires', $config, 4))
         ));
         $this->debug = array();
+    }
+
+    /**
+     * Get a local configuration option or a namespaced system setting by key.
+     *
+     * @param string $key The option key to search for.
+     * @param array $options An array of options that override local options.
+     * @param mixed $default The default value returned if the option is not found locally or as a
+     * namespaced system setting; by default this value is null.
+     * @return mixed The option value or the default value specified.
+     */
+    public function getOption($key, $options = array(), $default = null)
+    {
+        $option = $default;
+        if (!empty($key) && is_string($key)) {
+            if ($options != null && array_key_exists($key, $options)) {
+                $option = $options[$key];
+            } elseif (array_key_exists($key, $this->config)) {
+                $option = $this->config[$key];
+            } elseif (array_key_exists("{$this->namespace}.{$key}", $this->modx->config)) {
+                $option = $this->modx->getOption("{$this->namespace}.{$key}");
+            }
+        }
+        return $option;
     }
 
     /**
@@ -95,7 +135,6 @@ class AjaxUpload
         }
         if (!class_exists('qqFileUploader')) {
             include_once $this->config['modelPath'] . 'fileuploader/fileuploader.class.php';
-            //include_once $this->config['modelPath'] . 'filecopier/filecopier.class.php';
         }
         $language = empty($this->config['language']) ? '' : $this->config['language'] . ':';
         $this->modx->lexicon->load($language . 'ajaxupload:default');
@@ -118,7 +157,7 @@ class AjaxUpload
                 'addJquery' => (bool)$this->modx->getOption('addJquery', $properties, false),
                 'addJscript' => $this->modx->getOption('addJscript', $properties, true),
                 'addCss' => $this->modx->getOption('addCss', $properties, true),
-                'debug' => (bool)$this->modx->getOption('debug', $properties, $this->modx->getOption('ajaxupload.debug', null, false))
+                'debug' => (bool)$this->getOption('debug', $properties, false)
             );
             $this->config = array_merge($this->config, $config);
             $_SESSION['ajaxupload'][$this->config['uid'] . 'config'] = $this->config;
@@ -406,28 +445,33 @@ class AjaxUpload
      */
     public function output()
     {
+        $assetsUrl = $this->getOption('assetsUrl');
+        $jsUrl = $this->getOption('jsUrl') . 'web/';
+        $jsSourceUrl = $assetsUrl . '../../../source/js/web/';
+        $cssUrl = $this->getOption('cssUrl') . 'web/';
+        $cssSourceUrl = $assetsUrl . '../../../source/css/web/';
+
         if ($this->config['addJquery']) {
             $this->modx->regClientScript('http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js');
         }
         if ($this->config['addCss']) {
-            $cssfile = ($this->config['debug']) ? 'ajaxupload.css' : 'ajaxupload.min.css';
-            $this->modx->regClientCSS($this->config['cssUrl'] . $cssfile);
+            if ($this->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/' . $this->namespace . '/')) {
+                $this->modx->regClientCSS($cssSourceUrl . 'ajaxupload.css');
+            } else {
+                $this->modx->regClientCSS($cssUrl . 'ajaxupload.min.css');
+            }
         }
         if ($this->config['addJscript']) {
-            if ($this->config['debug']) {
-                $this->modx->regClientScript($this->config['jsUrl'] . 'fileuploader.js');
-                $this->modx->regClientScript($this->config['jsUrl'] . 'ajaxupload.js');
+            if ($this->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/' . $this->namespace . '/')) {
+                $this->modx->regClientScript($jsSourceUrl . 'fileuploader.js');
+                $this->modx->regClientScript($jsSourceUrl . 'ajaxupload.js');
             } else {
-                $this->modx->regClientScript($this->config['jsUrl'] . 'ajaxupload.min.js');
+                $this->modx->regClientScript($jsUrl . 'ajaxupload.min.js');
             }
         }
         $this->modx->smarty->assign('_lang', $this->modx->lexicon->fetch('ajaxupload.', true));
         $this->modx->smarty->assign('params', $this->config);
-        if (empty($this->config['filecopierPath'])) {
-            $this->modx->regClientScript($this->modx->smarty->fetch($this->config['templatesPath'] . 'web/script.tpl'), true);
-        } else {
-            $this->modx->regClientStartupScript($this->modx->smarty->fetch($this->config['templatesPath'] . 'web/elfinder.tpl'), true);
-        }
+        $this->modx->regClientScript($this->modx->smarty->fetch($this->config['templatesPath'] . 'web/script.tpl'), true);
 
         // preload files from $_SESSION
         $itemList = '';

@@ -18,8 +18,8 @@ module.exports = function (grunt) {
                 },
                 files: {
                     src: [
-                        'assets/components/ajaxupload/js/ajaxupload.min.js',
-                        'assets/components/ajaxupload/css/ajaxupload.min.css'
+                        'assets/components/ajaxupload/js/web/ajaxupload.min.js',
+                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
                     ]
                 }
             }
@@ -27,10 +27,10 @@ module.exports = function (grunt) {
         uglify: {
             ajaxupload: {
                 src: [
-                    'assets/components/ajaxupload/js/ajaxupload.js',
-                    'assets/components/ajaxupload/js/fileuploader.js'
+                    'source/js/web/ajaxupload.js',
+                    'source/js/web/fileuploader.js'
                 ],
-                dest: 'assets/components/ajaxupload/js/ajaxupload.min.js'
+                dest: 'assets/components/ajaxupload/js/web/ajaxupload.min.js'
             }
         },
         sass: {
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'assets/components/ajaxupload/css/ajaxupload.css': 'assets/components/ajaxupload/sass/ajaxupload.scss'
+                    'source/css/web/ajaxupload.css': 'source/sass/web/ajaxupload.scss'
                 }
             }
         },
@@ -57,7 +57,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 src: [
-                    'assets/components/ajaxupload/css/ajaxupload.css'
+                    'source/css/web/ajaxupload.css'
                 ]
 
             }
@@ -65,17 +65,16 @@ module.exports = function (grunt) {
         cssmin: {
             ajaxupload: {
                 src: [
-                    'assets/components/ajaxupload/css/ajaxupload.css'
+                    'source/css/web/ajaxupload.css'
                 ],
-                dest: 'assets/components/ajaxupload/css/ajaxupload.min.css'
+                dest: 'assets/components/ajaxupload/css/web/ajaxupload.min.css'
             }
         },
         sftp: {
             css: {
                 files: {
                     "./": [
-                        'assets/components/ajaxupload/css/ajaxupload.css',
-                        'assets/components/ajaxupload/css/ajaxupload.min.css'
+                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
                     ]
                 },
                 options: {
@@ -91,8 +90,7 @@ module.exports = function (grunt) {
             js: {
                 files: {
                     "./": [
-                        'assets/components/ajaxupload/js/ajaxupload.js',
-                        'assets/components/ajaxupload/js/ajaxupload.min.js'
+                        'assets/components/ajaxupload/js/web/ajaxupload.min.js'
                     ]
                 },
                 options: {
@@ -109,15 +107,41 @@ module.exports = function (grunt) {
         watch: {
             scripts: {
                 files: [
-                    'assets/components/ajaxupload/js/ajaxupload.js'
+                    'source/**/*.js'
                 ],
-                tasks: ['uglify', 'usebanner', 'sftp:js']
+                tasks: ['uglify', 'usebanner:js', 'sftp:js']
             },
             css: {
                 files: [
-                    'assets/components/ajaxupload/sass/ajaxupload.scss'
+                    'source/**/*.scss'
                 ],
-                tasks: ['sass', 'postcss', 'cssmin', 'usebanner', 'sftp:css']
+                tasks: ['sass', 'postcss', 'cssmin', 'usebanner:css', 'sftp:css']
+            }
+        },
+        bump: {
+            copyright: {
+                files: [{
+                    src: 'core/components/ajaxupload/model/ajaxupload/ajaxupload.class.php',
+                    dest: 'core/components/ajaxupload/model/ajaxupload/ajaxupload.class.php'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /Copyright 2013(-\d{4})? by/g,
+                        replacement: 'Copyright ' + (new Date().getFullYear() > 2013 ? '2013-' : '') + new Date().getFullYear() + ' by'
+                    }]
+                }
+            },
+            version: {
+                files: [{
+                    src: 'core/components/ajaxupload/model/ajaxupload/ajaxupload.class.php',
+                    dest: 'core/components/ajaxupload/model/ajaxupload/ajaxupload.class.php'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /version = '\d+.\d+.\d+[-a-z0-9]*'/ig,
+                        replacement: 'version = \'' + '<%= modx.version %>' + '\''
+                    }]
+                }
             }
         }
     });
@@ -130,7 +154,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ssh');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-string-replace');
+    grunt.renameTask('string-replace', 'bump');
 
     //register the task
-    grunt.registerTask('default', ['uglify', 'sass', 'postcss', 'cssmin', 'usebanner', 'sftp']);
+    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner', 'sftp']);
 };

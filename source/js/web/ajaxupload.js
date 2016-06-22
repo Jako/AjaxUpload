@@ -71,6 +71,7 @@
                 hideShowDropArea: true,
                 allowedExtensions: _this.options.allowedExtensions,
                 sizeLimit: _this.options.sizeLimit,
+                maxConnections: this.options.maxConnections,
                 messages: _this.options.messages,
                 onComplete: function (id, fileName, uploadAnswer) {
                     var fileid = uploadAnswer.fileid;

@@ -2,7 +2,7 @@
     /* <![CDATA[ */
     $(document).ready(function () {
         $('#file-uploader-{$params.uid}').ajaxUpload({
-            uploadAction: '{$params.uploadAction}',
+            uploadAction: '{$params.connectorUrl}',
             uid: '{$params.uid}',
             dragText: '{$_lang.dropArea}',
             uploadButtonText: '{$_lang.uploadButton}',
@@ -16,6 +16,7 @@
             allowedExtensions: [{$params.allowedExtensionsString}],
             sizeLimit: {$params.sizeLimit},
             maxFiles: {$params.maxFiles},
+            maxConnections: {$params.maxConnections},
             messages: {
                 typeError: "{$_lang.typeError}",
                 sizeError: "{$_lang.sizeError}",

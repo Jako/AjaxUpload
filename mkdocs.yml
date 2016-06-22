@@ -1,5 +1,5 @@
 site_name: AjaxUpload
-docs_dir: core/components/ajaxupload/docs
+docs_dir: core/components/ajaxupload/docs/mkdocs
 site_dir: _build/site
 
 repo_url: https://github.com/Jako/AjaxUpload

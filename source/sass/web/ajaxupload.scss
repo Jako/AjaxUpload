@@ -1,4 +1,4 @@
-/* AjaxFileUpload */
+/* AjaxUpload */
 
 .file-uploader-buttons {
   clear: left;
@@ -13,7 +13,7 @@
   }
   .delete-button {
     display: block;
-    background: url("../images/delete.png");
+    background: url("../../images/delete.png");
     width: 15px;
     height: 15px;
     position: absolute;
@@ -95,7 +95,7 @@
 .qq-upload-spinner {
   @extend .qq-upload-file;
   display: inline-block;
-  background: url("../images/loading.gif");
+  background: url("../../images/loading.gif");
   width: 15px;
   height: 15px;
   vertical-align: text-bottom;
