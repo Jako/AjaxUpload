@@ -32,7 +32,7 @@ class AjaxUpload
      * A configuration array
      * @var array $config
      */
-    public $config;
+    public $config = array();
 
     /**
      * An array of debug informations
