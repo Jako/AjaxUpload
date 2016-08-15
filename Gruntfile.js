@@ -1,6 +1,4 @@
 module.exports = function (grunt) {
-    var hostPath = '/srv/www/revo.partout.info/html/develop/ajaxupload/';
-
     // Project configuration.
     grunt.initConfig({
         modx: grunt.file.readJSON('_build/config.json'),
@@ -78,7 +76,7 @@ module.exports = function (grunt) {
                     ]
                 },
                 options: {
-                    path: hostPath,
+                    path: '<%= sshconfig.hostpath %>develop/ajaxupload/',
                     srcBasePath: 'develop/ajaxupload/',
                     host: '<%= sshconfig.host %>',
                     username: '<%= sshconfig.username %>',
@@ -94,7 +92,7 @@ module.exports = function (grunt) {
                     ]
                 },
                 options: {
-                    path: hostPath,
+                    path: '<%= sshconfig.hostpath %>develop/ajaxupload/',
                     srcBasePath: 'develop/ajaxupload/',
                     host: '<%= sshconfig.host %>',
                     username: '<%= sshconfig.username %>',
