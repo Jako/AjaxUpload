@@ -49,7 +49,7 @@ Property | Description | Default
 ---------|-------------|--------
 ajaxuploadUid | Unique upload queue id [^1] | md5 of MODX site_url setting and the current resource id
 ajaxuploadFieldname | (required) FormIt field, the filenames/paths of the (already) uploaded files are saved in | jpg,jpeg,png,gif
-ajaxuploadTarget | (required) Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']) | -
+ajaxuploadTarget | (required) Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). The folder should exist or should be createable and it has to be writable for PHP. | -
 ajaxuploadFieldformat | Format of the data saved in ajaxuploadFieldname | csv
 
 ## FormIt Attachments
