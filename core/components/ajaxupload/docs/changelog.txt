@@ -1,6 +1,8 @@
 Changelog for AjaxUpload
 ========================
 
+- 1.5.1
+    - Bugfix for array_key_exists warning
 - 1.5.0
     - Usage of maxConnections to prevent upload queue issues
 - 1.4.2
