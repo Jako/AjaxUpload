@@ -20,8 +20,13 @@ $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'] = 'Unique upload queue id';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'] = 'Formit field, the filenames/paths of the (already) uploaded files are saved in';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'] = 'Target path for the (already) uploaded files (relative to $modx->getOption[\'assetsPath\'])';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'] = 'Format of the data saved in \'ajaxuploadFieldname\'';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadClearQueue'] = 'Clear the upload queue after a sucessful run of the hook';
+$_lang['ajaxupload.ajaxupload2formit.csv'] = 'CSV';
+$_lang['ajaxupload.ajaxupload2formit.json'] = 'JSON';
 
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadUid'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'];
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadFieldname'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'];
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadTarget'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'];
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadFieldformat'] = $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'];
+$_lang['ajaxupload.formit2ajaxupload.csv'] = 'CSV';
+$_lang['ajaxupload.formit2ajaxupload.json'] = 'JSON';

@@ -1,4 +1,5 @@
 <div class="file-wrap" data-fileid="{$fileid}">
-    <img src="{$thumbName}" style="width: {$params.thumbX}px; height: {$params.thumbY}px; position: relative; /">
+    <img class="thumb" src="{$thumbName}" style="width: {$params.thumbX}px; height: {$params.thumbY}px; position: relative;" alt="{$originalName}" title="{$originalName}">
+    <span class="title">{$originalName}</span>
     <a class="delete-button">{$_lang.deleteButton}</a>
 </div>

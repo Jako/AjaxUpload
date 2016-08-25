@@ -26,7 +26,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.5.1';
+    public $version = '1.5.2';
 
     /**
      * A configuration array
@@ -41,7 +41,7 @@ class AjaxUpload
     public $debug;
 
     /**
-     * CustomRequest constructor
+     * AjaxUpload constructor
      *
      * @param modX $modx A reference to the modX instance.
      * @param array $config An array of configuration options. Optional.
@@ -84,7 +84,7 @@ class AjaxUpload
             'uid' => $this->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $resourceId)),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
-            'maxConnections' => 1,
+            'maxConnections' => 3,
             'cacheExpires' => intval($this->getOption('cacheExpires', $config, 4))
         ));
         $this->debug = array();
@@ -188,6 +188,7 @@ class AjaxUpload
                 $this->modx->smarty->assign('fileid', $id);
                 $files[$id]['thumbName'] = $this->generateThumbnail($fileInfo);
                 $this->modx->smarty->assign('thumbName', $fileInfo['base_url'] . $fileInfo['thumbName']);
+                $this->modx->smarty->assign('originalName', $fileInfo['originalName']);
                 $itemList[] = $this->modx->smarty->fetch($this->config['templatesPath'] . 'web/image.tpl');
             } else {
                 unset($files[$id]);
@@ -346,10 +347,15 @@ class AjaxUpload
      * @param string $target Target path (relative to $modx->getOption['assets_path'])
      * @return boolean|string
      */
-    public function saveUploads($target)
+    public function saveUploads($target, $clearQueue = false)
     {
         $errors = false;
-        foreach ($_SESSION['ajaxupload'][$this->config['uid']] as &$fileInfo) {
+        $target = rtrim($target, '/') . '/';
+        if (!file_exists($this->modx->getOption('assets_path') . $target)) {
+            $mode = octdec($this->modx->getOption('new_folder_permissions', null, 0777));
+            $this->rmkdir($this->modx->getOption('assets_path') . $target, $mode);
+        }
+        foreach ($_SESSION['ajaxupload'][$this->config['uid']] as $fileId => &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
                 if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName'])) {
                     $errors = $this->modx->lexicon('ajaxupload.targetNotWritable');
@@ -357,6 +363,11 @@ class AjaxUpload
                 } else {
                     $fileInfo['originalPath'] = $this->modx->getOption('assets_path') . $target;
                     $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
+                }
+                if ($clearQueue) {
+                    @unlink($fileInfo['path'] . $fileInfo['uniqueName']);
+                    @unlink($fileInfo['path'] . $fileInfo['thumbName']);
+                    unset($fileInfo[$fileId]);
                 }
             }
         }
@@ -430,7 +441,7 @@ class AjaxUpload
         $cache = opendir($this->config['cachePath']);
         while (false !== ($file = readdir($cache))) {
             $filelastmodified = filemtime($this->config['cachePath'] . $file);
-            if ((time() - $filelastmodified) > $hours * 3600 && is_file($this->config['cachePath'] . $file)) {
+            if (((time() - $filelastmodified) > ($hours * 3600)) && is_file($this->config['cachePath'] . $file)) {
                 @unlink($this->config['cachePath'] . $file);
             }
         }
@@ -496,4 +507,22 @@ class AjaxUpload
         return implode('<br/>', $this->debug);
     }
 
+    /**
+     * Recursive mkdir function
+     *
+     * @param $strPath
+     * @param $mode
+     * @return bool
+     */
+    function rmkdir($strPath, $mode)
+    {
+        if (is_dir($strPath)) {
+            return true;
+        }
+        $pStrPath = dirname($strPath);
+        if (!$this->rmkdir($pStrPath, $mode)) {
+            return false;
+        }
+        return @mkdir($strPath);
+    }
 }

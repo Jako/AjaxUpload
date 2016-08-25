@@ -38,7 +38,7 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
             $result['success'] = true;
         } else {
             // Delete one uploaded file/thumb & remove session entry
-            $fileId = intval($delete);
+            $fileId = preg_replace('/[^0-9a-f]/', '', $delete);
             if (isset($_SESSION['ajaxupload'][$uid][$fileId])) {
                 $fileInfo = $_SESSION['ajaxupload'][$uid][$fileId];
                 if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
@@ -84,11 +84,12 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
                 $fileInfo['thumbName'] = $modx->ajaxupload->generateThumbnail($fileInfo);
                 if ($fileInfo['thumbName']) {
                     // Fill session
-                    $_SESSION['ajaxupload'][$uid][] = $fileInfo;
-                    // Prepare returned values (filename & fileid)
+                    $hash = hash('md5', serialize($fileInfo));
+                    $_SESSION['ajaxupload'][$uid][$hash] = $fileInfo;
+                    // Prepare returned values (filename, originalName & fileid)
                     $result['filename'] = $fileInfo['base_url'] . $fileInfo['thumbName'];
-                    $arrayKeys = array_keys($_SESSION['ajaxupload'][$uid]);
-                    $result['fileid'] = end($arrayKeys);
+                    $result['originalName'] = $fileInfo['originalName'];
+                    $result['fileid'] = $hash;
                 } else {
                     unset($result['success']);
                     $result['error'] = $modx->lexicon('ajaxupload.thumbnailGenerationProblem');

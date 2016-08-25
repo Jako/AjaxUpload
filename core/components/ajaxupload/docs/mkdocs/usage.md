@@ -43,7 +43,7 @@ To set/retreive the uploaded images in the upload queue by FormIt, you have to u
 ]]
 ```
 
-The AjaxUpload2Formit and the Formit2AjaxUpload hook use the same properties:
+The AjaxUpload2Formit and the Formit2AjaxUpload hook use almost the same properties:
 
 Property | Description | Default
 ---------|-------------|--------
@@ -51,6 +51,12 @@ ajaxuploadUid | Unique upload queue id [^1] | md5 of MODX site_url setting and t
 ajaxuploadFieldname | (required) FormIt field, the filenames/paths of the (already) uploaded files are saved in | jpg,jpeg,png,gif
 ajaxuploadTarget | (required) Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). The folder should exist or should be createable and it has to be writable for PHP. | -
 ajaxuploadFieldformat | Format of the data saved in ajaxuploadFieldname | csv
+
+The AjaxUpload2Formit hook uses an additional property:
+
+Property | Description | Default
+---------|-------------|--------
+ajaxuploadClearQueue | Clear the upload queue after a sucessful run of the hook | false
 
 ## FormIt Attachments
 

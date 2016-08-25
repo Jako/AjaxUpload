@@ -20,6 +20,15 @@
 	text-indent: -1000em;
 }
 
+.file-uploader-items .thumb {
+	width: initial;
+	height: initial;
+}
+
+.file-uploader-items .title {
+	display: none;
+}
+
 /* fileuploader */
 .qq-uploader {
 	position: relative;

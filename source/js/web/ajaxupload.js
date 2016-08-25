@@ -89,18 +89,19 @@
                             src: uploadAnswer.filename
                         }).css({
                             position: 'relative'
-                        });
+                        }).addClass('thumb');
                         if (_this.options.thumbX > 0) {
                             thumb.css('width', _this.options.thumbX + 'px');
                         }
                         if (_this.options.thumbY > 0) {
                             thumb.css('height', _this.options.thumbY + 'px');
                         }
+                        var title = $('<span>').addClass('title').text(uploadAnswer.originalName);
 
-                        uploadItems.append(fileWrap.append(input, thumb, deleteButton));
+                        uploadItems.append(fileWrap.append(input, thumb, title, deleteButton));
                         $('.qq-upload-list li', _this.$el).eq(id).hide();
                         if (_this.options.debug) {
-                            alert('ID:' + id + '\nResponse:' + JSON.stringify(uploadAnswer));
+                            console.log('ID:' + id + '\nResponse:' + JSON.stringify(uploadAnswer));
                         }
                     }
                 }
@@ -132,7 +133,7 @@
                         $(this).remove();
                     });
                     if (_this.options.debug) {
-                        alert(JSON.stringify(deleteAnswer) + '\nFile ' + fileid + ' deleted.');
+                        console.log(JSON.stringify(deleteAnswer) + '\nFile ' + fileid + ' deleted.');
                     }
                 }
             }, 'json');
@@ -149,7 +150,7 @@
                     $('.file-uploader-items', _this.$el).empty();
                     $('.qq-upload-list li', _this.$el).remove();
                     if (_this.options.debug) {
-                        alert(JSON.stringify(clearAnswer) + '\nAll Items deleted.');
+                        console.log(JSON.stringify(clearAnswer) + '\nAll Items deleted.');
                     }
                 }
             }, 'json');
