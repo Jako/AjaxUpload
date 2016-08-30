@@ -85,7 +85,8 @@ class AjaxUpload
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
             'maxConnections' => 3,
-            'cacheExpires' => intval($this->getOption('cacheExpires', $config, 4))
+            'cacheExpires' => intval($this->getOption('cacheExpires', $config, 4)),
+            'allowOverwrite' => (bool)$this->getOption('allowOverwrite', $config, false)
         ));
         $this->debug = array();
     }
@@ -357,6 +358,14 @@ class AjaxUpload
         }
         foreach ($_SESSION['ajaxupload'][$this->config['uid']] as $fileId => &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
+                if ($this->getOption('allowOverwrite')) {
+                    $pathinfo = pathinfo($fileInfo['originalName']);
+                    $i = '';
+                    while (file_exists($this->modx->getOption('assets_path') . $target . $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'])) {
+                        $i = ($i == '') ? 1 : $i++;
+                    }
+                    $fileInfo['originalName'] = $pathinfo['filename'] . (($i) ? $i : '') . '.' . $pathinfo['extension'];
+                }
                 if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName'])) {
                     $errors = $this->modx->lexicon('ajaxupload.targetNotWritable');
                     $this->modx->log(modX::LOG_LEVEL_ERROR, $errors, '', 'AjaxUpload');

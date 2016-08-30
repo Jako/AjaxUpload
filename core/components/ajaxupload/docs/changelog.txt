@@ -1,6 +1,8 @@
 Changelog for AjaxUpload
 ========================
 
+- 1.5.3
+    - ajaxuploadAllowOverwrite property for the AjaxUpload2Formit snippet
 - 1.5.2
     - Better solution for upload queue issues
     - Target folder is created, if it does not exist

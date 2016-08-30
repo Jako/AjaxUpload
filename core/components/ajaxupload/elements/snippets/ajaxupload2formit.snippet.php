@@ -20,6 +20,7 @@ $scriptProperties['debug'] = (bool)$modx->getOption('ajaxuploadDebug', $scriptPr
 $scriptProperties['uid'] = $modx->getOption('ajaxuploadUid', $scriptProperties, '');
 $scriptProperties['cacheExpires'] = $modx->getOption('ajaxuploadCacheExpires', $scriptProperties, $modx->getOption('ajaxupload.cache_expires', null, '4'));
 $scriptProperties['clearQueue'] = (bool)$modx->getOption('ajaxuploadClearQueue', $scriptProperties, false);
+$scriptProperties['allowOverwrite'] = (bool)$modx->getOption('ajaxuploadAllowOverwrite', $scriptProperties, true);
 
 $debug = $scriptProperties['debug'];
 

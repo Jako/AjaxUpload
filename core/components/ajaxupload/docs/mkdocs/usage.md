@@ -27,6 +27,8 @@ addJquery | Add jQuery script at the end of the body | No
 addJscript | Add the snippet javascript and the fileuploader script at the end of the body | Yes
 addCss | Add the snippet css ad the end of the head | Yes
 
+If you want to change the text output in the upload section (i.e. the upload button), you have to edit the MODX lexicon in the ajaxupload namespace.
+
 ## FormIt Hooks
 
 To set/retreive the uploaded images in the upload queue by FormIt, you have to use the FormIt hooks in the FormIt call:
@@ -52,11 +54,12 @@ ajaxuploadFieldname | (required) FormIt field, the filenames/paths of the (alrea
 ajaxuploadTarget | (required) Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). The folder should exist or should be createable and it has to be writable for PHP. | -
 ajaxuploadFieldformat | Format of the data saved in ajaxuploadFieldname | csv
 
-The AjaxUpload2Formit hook uses an additional property:
+The AjaxUpload2Formit hook uses additional properties:
 
 Property | Description | Default
 ---------|-------------|--------
 ajaxuploadClearQueue | Clear the upload queue after a sucessful run of the hook | false
+ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename | false
 
 ## FormIt Attachments
 
