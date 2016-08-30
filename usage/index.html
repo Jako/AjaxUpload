@@ -206,6 +206,7 @@ use it with FormIt, you should place the snippet call in the FormIt form:</p>
 </tr>
 </tbody>
 </table>
+<p>If you want to change the text output in the upload section (i.e. the upload button), you have to edit the MODX lexicon in the ajaxupload namespace.</p>
 <h2 id="formit-hooks">FormIt Hooks</h2>
 <p>To set/retreive the uploaded images in the upload queue by FormIt, you have to use the FormIt hooks in the FormIt call:</p>
 <pre><code>[[!FormIt?
@@ -251,7 +252,7 @@ use it with FormIt, you should place the snippet call in the FormIt form:</p>
 </tr>
 </tbody>
 </table>
-<p>The AjaxUpload2Formit hook uses an additional property:</p>
+<p>The AjaxUpload2Formit hook uses additional properties:</p>
 <table>
 <thead>
 <tr>
@@ -264,6 +265,11 @@ use it with FormIt, you should place the snippet call in the FormIt form:</p>
 <tr>
 <td>ajaxuploadClearQueue</td>
 <td>Clear the upload queue after a sucessful run of the hook</td>
+<td>false</td>
+</tr>
+<tr>
+<td>ajaxuploadAllowOverwrite</td>
+<td>Allow overwrite of existing files with the same filename</td>
 <td>false</td>
 </tr>
 </tbody>
