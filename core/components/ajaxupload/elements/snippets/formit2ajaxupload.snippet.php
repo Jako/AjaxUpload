@@ -22,6 +22,16 @@ $scriptProperties['cacheExpires'] = $modx->getOption('ajaxuploadCacheExpires', $
 
 $debug = $scriptProperties['debug'];
 
+// process $ajaxuploadTarget. Pick a value from the form
+// Inspired from the email's hook of formit (fihooks.class.php)
+if (is_string($ajaxuploadTarget)) {
+    foreach ($fields as $k => $v) {
+        if (is_scalar($k) && is_scalar($v)) {
+            $ajaxuploadTarget = str_replace('[[+'.$k.']]',$v,$ajaxuploadTarget);
+        }
+    }
+}
+
 if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', true, true)) {
     $modx->log(modX::LOG_LEVEL_ERROR, 'Could not load AjaxUpload class.', '', 'Formit2AjaxUpload');
     if ($debug) {
