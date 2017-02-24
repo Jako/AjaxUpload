@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage connector
  *
- * @var modx $modx
+ * @var modX $modx
  */
 /* Allow anonymous users */
 define('MODX_REQP', false);

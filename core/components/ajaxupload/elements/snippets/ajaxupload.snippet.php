@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage snippet
  *
- * @var modx $modx
+ * @var modX $modx
  * @var array $scriptProperties
  */
 $ajaxuploadCorePath = $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/');

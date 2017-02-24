@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage hook
  *
- * @var modx $modx
+ * @var modX $modx
  * @var array $scriptProperties
  * @var fiHooks $hook
  */
