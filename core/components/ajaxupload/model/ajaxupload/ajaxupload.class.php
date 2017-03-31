@@ -472,7 +472,7 @@ class AjaxUpload
         $cssSourceUrl = $assetsUrl . '../../../source/css/web/';
 
         if ($this->config['addJquery']) {
-            $this->modx->regClientScript('http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js');
+            $this->modx->regClientScript('//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js');
         }
         if ($this->config['addCss']) {
             if ($this->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/' . $this->namespace . '/')) {
