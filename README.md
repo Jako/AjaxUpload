@@ -1,4 +1,4 @@
-#AjaxUpload
+# AjaxUpload
 
 Display an upload button for uploading multiple files with progress counter. The
 upload queue could be filled and saved by FormIt hooks.
@@ -6,7 +6,7 @@ upload queue could be filled and saved by FormIt hooks.
 MODX Revolution Snippet and jQuery Script Wrapper for Andrew Valums great file
 upload script (https://github.com/Valums-File-Uploader/file-uploader).
 
-##Features
+## Features
 
 With this snippet an upload button for uploading multiple files with
 progress counter is generated. Works well in FF3.6+, Safari4+, Chrome and falls
@@ -22,5 +22,5 @@ With two FormIt hooks the upload queue could be pre filled from FormIt field
 value and saved into FormIt field value. With a third FormIt hook uploaded
 files could be attached to the FormIt mails.
 
-##Documentation
+## Documentation
 For more information please read [documentation](http://jako.github.io/AjaxUpload/).
