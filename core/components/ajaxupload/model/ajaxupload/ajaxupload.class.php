@@ -3,7 +3,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2016 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2017 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage classfile
@@ -26,7 +26,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.5.2';
+    public $version = '1.5.4';
 
     /**
      * A configuration array
@@ -86,7 +86,8 @@ class AjaxUpload
             'newFilePermissions' => '0664',
             'maxConnections' => 3,
             'cacheExpires' => intval($this->getOption('cacheExpires', $config, 4)),
-            'allowOverwrite' => (bool)$this->getOption('allowOverwrite', $config, false)
+            'allowOverwrite' => (bool)$this->getOption('allowOverwrite', $config, false),
+            'language' => $this->modx->getOption('language', $config, $this->modx->cultureKey, true)
         ));
         $this->debug = array();
     }
@@ -489,7 +490,7 @@ class AjaxUpload
                 $this->modx->regClientScript($jsUrl . 'ajaxupload.min.js');
             }
         }
-        $this->modx->smarty->assign('_lang', $this->modx->lexicon->fetch('ajaxupload.', true));
+        $this->modx->smarty->assign('_lang', $this->modx->lexicon->fetch('ajaxupload.', true, $this->getOption('language')));
         $this->modx->smarty->assign('params', $this->config);
         $this->modx->regClientScript($this->modx->smarty->fetch($this->config['templatesPath'] . 'web/script.tpl'), true);
 
