@@ -1,8 +1,9 @@
 Changelog for AjaxUpload
 ========================
 
-- 1.5.3
+- 1.5.4
     - The language setting of the snippet was not always regarded
+    - Drag and drop upload not working
 - 1.5.3
     - ajaxuploadAllowOverwrite property for the AjaxUpload2Formit snippet
 - 1.5.2

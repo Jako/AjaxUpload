@@ -56,11 +56,11 @@ qq.getUniqueId = (function(){
 //
 // Browsers and platforms detection
 
-qq.ie       = function(){ return navigator.userAgent.indexOf('MSIE') != -1; };
-qq.safari   = function(){ return navigator.vendor != undefined && navigator.vendor.indexOf("Apple") != -1; };
-qq.chrome   = function(){ return navigator.vendor != undefined && navigator.vendor.indexOf('Google') != -1; };
-qq.firefox  = function(){ return (navigator.userAgent.indexOf('Mozilla') != -1 && navigator.vendor != undefined && navigator.vendor == ''); };
-qq.windows  = function(){ return navigator.platform == "Win32"; };
+qq.ie       = function(){ return navigator.userAgent.indexOf('MSIE') !== -1; };
+qq.safari   = function(){ return navigator.vendor !== undefined && navigator.vendor.indexOf("Apple") !== -1; };
+qq.chrome   = function(){ return navigator.vendor !== undefined && navigator.vendor.indexOf('Google') !== -1; };
+qq.firefox  = function(){ return (navigator.userAgent.indexOf('Mozilla') !== -1 && navigator.vendor !== undefined && navigator.vendor === ''); };
+qq.windows  = function(){ return navigator.platform === "Win32"; };
 
 //
 // Events
@@ -107,7 +107,7 @@ qq.remove = function(element){
 
 qq.contains = function(parent, descendant){
     // compareposition returns false in this case
-    if (parent == descendant) return true;
+    if (parent === descendant) return true;
 
     if (parent.contains){
         return parent.contains(descendant);
@@ -138,8 +138,8 @@ qq.toElement = (function(){
  * Fixes opacity in IE6-8.
  */
 qq.css = function(element, styles){
-    if (styles.opacity != null){
-        if (typeof element.style.opacity != 'string' && typeof(element.filters) != 'undefined'){
+    if (styles.opacity !== null){
+        if (typeof element.style.opacity !== 'string' && typeof(element.filters) !== 'undefined'){
             styles.filter = 'alpha(opacity=' + Math.round(100 * styles.opacity) + ')';
         }
     }
@@ -171,7 +171,7 @@ qq.children = function(element){
     child = element.firstChild;
 
     while (child){
-        if (child.nodeType == 1){
+        if (child.nodeType === 1){
             children.push(child);
         }
         child = child.nextSibling;
@@ -223,7 +223,7 @@ qq.obj2url = function(obj, temp, prefixDone){
                    ? temp
                    : temp+'['+i+']'
                 : i;
-            if ((nextTemp != 'undefined') && (i != 'undefined')) {
+            if ((nextTemp !== 'undefined') && (i !== 'undefined')) {
                 uristrings.push(
                     (typeof nextObj === 'object')
                         ? qq.obj2url(nextObj, nextTemp, true)
@@ -238,12 +238,12 @@ qq.obj2url = function(obj, temp, prefixDone){
       prefix = (/\?/.test(temp)) ? (/\?$/.test(temp)) ? '' : '&' : '?';
       uristrings.push(temp);
       uristrings.push(qq.obj2url(obj));
-    } else if ((Object.prototype.toString.call(obj) === '[object Array]') && (typeof obj != 'undefined') ) {
+    } else if ((Object.prototype.toString.call(obj) === '[object Array]') && (typeof obj !== 'undefined') ) {
         // we wont use a for-in-loop on an array (performance)
         for (var i = 0, len = obj.length; i < len; ++i){
             add(obj[i], i);
         }
-    } else if ((typeof obj != 'undefined') && (obj !== null) && (typeof obj === "object")){
+    } else if ((typeof obj !== 'undefined') && (obj !== null) && (typeof obj === "object")){
         // for anything else but a scalar, we will use for-in-loop
         for (var i in obj){
             add(obj[i], i);
@@ -502,7 +502,7 @@ qq.FileUploaderBasic.prototype = {
         if (!allowed.length){return true;}
 
         for (var i=0; i<allowed.length; i++){
-            if (allowed[i].toLowerCase() == ext){ return true;}
+            if (allowed[i].toLowerCase() === ext){ return true;}
         }
 
         return false;
@@ -607,7 +607,7 @@ qq.extend(qq.FileUploader.prototype, {
         for(var i in dzs) if (dzs[i] === element) return this._options.extraDropzones.splice(i,1);
     },
     _leaving_document_out: function(e){
-        return ((qq.chrome() || (qq.safari() && qq.windows())) && e.clientX == 0 && e.clientY == 0) // null coords for Chrome and Safari Windows
+        return ((qq.chrome() || (qq.safari() && qq.windows())) && e.clientX === 0 && e.clientY === 0) // null coords for Chrome and Safari Windows
              || (qq.firefox() && !e.relatedTarget); // null e.relatedTarget for Firefox
      },
     /**
@@ -649,6 +649,8 @@ qq.extend(qq.FileUploader.prototype, {
             }
         });
 
+        this._dropZone = dz;
+
 		this.addDisposer(function() { dz.dispose(); });
 
         if (this._options.hideShowDropArea) {
@@ -671,7 +673,7 @@ qq.extend(qq.FileUploader.prototype, {
 		if (!qq.ie()) {
 			this._attach(document, 'dragenter', function(e){
 				// console.log();
-				if (!self._isValidFileDrag(e)) return; // now causing error. Need it be here?
+                if (!self._dropZone._isValidFileDrag(e)) return;
 				if (qq.hasClass(dropArea, self._classes.dropDisabled)) return;
 
 				dropArea.style.display = 'block';
@@ -709,7 +711,7 @@ qq.extend(qq.FileUploader.prototype, {
         var text;
 		var percent = Math.round(loaded / total * 100);
 
-        if (loaded != total) {
+        if (loaded !== total) {
 			// If still uploading, display percentage
             text = percent + '% from ' + this._formatSize(total);
         } else {
@@ -755,7 +757,7 @@ qq.extend(qq.FileUploader.prototype, {
         // there can't be txt nodes in dynamically created list
         // and we can  use nextSibling
         while (item){
-            if (item.qqFileId == id) return item;
+            if (item.qqFileId === id) return item;
             item = item.nextSibling;
         }
     },
@@ -831,7 +833,7 @@ qq.UploadDropZone.prototype = {
             if (!self._isValidFileDrag(e)) return;
 
             var effect = qq.ie() ? null : e.dataTransfer.effectAllowed;
-            if (effect == 'move' || effect == 'linkMove'){
+            if (effect === 'move' || effect === 'linkMove'){
                 e.dataTransfer.dropEffect = 'move'; // for FF (only move allowed)    
             } else {
                 e.dataTransfer.dropEffect = 'copy'; // for Chrome
@@ -878,7 +880,7 @@ qq.UploadDropZone.prototype = {
 
         // dt.effectAllowed is none in Safari 5
         // dt.types.contains check is for firefox            
-        return dt && dt.effectAllowed != 'none' &&
+        return dt && dt.effectAllowed !== 'none' &&
             (dt.files || (!isSafari && dt.types.contains && dt.types.contains('Files')));
 
     }
@@ -1180,7 +1182,7 @@ qq.extend(qq.UploadHandlerForm.prototype, {
             // fixing Opera 10.53
             if (iframe.contentDocument &&
                 iframe.contentDocument.body &&
-                iframe.contentDocument.body.innerHTML == "false"){
+                iframe.contentDocument.body.innerHTML === "false"){
                 // In Opera event is fired second time
                 // when body.innerHTML changed from false
                 // to server response approx. after 1 sec
@@ -1203,7 +1205,7 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         this.log("converting iframe's innerHTML to JSON");
         this.log("innerHTML = " + innerHTML);
         //plain text response may be wrapped in <pre> tag
-        if (innerHTML.slice(0, 5).toLowerCase() == '<pre>' && innerHTML.slice(-6).toLowerCase() == '</pre>') {
+        if (innerHTML.slice(0, 5).toLowerCase() === '<pre>' && innerHTML.slice(-6).toLowerCase() === '</pre>') {
           innerHTML = doc.body.firstChild.firstChild.nodeValue;
         }
 
@@ -1278,9 +1280,9 @@ qq.UploadHandlerXhr.isSupported = function(){
 
     return (
         'multiple' in input &&
-        typeof File != "undefined" &&
-        typeof FormData != "undefined" &&
-        typeof (new XMLHttpRequest()).upload != "undefined" );
+        typeof File !== "undefined" &&
+        typeof FormData !== "undefined" &&
+        typeof (new XMLHttpRequest()).upload !== "undefined" );
 };
 
 // @inherits qq.UploadHandlerAbstract
@@ -1306,7 +1308,7 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
     },
     getSize: function(id){
         var file = this._files[id];
-        return file.fileSize != null ? file.fileSize : file.size;
+        return file.fileSize !== null ? file.fileSize : file.size;
     },
     /**
      * Returns uploaded bytes for file identified by id
@@ -1339,7 +1341,7 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         };
 
         xhr.onreadystatechange = function(){
-            if (xhr.readyState == 4){
+            if (xhr.readyState === 4){
                 self._onComplete(id, xhr);
             }
         };
@@ -1352,7 +1354,7 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
         xhr.open("POST", queryString, true);
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xhr.setRequestHeader("X-File-Name", encodeURIComponent(name));
-        if (this._options.encoding == 'multipart') {
+        if (this._options.encoding === 'multipart') {
             var formData = new FormData();
             formData.append(name, file);
             file = formData;
@@ -1375,7 +1377,7 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
 
         this._options.onProgress(id, name, size, size);
 
-        if (xhr.status == 200){
+        if (xhr.status === 200){
             this.log("xhr - server response received");
             this.log("responseText = " + xhr.responseText);
 
