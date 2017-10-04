@@ -1,18 +1,35 @@
 site_name: AjaxUpload
 docs_dir: core/components/ajaxupload/docs/mkdocs
 site_dir: _build/site
+edit_uri: tree/master/core/components/ajaxupload/docs/mkdocs
 
+repo_name: 'Jako/AjaxUpload'
 repo_url: https://github.com/Jako/AjaxUpload
 
+copyright: '&copy; 2014-2017 <a href="https://treehillstudio.com">Treehill Studio</a>'
+
 pages:
-- Home: 'index.md'
+- Description: 'index.md'
 - Installation: 'installation.md'
 - Usage: 'usage.md'
 - Contributors: 'contributors.md'
 - Donate: 'donate.md'
 
-theme: flatly
+extra:
+  font:
+    text: 'Dosis'
+    heading: 'Ubuntu'
+
+piwik_analytics:
+  site_id: 14
+  piwik_url: 'https://piwik.partout.info/'
+
+theme: 'material'
+theme_dir: '/Users/jako/Documents/MODx/MkDocs Material/material'
 
 markdown_extensions:
-    - footnotes
-    - tables
+  - footnotes
+  - tables
+  - admonition
+  - meta
+  - toc(permalink=true)

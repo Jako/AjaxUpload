@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         ' * Build date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' */\n',
         usebanner: {
-            dist: {
+            css: {
                 options: {
                     position: 'top',
                     banner: '<%= banner %>'
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
-            ajaxupload: {
+            mgr: {
                 src: [
                     'source/js/web/ajaxupload.js',
                     'source/js/web/fileuploader.js'
@@ -34,11 +34,9 @@ module.exports = function (grunt) {
         sass: {
             options: {
                 outputStyle: 'expanded',
-                indentType: 'tab',
-                indentWidth: 1,
                 sourcemap: false
             },
-            dist: {
+            mgr: {
                 files: {
                     'source/css/web/ajaxupload.css': 'source/sass/web/ajaxupload.scss'
                 }
@@ -53,11 +51,10 @@ module.exports = function (grunt) {
                     })
                 ]
             },
-            dist: {
+            mgr: {
                 src: [
                     'source/css/web/ajaxupload.css'
                 ]
-
             }
         },
         cssmin: {
@@ -103,17 +100,21 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            scripts: {
+            js: {
                 files: [
                     'source/**/*.js'
                 ],
                 tasks: ['uglify', 'usebanner:js', 'sftp:js']
             },
-            css: {
+            scss: {
                 files: [
                     'source/**/*.scss'
                 ],
                 tasks: ['sass', 'postcss', 'cssmin', 'usebanner:css', 'sftp:css']
+            },
+            config: {
+                files: ['_build/config.json'],
+                tasks: ['default']
             }
         },
         bump: {
@@ -124,7 +125,7 @@ module.exports = function (grunt) {
                 }],
                 options: {
                     replacements: [{
-                        pattern: /Copyright 2013(-\d{4})? by/g,
+                        pattern: /Copyright \d{4}(-\d{4})? by/g,
                         replacement: 'Copyright ' + (new Date().getFullYear() > 2013 ? '2013-' : '') + new Date().getFullYear() + ' by'
                     }]
                 }
@@ -138,6 +139,18 @@ module.exports = function (grunt) {
                     replacements: [{
                         pattern: /version = '\d+.\d+.\d+[-a-z0-9]*'/ig,
                         replacement: 'version = \'' + '<%= modx.version %>' + '\''
+                    }]
+                }
+            },
+            docs: {
+                files: [{
+                    src: 'mkdocs.yml',
+                    dest: 'mkdocs.yml'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /&copy; \d{4}(-\d{4})?/g,
+                        replacement: '&copy; ' + (new Date().getFullYear() > 2013 ? '2013-' : '') + new Date().getFullYear()
                     }]
                 }
             }

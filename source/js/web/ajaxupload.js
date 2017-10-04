@@ -4,7 +4,7 @@
  * @author Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
- * @subpackage javascriptpluginfile
+ * @subpackage jqueryplugin
  */
 ;(function ($, window, document, undefined) {
 
