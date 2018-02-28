@@ -15,7 +15,6 @@ field value and be save the upload queue into a FormIt field value after a form
 submission. A third FormIt hook could attach the uploaded files to the FormIt
 mails.
 
-
 ## Display the Upload Button
 
 To display the upload button, you have to insert the *AjaxUpload snippet* call
@@ -71,7 +70,7 @@ The AjaxUpload2Formit and the Formit2AjaxUpload hook use almost the same propert
 Property | Description | Default
 ---------|-------------|--------
 ajaxuploadUid | Unique upload queue id [^1] | md5 of MODX site_url setting and the current resource id
-ajaxuploadFieldname | (required) FormIt field, the filenames/paths of the (already) uploaded files are saved in | jpg,jpeg,png,gif
+ajaxuploadFieldname | (required) FormIt field, the filenames/paths of the (already) uploaded files are saved in | -
 ajaxuploadTarget | (required) Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). The folder should exist or should be createable and it has to be writable for PHP. | -
 ajaxuploadFieldformat | Format of the data saved in ajaxuploadFieldname | csv
 

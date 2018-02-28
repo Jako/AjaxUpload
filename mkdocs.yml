@@ -6,7 +6,7 @@ edit_uri: tree/master/core/components/ajaxupload/docs/mkdocs
 repo_name: 'Jako/AjaxUpload'
 repo_url: https://github.com/Jako/AjaxUpload
 
-copyright: '&copy; 2014-2017 <a href="https://treehillstudio.com">Treehill Studio</a>'
+copyright: '&copy; 2013-2017 <a href="https://treehillstudio.com">Treehill Studio</a>'
 
 pages:
 - Description: 'index.md'
