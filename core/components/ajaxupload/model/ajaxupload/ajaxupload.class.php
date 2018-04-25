@@ -84,7 +84,7 @@ class AjaxUpload
             'uid' => $this->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $resourceId)),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
-            'maxConnections' => 3,
+            'maxConnections' => 1,
             'cacheExpires' => intval($this->getOption('cacheExpires', $config, 4)),
             'allowOverwrite' => (bool)$this->getOption('allowOverwrite', $config, false),
             'language' => $this->modx->getOption('language', $config, $this->modx->cultureKey, true)
