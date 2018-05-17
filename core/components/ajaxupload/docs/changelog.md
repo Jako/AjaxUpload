@@ -1,6 +1,8 @@
 Changelog for AjaxUpload
 ========================
 
+- 1.5.5
+    - Restrict of maxConnections to prevent upload queue issues
 - 1.5.4
     - The language setting of the snippet was not always regarded
     - Drag and drop upload not working

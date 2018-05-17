@@ -11,13 +11,23 @@ module.exports = function (grunt) {
         usebanner: {
             css: {
                 options: {
+                    position: 'bottom',
+                    banner: '<%= banner %>'
+                },
+                files: {
+                    src: [
+                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
+                    ]
+                }
+            },
+            js: {
+                options: {
                     position: 'top',
                     banner: '<%= banner %>'
                 },
                 files: {
                     src: [
-                        'assets/components/ajaxupload/js/web/ajaxupload.min.js',
-                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
+                        'assets/components/ajaxupload/js/web/ajaxupload.min.js'
                     ]
                 }
             }
@@ -58,7 +68,7 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
-            ajaxupload: {
+            web: {
                 src: [
                     'source/css/web/ajaxupload.css'
                 ],
@@ -106,7 +116,7 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['uglify', 'usebanner:js', 'sftp:js']
             },
-            scss: {
+            css: {
                 files: [
                     'source/**/*.scss'
                 ],
@@ -160,13 +170,13 @@ module.exports = function (grunt) {
     });
 
     //load the packages
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-banner');
-    grunt.loadNpmTasks('grunt-ssh');
-    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-ssh');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.renameTask('string-replace', 'bump');
 

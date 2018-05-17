@@ -22,5 +22,4 @@ With two FormIt hooks the upload queue could be pre filled from FormIt field
 value and saved into FormIt field value. With a third FormIt hook uploaded
 files could be attached to the FormIt mails.
 
-## Documentation
-For more information please read [documentation](http://jako.github.io/AjaxUpload/).
+For more information please read the [documentation](http://jako.github.io/AjaxUpload/).
