@@ -1,3 +1,5 @@
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/ajaxupload/localized.svg)](https://crowdin.com/project/ajaxupload)
+
 # AjaxUpload
 
 Display an upload button for uploading multiple files with progress counter. The
@@ -23,3 +25,7 @@ value and saved into FormIt field value. With a third FormIt hook uploaded
 files could be attached to the FormIt mails.
 
 For more information please read the [documentation](http://jako.github.io/AjaxUpload/).
+
+## Translations
+
+Translations of the package could be done on [Crowdin](https://crowdin.com/project/ajaxupload)
