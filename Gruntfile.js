@@ -2,7 +2,6 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         modx: grunt.file.readJSON('_build/config.json'),
-        sshconfig: grunt.file.readJSON('/Users/jako/Documents/MODx/partout.json'),
         banner: '/*!\n' +
         ' * <%= modx.name %> - <%= modx.description %>\n' +
         ' * Version: <%= modx.version %>\n' +
@@ -33,7 +32,7 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
-            mgr: {
+            web: {
                 src: [
                     'source/js/web/ajaxupload.js',
                     'source/js/web/fileuploader.js'
@@ -46,7 +45,7 @@ module.exports = function (grunt) {
                 outputStyle: 'expanded',
                 sourcemap: false
             },
-            mgr: {
+            web: {
                 files: {
                     'source/css/web/ajaxupload.css': 'source/sass/web/ajaxupload.scss'
                 }
@@ -61,7 +60,7 @@ module.exports = function (grunt) {
                     })
                 ]
             },
-            mgr: {
+            web: {
                 src: [
                     'source/css/web/ajaxupload.css'
                 ]
@@ -75,52 +74,18 @@ module.exports = function (grunt) {
                 dest: 'assets/components/ajaxupload/css/web/ajaxupload.min.css'
             }
         },
-        sftp: {
-            css: {
-                files: {
-                    "./": [
-                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
-                    ]
-                },
-                options: {
-                    path: '<%= sshconfig.hostpath %>develop/ajaxupload/',
-                    srcBasePath: 'develop/ajaxupload/',
-                    host: '<%= sshconfig.host %>',
-                    username: '<%= sshconfig.username %>',
-                    privateKey: '<%= sshconfig.privateKey %>',
-                    passphrase: '<%= sshconfig.passphrase %>',
-                    showProgress: true
-                }
-            },
-            js: {
-                files: {
-                    "./": [
-                        'assets/components/ajaxupload/js/web/ajaxupload.min.js'
-                    ]
-                },
-                options: {
-                    path: '<%= sshconfig.hostpath %>develop/ajaxupload/',
-                    srcBasePath: 'develop/ajaxupload/',
-                    host: '<%= sshconfig.host %>',
-                    username: '<%= sshconfig.username %>',
-                    privateKey: '<%= sshconfig.privateKey %>',
-                    passphrase: '<%= sshconfig.passphrase %>',
-                    showProgress: true
-                }
-            }
-        },
         watch: {
             js: {
                 files: [
                     'source/**/*.js'
                 ],
-                tasks: ['uglify', 'usebanner:js', 'sftp:js']
+                tasks: ['uglify', 'usebanner:js']
             },
             css: {
                 files: [
                     'source/**/*.scss'
                 ],
-                tasks: ['sass', 'postcss', 'cssmin', 'usebanner:css', 'sftp:css']
+                tasks: ['sass', 'postcss', 'cssmin', 'usebanner:css']
             },
             config: {
                 files: [
@@ -176,10 +141,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-ssh');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.renameTask('string-replace', 'bump');
 
     //register the task
-    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner', 'sftp']);
+    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner']);
 };
