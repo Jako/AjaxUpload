@@ -42,6 +42,7 @@ module.exports = function (grunt) {
         },
         sass: {
             options: {
+                implementation: require('node-sass'),
                 outputStyle: 'expanded',
                 sourcemap: false
             },
