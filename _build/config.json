@@ -157,10 +157,18 @@
     "license": "docs/license.md",
     "changelog": "docs/changelog.md",
     "options": {
-      "modx_version": "2.5",
+      "modx_version": "2.6",
       "empty_folders": {
         "{package_path}assets/components/ajaxupload/cache" : "*"
       }
+    },
+    "setupOptions": {
+      "source": "setup.options.php"
+    },
+    "resolver": {
+      "after": [
+        "resolve.treehillstudio.php"
+      ]
     }
   }
 }

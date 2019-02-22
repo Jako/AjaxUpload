@@ -26,6 +26,14 @@ files could be attached to the FormIt mails.
 
 For more information please read the [documentation](http://jako.github.io/AjaxUpload/).
 
+## Installation
+
+MODX Package Management
+
+## Usage
+
+Install via package manager and use the snippets and the FormIt hooks.
+
 ## Translations
 
 Translations of the package could be done on [Crowdin](https://crowdin.com/project/ajaxupload)
