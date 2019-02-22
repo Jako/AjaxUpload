@@ -5,7 +5,6 @@
  * @package ajaxupload
  * @subpackage lexicon
  */
-$_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.notWritable'] = "Ошибка сервера. Каталог загрузки закрыт для записи.";
 $_lang['ajaxupload.targetNotWritable'] = "Could not copy the uploaded file to the target folder. Does the folder exist and is it writable?";
 $_lang['ajaxupload.noFile'] = "Файлы не загружены.";
