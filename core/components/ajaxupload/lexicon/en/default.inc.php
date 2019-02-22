@@ -5,7 +5,6 @@
  * @package ajaxupload
  * @subpackage lexicon
  */
-$_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.notWritable'] = "Server error. Upload directory isn't writable.";
 $_lang['ajaxupload.targetNotWritable'] = "Could not copy the uploaded file to the target folder. Does the folder exist and is it writable?";
 $_lang['ajaxupload.noFile'] = "No files were uploaded.";

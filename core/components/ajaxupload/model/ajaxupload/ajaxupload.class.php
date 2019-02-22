@@ -347,6 +347,7 @@ class AjaxUpload
      *
      * @access public
      * @param string $target Target path (relative to $modx->getOption['assets_path'])
+     * @param bool $clearQueue
      * @return boolean|string
      */
     public function saveUploads($target, $clearQueue = false)
@@ -365,7 +366,7 @@ class AjaxUpload
                     while (file_exists($this->modx->getOption('assets_path') . $target . $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'])) {
                         $i = ($i == '') ? 1 : $i++;
                     }
-                    $fileInfo['originalName'] = $pathinfo['filename'] . (($i) ? $i : '') . '.' . $pathinfo['extension'];
+                    $fileInfo['originalName'] = $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'];
                 }
                 if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName'])) {
                     $errors = $this->modx->lexicon('ajaxupload.targetNotWritable');
