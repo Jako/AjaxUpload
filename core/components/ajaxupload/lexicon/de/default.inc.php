@@ -5,7 +5,6 @@
  * @package ajaxupload
  * @subpackage lexicon
  */
-$_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.notWritable'] = "Serverfehler. Das Upload-Verzeichis ist nicht beschreibbar.";
 $_lang['ajaxupload.targetNotWritable'] = "Die Datei konnte nicht in das Zielverzeichnis kopiert werden. Existiert das Zielverzeichnis und ist es beschreibbar?";
 $_lang['ajaxupload.noFile'] = "Es wurde keine Datei hochgeladen.";
