@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage lexicon
  */
-$_lang['setting_ajaxupload.cache_expires'] = 'Expire Time';
-$_lang['setting_ajaxupload.cache_expires_desc'] = 'Expire Time of the AjaxUpload cache (in hours)';
-$_lang['setting_ajaxupload.debug'] = 'Debug';
-$_lang['setting_ajaxupload.debug_desc'] = 'Log debug informations in MODX error log.';
+$_lang['setting_ajaxupload.cache_expires'] = 'Время истекло';
+$_lang['setting_ajaxupload.cache_expires_desc'] = 'Истекает время кэша AjaxUpload (в часах)';
+$_lang['setting_ajaxupload.debug'] = 'Отладка';
+$_lang['setting_ajaxupload.debug_desc'] = 'Записывать отладочную информацию в лог ошибок MODX.';
