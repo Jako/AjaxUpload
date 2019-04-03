@@ -6,7 +6,7 @@
  * @subpackage lexicon
  */
 $_lang['ajaxupload.notWritable'] = "Ошибка сервера. Каталог загрузки закрыт для записи.";
-$_lang['ajaxupload.targetNotWritable'] = "Could not copy the uploaded file to the target folder. Does the folder exist and is it writable?";
+$_lang['ajaxupload.targetNotWritable'] = "Не удалось скопировать загруженный файл в целевую папку. Папка существует и доступен для записи?";
 $_lang['ajaxupload.noFile'] = "Файлы не загружены.";
 $_lang['ajaxupload.emptyFile'] = "Файл пуст.";
 $_lang['ajaxupload.largeFile'] = "Файл слишком велик.";
