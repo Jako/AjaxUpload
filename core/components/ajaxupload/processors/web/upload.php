@@ -60,6 +60,14 @@ if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
         // Upload the image(s)
         $uploader = new qqFileUploader($modx->ajaxupload->config['allowedExtensions'], $modx->ajaxupload->config['sizeLimit']);
         // To pass data through iframe you will need to encode all html tags
+        $lexicon = array(
+            'notWritable' => $this->modx->lexicon('ajaxupload.notWritable'),
+            'noFile' => $this->modx->lexicon('ajaxupload.noFile'),
+            'emptyFile' => $this->modx->lexicon('ajaxupload.emptyFile'),
+            'largeFile' => $this->modx->lexicon('ajaxupload.largeFile'),
+            'wrongExtension' => $this->modx->lexicon('ajaxupload.wrongExtension'),
+            'saveError' => $this->modx->lexicon('ajaxupload.saveError')
+        );
         $result = $uploader->handleUpload($modx->ajaxupload->config['cachePath'], true, $modx->lexicon->fetch('ajaxupload.', true));
 
         // File successful uploaded

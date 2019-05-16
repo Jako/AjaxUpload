@@ -2,28 +2,37 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         modx: grunt.file.readJSON('_build/config.json'),
-        sshconfig: grunt.file.readJSON('/Users/jako/Documents/MODx/partout.json'),
         banner: '/*!\n' +
         ' * <%= modx.name %> - <%= modx.description %>\n' +
         ' * Version: <%= modx.version %>\n' +
         ' * Build date: <%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' */\n',
         usebanner: {
-            dist: {
+            css: {
+                options: {
+                    position: 'bottom',
+                    banner: '<%= banner %>'
+                },
+                files: {
+                    src: [
+                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
+                    ]
+                }
+            },
+            js: {
                 options: {
                     position: 'top',
                     banner: '<%= banner %>'
                 },
                 files: {
                     src: [
-                        'assets/components/ajaxupload/js/web/ajaxupload.min.js',
-                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
+                        'assets/components/ajaxupload/js/web/ajaxupload.min.js'
                     ]
                 }
             }
         },
         uglify: {
-            ajaxupload: {
+            web: {
                 src: [
                     'source/js/web/ajaxupload.js',
                     'source/js/web/fileuploader.js'
@@ -33,12 +42,11 @@ module.exports = function (grunt) {
         },
         sass: {
             options: {
+                implementation: require('node-sass'),
                 outputStyle: 'expanded',
-                indentType: 'tab',
-                indentWidth: 1,
                 sourcemap: false
             },
-            dist: {
+            web: {
                 files: {
                     'source/css/web/ajaxupload.css': 'source/sass/web/ajaxupload.scss'
                 }
@@ -53,67 +61,38 @@ module.exports = function (grunt) {
                     })
                 ]
             },
-            dist: {
+            web: {
                 src: [
                     'source/css/web/ajaxupload.css'
                 ]
-
             }
         },
         cssmin: {
-            ajaxupload: {
+            web: {
                 src: [
                     'source/css/web/ajaxupload.css'
                 ],
                 dest: 'assets/components/ajaxupload/css/web/ajaxupload.min.css'
             }
         },
-        sftp: {
-            css: {
-                files: {
-                    "./": [
-                        'assets/components/ajaxupload/css/web/ajaxupload.min.css'
-                    ]
-                },
-                options: {
-                    path: '<%= sshconfig.hostpath %>develop/ajaxupload/',
-                    srcBasePath: 'develop/ajaxupload/',
-                    host: '<%= sshconfig.host %>',
-                    username: '<%= sshconfig.username %>',
-                    privateKey: '<%= sshconfig.privateKey %>',
-                    passphrase: '<%= sshconfig.passphrase %>',
-                    showProgress: true
-                }
-            },
-            js: {
-                files: {
-                    "./": [
-                        'assets/components/ajaxupload/js/web/ajaxupload.min.js'
-                    ]
-                },
-                options: {
-                    path: '<%= sshconfig.hostpath %>develop/ajaxupload/',
-                    srcBasePath: 'develop/ajaxupload/',
-                    host: '<%= sshconfig.host %>',
-                    username: '<%= sshconfig.username %>',
-                    privateKey: '<%= sshconfig.privateKey %>',
-                    passphrase: '<%= sshconfig.passphrase %>',
-                    showProgress: true
-                }
-            }
-        },
         watch: {
-            scripts: {
+            js: {
                 files: [
                     'source/**/*.js'
                 ],
-                tasks: ['uglify', 'usebanner:js', 'sftp:js']
+                tasks: ['uglify', 'usebanner:js']
             },
             css: {
                 files: [
                     'source/**/*.scss'
                 ],
-                tasks: ['sass', 'postcss', 'cssmin', 'usebanner:css', 'sftp:css']
+                tasks: ['sass', 'postcss', 'cssmin', 'usebanner:css']
+            },
+            config: {
+                files: [
+                    '_build/config.json'
+                ],
+                tasks: ['default']
             }
         },
         bump: {
@@ -124,7 +103,7 @@ module.exports = function (grunt) {
                 }],
                 options: {
                     replacements: [{
-                        pattern: /Copyright 2013(-\d{4})? by/g,
+                        pattern: /Copyright \d{4}(-\d{4})? by/g,
                         replacement: 'Copyright ' + (new Date().getFullYear() > 2013 ? '2013-' : '') + new Date().getFullYear() + ' by'
                     }]
                 }
@@ -140,21 +119,32 @@ module.exports = function (grunt) {
                         replacement: 'version = \'' + '<%= modx.version %>' + '\''
                     }]
                 }
+            },
+            docs: {
+                files: [{
+                    src: 'mkdocs.yml',
+                    dest: 'mkdocs.yml'
+                }],
+                options: {
+                    replacements: [{
+                        pattern: /&copy; \d{4}(-\d{4})?/g,
+                        replacement: '&copy; ' + (new Date().getFullYear() > 2013 ? '2013-' : '') + new Date().getFullYear()
+                    }]
+                }
             }
         }
     });
 
     //load the packages
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-banner');
-    grunt.loadNpmTasks('grunt-ssh');
-    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-postcss');
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-string-replace');
     grunt.renameTask('string-replace', 'bump');
 
     //register the task
-    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner', 'sftp']);
+    grunt.registerTask('default', ['bump', 'uglify', 'sass', 'postcss', 'cssmin', 'usebanner']);
 };

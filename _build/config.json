@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "Upload button for uploading multiple files with progress-bar",
   "author": "Thomas Jakobi",
-  "version": "1.5.3",
+  "version": "1.5.6",
   "package": {
     "elements": {
       "snippets": [
@@ -88,6 +88,11 @@
                 }
               ],
               "value": "csv"
+            },
+            {
+              "name": "ajaxuploadClearQueue",
+              "type": "combo-boolean",
+              "value": "0"
             }
           ]
         },
@@ -113,11 +118,11 @@
               "type": "list",
               "options": [
                 {
-                  "text": "ajaxupload.formit2ajaxupload.csv",
+                  "text": "ajaxupload.ajaxupload2formit.csv",
                   "value": "csv"
                 },
                 {
-                  "text": "ajaxupload.formit2ajaxupload.json",
+                  "text": "ajaxupload.ajaxupload2formit.json",
                   "value": "json"
                 }
               ],
@@ -148,8 +153,22 @@
     ]
   },
   "build": {
-    "readme": "docs/readme.txt",
-    "license": "docs/license.txt",
-    "changelog": "docs/changelog.txt"
+    "readme": "docs/readme.md",
+    "license": "docs/license.md",
+    "changelog": "docs/changelog.md",
+    "options": {
+      "modx_version": "2.6",
+      "empty_folders": {
+        "{package_path}assets/components/ajaxupload/cache" : "*"
+      }
+    },
+    "setupOptions": {
+      "source": "setup.options.php"
+    },
+    "resolver": {
+      "after": [
+        "resolve.treehillstudio.php"
+      ]
+    }
   }
 }

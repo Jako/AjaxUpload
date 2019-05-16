@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage prehook
  *
- * @var modx $modx
+ * @var modX $modx
  * @var array $scriptProperties
  * @var fiHooks $hook
  */
@@ -33,9 +33,9 @@ if (!$modx->loadClass('AjaxUpload', $ajaxuploadCorePath . 'model/ajaxupload/', t
 
 $uidConfig = isset($_SESSION['ajaxupload'][$scriptProperties['uid'] . 'config']) ? $_SESSION['ajaxupload'][$scriptProperties['uid'] . 'config'] : array();
 
-$scriptProperties['ajaxupload.core_path'] = $ajaxuploadCorePath;
-$scriptProperties['ajaxupload.assets_path'] = $ajaxuploadAssetsPath;
-$scriptProperties['ajaxupload.assets_url'] = $ajaxuploadAssetsUrl;
+$scriptProperties['core_path'] = $ajaxuploadCorePath;
+$scriptProperties['assets_path'] = $ajaxuploadAssetsPath;
+$scriptProperties['assets_url'] = $ajaxuploadAssetsUrl;
 $ajaxUpload = new AjaxUpload($modx, $scriptProperties);
 if (!$ajaxUpload->initialize($uidConfig)) {
     $modx->log(modX::LOG_LEVEL_ERROR, 'Could not initialize AjaxUpload class.', '', 'Formit2AjaxUpload');
