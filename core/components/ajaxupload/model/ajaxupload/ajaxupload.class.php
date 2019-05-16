@@ -26,7 +26,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.5.6';
+    public $version = '1.5.7';
 
     /**
      * A configuration array
@@ -80,7 +80,7 @@ class AjaxUpload
         // Set parameters
         $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
         $this->config = array_merge($this->config, array(
-            'debug' => false,
+            'debug' => $this->getOption('debug', $config, false),
             'uid' => $this->getOption('uid', $config, md5($this->modx->getOption('site_url') . '-' . $resourceId)),
             'uploadAction' => $assetsUrl . 'connector.php',
             'newFilePermissions' => '0664',
@@ -354,25 +354,28 @@ class AjaxUpload
     {
         $errors = false;
         $target = rtrim($target, '/') . '/';
-        if (!file_exists($this->modx->getOption('assets_path') . $target)) {
-            $mode = octdec($this->modx->getOption('new_folder_permissions', null, 0777));
-            $this->rmkdir($this->modx->getOption('assets_path') . $target, $mode);
+        if (!file_exists(MODX_ASSETS_PATH . $target)) {
+            $cacheManager = $this->modx->getCacheManager();
+            if (!$cacheManager->writeTree(MODX_ASSETS_PATH . $target)) {
+                $errors = $this->modx->lexicon('ajaxupload.targetNotCreatable');
+                $this->modx->log(modX::LOG_LEVEL_ERROR, $errors, '', 'AjaxUpload');
+            }
         }
         foreach ($_SESSION['ajaxupload'][$this->config['uid']] as $fileId => &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-                if ($this->getOption('allowOverwrite')) {
+                if (!$this->getOption('allowOverwrite')) {
                     $pathinfo = pathinfo($fileInfo['originalName']);
                     $i = '';
-                    while (file_exists($this->modx->getOption('assets_path') . $target . $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'])) {
+                    while (file_exists(MODX_ASSETS_PATH . $target . $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'])) {
                         $i = ($i == '') ? 1 : $i++;
                     }
                     $fileInfo['originalName'] = $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'];
                 }
-                if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], $this->modx->getOption('assets_path') . $target . $fileInfo['originalName'])) {
+                if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], MODX_ASSETS_PATH . $target . $fileInfo['originalName'])) {
                     $errors = $this->modx->lexicon('ajaxupload.targetNotWritable');
                     $this->modx->log(modX::LOG_LEVEL_ERROR, $errors, '', 'AjaxUpload');
                 } else {
-                    $fileInfo['originalPath'] = $this->modx->getOption('assets_path') . $target;
+                    $fileInfo['originalPath'] = MODX_ASSETS_PATH . $target;
                     $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
                 }
                 if ($clearQueue) {

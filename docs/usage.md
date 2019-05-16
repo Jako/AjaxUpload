@@ -41,9 +41,9 @@ maxFilesizeMb | Maximum size for one file to upload | 8
 maxFiles | Maximum count of files to upload | 3
 thumbX | Horizontal size of generated thumb | 100
 thumbY | Vertical size of generated thumb | 100
-addJquery | Add jQuery script at the end of the body | No
-addJscript | Add the snippet javascript and the fileuploader script at the end of the body | Yes
-addCss | Add the snippet css ad the end of the head | Yes
+addJquery | Add jQuery script at the end of the body | 0 (No)
+addJscript | Add the snippet javascript and the fileuploader script at the end of the body | 1 (Yes)
+addCss | Add the snippet css ad the end of the head | 1 (Yes)
 
 If you want to change the text output in the upload section (i.e. the upload
 button), you have to edit the MODX lexicon in the namespace `ajaxupload`.
@@ -78,8 +78,8 @@ The AjaxUpload2Formit hook uses additional properties:
 
 Property | Description | Default
 ---------|-------------|--------
-ajaxuploadClearQueue | Clear the upload queue after a sucessful run of the hook | false
-ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename | false
+ajaxuploadClearQueue | Clear the upload queue after a sucessful run of the hook | 0 (No)
+ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename | 0 (No)
 
 ## Attach the uploaded files to a mail
 
