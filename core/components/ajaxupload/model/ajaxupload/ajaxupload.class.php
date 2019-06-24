@@ -1,5 +1,4 @@
 <?php
-
 /**
  * AjaxUpload
  *
@@ -8,6 +7,7 @@
  * @package ajaxupload
  * @subpackage classfile
  */
+
 class AjaxUpload
 {
     /**

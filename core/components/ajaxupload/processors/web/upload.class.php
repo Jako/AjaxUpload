@@ -2,7 +2,7 @@
 /**
  * Upload/Delete images in the upload queue
  *
- * @package colorpicker
+ * @package ajaxupload
  * @subpackage processor
  */
 
