@@ -43,7 +43,7 @@ thumbX | Horizontal size of generated thumb | 100
 thumbY | Vertical size of generated thumb | 100
 addJquery | Add jQuery script at the end of the body | 0 (No)
 addJscript | Add the snippet javascript and the fileuploader script at the end of the body | 1 (Yes)
-addCss | Add the snippet css ad the end of the head | 1 (Yes)
+addCss | Add the snippet css at the end of the head | 1 (Yes)
 
 If you want to change the text output in the upload section (i.e. the upload
 button), you have to edit the MODX lexicon in the namespace `ajaxupload`.
