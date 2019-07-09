@@ -8,7 +8,7 @@
 
 class AjaxUploadUploadProcessor extends modProcessor
 {
-    public $languageTopics = array('colorpicker:default');
+    public $languageTopics = array('ajaxupload:default');
     
     public function process()
     {
