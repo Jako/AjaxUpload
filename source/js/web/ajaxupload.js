@@ -77,7 +77,7 @@
                     var fileid = uploadAnswer.fileid;
                     if (uploadAnswer.success) {
                         var fileWrap = $('<div>').addClass('file-wrap').data('fileid', fileid);
-                        var deleteButton = $('<div>').addClass('delete-button').html(_this.options.deleteText).click(function () {
+                        var deleteButton = $('<div>').addClass('delete-button').attr('title', _this.options.deleteText).click(function () {
                             _this.remove(fileWrap, fileid);
                         });
                         var input = $('<input>').attr({

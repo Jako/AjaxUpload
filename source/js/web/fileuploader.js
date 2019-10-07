@@ -1308,7 +1308,7 @@ qq.extend(qq.UploadHandlerXhr.prototype, {
     },
     getSize: function(id){
         var file = this._files[id];
-        return file.fileSize !== null ? file.fileSize : file.size;
+        return (file.fileSize !== null && file.fileSize !== undefined) ? file.fileSize : file.size;
     },
     /**
      * Returns uploaded bytes for file identified by id
