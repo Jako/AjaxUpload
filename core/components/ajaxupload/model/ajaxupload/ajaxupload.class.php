@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2019 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2020 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage classfile
