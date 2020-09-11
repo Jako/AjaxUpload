@@ -367,7 +367,7 @@ class AjaxUpload
                     $pathinfo = pathinfo($fileInfo['originalName']);
                     $i = '';
                     while (file_exists(MODX_ASSETS_PATH . $target . $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'])) {
-                        $i = ($i == '') ? 1 : $i++;
+                        $i = ($i == '') ? 1 : $i + 1;
                     }
                     $fileInfo['originalName'] = $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'];
                 }

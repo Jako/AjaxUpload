@@ -16,7 +16,7 @@ $ajaxuploadAssetsUrl = $modx->getOption('ajaxupload.assets_url', null, $modx->ge
 $ajaxuploadFieldname = $modx->getOption('ajaxuploadFieldname', $scriptProperties, '');
 $ajaxuploadFieldformat = $modx->getOption('ajaxuploadFieldformat', $scriptProperties, 'csv');
 $ajaxuploadTarget = $modx->getOption('ajaxuploadTarget', $scriptProperties, '');
-$scriptProperties['debug'] = $modx->getOption('ajaxuploadDebug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false));
+$scriptProperties['debug'] = (bool)$modx->getOption('ajaxuploadDebug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false));
 $scriptProperties['uid'] = $modx->getOption('ajaxuploadUid', $scriptProperties, '');
 $scriptProperties['cacheExpires'] = $modx->getOption('ajaxuploadCacheExpires', $scriptProperties, $modx->getOption('ajaxupload.cache_expires', null, '4'));
 

@@ -79,7 +79,7 @@ The AjaxUpload2Formit hook uses additional properties:
 Property | Description | Default
 ---------|-------------|--------
 ajaxuploadClearQueue | Clear the upload queue after a sucessful run of the hook | 0 (No)
-ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename | 0 (No)
+ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename | 1 (Yes)
 
 ## Attach the uploaded files to a mail
 
