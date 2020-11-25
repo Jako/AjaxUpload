@@ -365,11 +365,11 @@ class AjaxUpload
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
                 if (!$this->getOption('allowOverwrite')) {
                     $pathinfo = pathinfo($fileInfo['originalName']);
-                    $i = '';
-                    while (file_exists(MODX_ASSETS_PATH . $target . $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'])) {
-                        $i = ($i == '') ? 1 : $i + 1;
+                    $i = 0;
+                    while (file_exists(MODX_ASSETS_PATH . $target . $pathinfo['filename'] . (empty($i) ? '' : ('_' . $i)) . '.' . $pathinfo['extension'])) {
+                        ++$i;
                     }
-                    $fileInfo['originalName'] = $pathinfo['filename'] . (($i) ? '_' . $i : '') . '.' . $pathinfo['extension'];
+                    $fileInfo['originalName'] = $pathinfo['filename'] . (empty($i) ? '' : ('_' . $i)) . '.' . $pathinfo['extension'];
                 }
                 if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], MODX_ASSETS_PATH . $target . $fileInfo['originalName'])) {
                     $errors = $this->modx->lexicon('ajaxupload.targetNotWritable');
