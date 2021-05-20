@@ -7,7 +7,7 @@
  */
 $_lang['ajaxupload.notWritable'] = 'Serverfehler. Das Upload-Verzeichis ist nicht beschreibbar.';
 $_lang['ajaxupload.targetNotWritable'] = 'Die Datei konnte nicht in das Zielverzeichnis kopiert werden. Existiert das Zielverzeichnis und ist es beschreibbar?';
-$_lang['ajaxupload.targetNotCreatable'] = '';
+$_lang['ajaxupload.targetNotCreatable'] = 'Der Zielordner konnte nicht erstellt werden!';
 $_lang['ajaxupload.noFile'] = 'Es wurde keine Datei hochgeladen.';
 $_lang['ajaxupload.emptyFile'] = 'Die Datei ist leer.';
 $_lang['ajaxupload.largeFile'] = 'Die Datei ist zu groß.';
