@@ -1,4 +1,4 @@
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/ajaxupload/localized.svg)](https://crowdin.com/project/ajaxupload)
+[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/-/modx-ajaxupload-standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-standard/)
 
 # AjaxUpload
 
@@ -34,6 +34,10 @@ MODX Package Management
 
 Install via package manager and use the snippets and the FormIt hooks.
 
+## License
+
+The project is licensed under the [GPLv2 license](https://github.com/Jako/AjaxUpload/blob/master/core/components/ajaxupload/docs/license.md).
+
 ## Translations
 
-Translations of the package could be done on [Crowdin](https://crowdin.com/project/ajaxupload)
+Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-standard/) and the [Properties Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-properties/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-system-settings/)
