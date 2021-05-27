@@ -21,7 +21,7 @@ if ($ajaxuploadFieldname) {
     if ($ajaxuploadFieldformat == 'json') {
         $attachments = json_decode($attachments);
     } else {
-        $attachments = explode(',', $attachments);
+        $attachments = ($attachments) ? explode(',', $attachments) : array();
     }
 
     $hook->modx->getService('mail', 'mail.modPHPMailer');
