@@ -64,7 +64,7 @@ switch (true) {
             if ($ajaxuploadValue) {
                 switch ($ajaxuploadFieldformat) {
                     case 'json' :
-                        $ajaxuploadValue = json_decode($ajaxuploadValue);
+                        $ajaxuploadValue = json_decode($ajaxuploadValue, true);
                         break;
                     case 'csv':
                     default :

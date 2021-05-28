@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2020 by Thomas Jakobi <thomas.jakobi@partout.info>
+ * Copyright 2013-2021 by Thomas Jakobi <thomas.jakobi@partout.info>
  *
  * @package ajaxupload
  * @subpackage classfile
@@ -26,7 +26,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.5.7';
+    public $version = '1.5.8';
 
     /**
      * A configuration array

@@ -5,8 +5,8 @@
   "private": true,
   "devDependencies": {
     "@lodder/grunt-postcss": "^3.0.1",
-    "autoprefixer": "^10.2.5",
-    "grunt": "^1.4.0",
+    "autoprefixer": "^10.2.6",
+    "grunt": "^1.4.1",
     "grunt-banner": "^0.6.0",
     "grunt-contrib-cssmin": "^4.0.0",
     "grunt-contrib-uglify": "^5.0.1",
@@ -22,9 +22,5 @@
     "maintained node versions",
     "not dead",
     "ie >= 8"
-  ],
-  "dependencies": {
-    "browserslist": "^4.16.6",
-    "caniuse-lite": "^1.0.30001228"
-  }
+  ]
 }
