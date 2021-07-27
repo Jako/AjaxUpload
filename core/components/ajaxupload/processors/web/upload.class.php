@@ -16,6 +16,11 @@ class AjaxUploadUploadProcessor extends modProcessor
         $uid = htmlspecialchars(trim($this->getProperty('uid', false)));
         $output = '';
 
+        if (!$this->modx->getOption('anonymous_sessions')) {
+            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'AjaxUpload needs an active session. But the anonymous_sessions system setting is set to false.', '', 'AjaxUploadUploadProcessor');
+            return $output;
+        }
+
         if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
             $ajaxupload = new AjaxUpload($this->modx, $_SESSION['ajaxupload'][$uid . 'config']);
             $ajaxupload->initialize($_SESSION['ajaxupload'][$uid . 'config']);
