@@ -1,4 +1,0 @@
-files:
-  - source: /core/components/ajaxupload/lexicon/en/*.php
-    translation: >-
-      /core/components/ajaxupload/lexicon/%two_letters_code%/%original_file_name%
