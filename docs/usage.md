@@ -30,7 +30,7 @@ snippet call in the FormIt form:
 ]]
 ```
 
-The *AjaxUpload snippet* call could use the following properties:
+The AjaxUpload snippet uses the following properties:
 
 Property | Description | Default
 ---------|-------------|--------
