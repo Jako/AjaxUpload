@@ -167,7 +167,7 @@ class AjaxUpload
         if (!@is_dir($this->config['cachePath'])) {
             if (!@mkdir($this->config['cachePath'], 0755)) {
                 $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the cache path.', '', 'AjaxUpload');
-            };
+            }
 
         }
         $this->clearCache($this->config['cacheExpires']);
@@ -252,7 +252,7 @@ class AjaxUpload
                         $filePerm = (int)$this->config['newFilePermissions'];
                         if (!@chmod($fileInfo['path'] . $thumbName, octdec($filePerm))) {
                             $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not change the thumbnail file permission.', '', 'AjaxUpload');
-                        };
+                        }
                     }
                 } else {
                     $this->modx->log(modX::LOG_LEVEL_ERROR, 'Thumbnail generation: Thumbnail not created.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages), '', 'AjaxUpload');
@@ -311,11 +311,11 @@ class AjaxUpload
                 }
                 if (!@copy($fileInfo['originalPath'] . $fileInfo['originalName'], $fileInfo['path'] . $fileInfo['uniqueName'])) {
                     $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not copy the uploaded file to the upload cache.', '', 'AjaxUpload');
-                };
+                }
                 $filePerm = (int)$this->config['newFilePermissions'];
                 if (!@chmod($fileInfo['path'] . $fileInfo['uniqueName'], octdec($filePerm))) {
                     $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not change the uploaded file permission in the upload cache.', '', 'AjaxUpload');
-                };
+                }
 
                 // create thumbnail
                 $fileInfo['thumbName'] = $this->generateThumbnail($fileInfo);
