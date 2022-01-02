@@ -1,11 +1,11 @@
-<div id="file-uploader-{$params.uid}">
+<div id="file-uploader-[[+uid]]">
     <div class="file-uploader-items">
-        {$items}
+        [[+items]]
     </div>
     <div class="file-uploader-buttons">
         <noscript>
-            <input type="file" name="{$params.uid}"/>
+            <input name="[[+uid]]" type="file">
         </noscript>
     </div>
-    [[!+fi.error.{$params.uid}]]
+    [[!+fi.error.[[+uid]]]]
 </div>

@@ -3,9 +3,23 @@
   "lowCaseName": "ajaxupload",
   "description": "Upload button for uploading multiple files with progress-bar",
   "author": "Thomas Jakobi",
-  "version": "1.5.8",
+  "version": "1.6.0",
   "package": {
     "elements": {
+      "chunks": [
+        {
+          "name": "tplAjaxuploadImage",
+          "file": "image.chunk.html"
+        },
+        {
+          "name": "tplAjaxuploadScript",
+          "file": "script.chunk.html"
+        },
+        {
+          "name": "tplAjaxuploadUploadSection",
+          "file": "uploadSection.chunk.html"
+        }
+      ],
       "snippets": [
         {
           "name": "AjaxUpload",
@@ -159,7 +173,7 @@
     },
     {
       "name": "modx",
-      "version": ">=2.6"
+      "version": ">=2.8"
     }
   ],
   "build": {
@@ -176,6 +190,7 @@
     },
     "resolver": {
       "after": [
+        "resolve.cleanup.php",
         "resolve.treehillstudio.php"
       ]
     }

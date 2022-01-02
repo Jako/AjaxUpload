@@ -3,7 +3,7 @@
 Display an upload button for uploading multiple files with progress counter. The
 upload queue could be filled and saved by FormIt hooks.
 
-- Author: Thomas Jakobi <thomas.jakobi@partout.info>
+- Author: Thomas Jakobi <office@treehillstudio.com>
 - License: GNU GPLv2
 
 ## Features

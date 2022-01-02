@@ -19,9 +19,9 @@ require_once MODX_CONNECTORS_PATH . 'index.php';
 
 $corePath = $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/');
 /** @var AjaxUpload $ajaxupload */
-$ajaxupload = $modx->getService('ajaxupload', 'AjaxUpload', $corePath . 'model/ajaxupload/', array(
+$ajaxupload = $modx->getService('ajaxupload', 'AjaxUpload', $corePath . 'model/ajaxupload/', [
     'core_path' => $corePath
-));
+]);
 
 // Set HTTP_MODAUTH for web processors
 if (defined('MODX_REQP') && MODX_REQP === false) {
@@ -31,7 +31,7 @@ if (defined('MODX_REQP') && MODX_REQP === false) {
 $processorsPath = $ajaxupload->getOption('processorsPath');
 
 // Handle request
-$modx->request->handleRequest(array(
+$modx->request->handleRequest([
     'processors_path' => $processorsPath,
     'location' => ''
-));
+]);

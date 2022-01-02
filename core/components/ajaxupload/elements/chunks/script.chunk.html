@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#file-uploader-[[+uid]]').ajaxUpload({
+            uploadAction: '[[+connectorUrl]]',
+            uid: '[[+uid]]',
+            dragText: '[[%ajaxupload.dropArea]]',
+            uploadButtonText: '[[%ajaxupload.uploadButton]]',
+            cancelButtonText: '[[%ajaxupload.cancel]]',
+            failUploadText: '[[%ajaxupload.failed]]',
+            deleteText: '[[%ajaxupload.deleteButton]]',
+            clearText: '[[%ajaxupload.clearButton]]',
+            hideShowDropArea: true,
+            thumbX: '[[+thumbX]]px',
+            thumbY: '[[+thumbY]]px',
+            allowedExtensions: [[+allowedExtensionsString]],
+            sizeLimit: [[+sizeLimit]],
+            maxFiles: [[+maxFiles]],
+            maxConnections: [[+maxConnections]],
+            messages: {
+                typeError: "[[%ajaxupload.typeError]]",
+                sizeError: "[[%ajaxupload.sizeError]]",
+                minSizeError: "[[%ajaxupload.minSizeError]]",
+                emptyError: "[[%ajaxupload.emptyError]]",
+                onLeave: "[[%ajaxupload.onLeave]]"
+            }
+        });
+    });
+</script>

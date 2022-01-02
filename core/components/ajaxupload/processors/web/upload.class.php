@@ -6,12 +6,20 @@
  * @subpackage processor
  */
 
-class AjaxUploadUploadProcessor extends modProcessor
+use TreehillStudio\AjaxUpload\Processors\Processor;
+
+class AjaxUploadUploadProcessor extends Processor
 {
-    public $languageTopics = array('ajaxupload:default');
-    
+    public $languageTopics = ['ajaxupload:default'];
+
+    /**
+     * @var array $session
+     */
+    private $session;
+
     public function process()
     {
+        $this->session =& $_SESSION['ajaxupload'];
         $delete = $this->getProperty('delete', false);
         $uid = htmlspecialchars(trim($this->getProperty('uid', false)));
         $output = '';
@@ -21,108 +29,130 @@ class AjaxUploadUploadProcessor extends modProcessor
             return $output;
         }
 
-        if (isset($_SESSION['ajaxupload'][$uid . 'config'])) {
-            $ajaxupload = new AjaxUpload($this->modx, $_SESSION['ajaxupload'][$uid . 'config']);
-            $ajaxupload->initialize($_SESSION['ajaxupload'][$uid . 'config']);
-
-            $result = array();
+        if (isset($this->session[$uid . 'config'])) {
+            $this->ajaxupload->initialize($this->session[$uid . 'config']);
             if ($delete !== false) {
-                if (strtolower($delete) == 'all') {
-                    // Delete all uploaded files/thumbs & clean session
-                    if (is_array($_SESSION['ajaxupload'][$uid])) {
-                        foreach ($_SESSION['ajaxupload'][$uid] as $fileInfo) {
-                            if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-                                unlink($fileInfo['path'] . $fileInfo['uniqueName']);
-                                $fileInfo['uniqueName'] = '';
-                            }
-                            if (file_exists($fileInfo['path'] . $fileInfo['thumbName'])) {
-                                unlink($fileInfo['path'] . $fileInfo['thumbName']);
-                                $fileInfo['thumbName'] = '';
-                            }
-                            $_SESSION['ajaxupload'][$uid . 'delete'][] = $fileInfo;
-                        }
-                    }
-                    $_SESSION['ajaxupload'][$uid] = array();
-                    $result['success'] = true;
-                } else {
-                    // Delete one uploaded file/thumb & remove session entry
-                    $fileId = preg_replace('/[^0-9a-f]/', '', $delete);
-                    if (isset($_SESSION['ajaxupload'][$uid][$fileId])) {
-                        $fileInfo = $_SESSION['ajaxupload'][$uid][$fileId];
-                        if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-                            unlink($fileInfo['path'] . $fileInfo['uniqueName']);
-                            $fileInfo['uniqueName'] = '';
-                        }
-                        if (file_exists($fileInfo['path'] . $fileInfo['thumbName'])) {
-                            unlink($fileInfo['path'] . $fileInfo['thumbName']);
-                            $fileInfo['thumbName'] = '';
-                        }
-                        $_SESSION['ajaxupload'][$uid . 'delete'][] = $fileInfo;
-                        unset($_SESSION['ajaxupload'][$uid][$fileId]);
-                        $result['success'] = true;
-                    } else {
-                        $result['error'] = $this->modx->lexicon('ajaxupload.notFound', array('maxFiles' => $ajaxupload->config['maxFiles']));
-                    }
-                }
+                $result = $this->deleteUploads($uid, $delete);
             } else {
-                // Upload the image(s)
-                $uploader = new qqFileUploader($ajaxupload->config['allowedExtensions'], $ajaxupload->config['sizeLimit']);
-                // To pass data through iframe you will need to encode all html tags
-                $lexicon = array(
-                    'notWritable' => $this->modx->lexicon('ajaxupload.notWritable'),
-                    'noFile' => $this->modx->lexicon('ajaxupload.noFile'),
-                    'emptyFile' => $this->modx->lexicon('ajaxupload.emptyFile'),
-                    'largeFile' => $this->modx->lexicon('ajaxupload.largeFile'),
-                    'wrongExtension' => $this->modx->lexicon('ajaxupload.wrongExtension'),
-                    'saveError' => $this->modx->lexicon('ajaxupload.saveError')
-                );
-                $result = $uploader->handleUpload($ajaxupload->config['cachePath'], true, $this->modx->lexicon->fetch('ajaxupload.', true));
-
-                // File successful uploaded
-                if ($result['success']) {
-                    $fileInfo = array();
-                    $path = $uploader->path;
-                    // Check if count of uploaded files are below max file count
-                    if (count($_SESSION['ajaxupload'][$uid]) < $ajaxupload->config['maxFiles']) {
-                        $fileInfo['originalBaseUrl'] = $ajaxupload->config['cachePath'];
-                        $fileInfo['path'] = $path;
-                        $fileInfo['base_url'] = $ajaxupload->config['cacheUrl'];
-
-                        // Create unique filename and set permissions
-                        $fileInfo['uniqueName'] = md5($uploader->filename . time()) . '.' . $uploader->extension;
-                        @rename($path . $uploader->filename . '.' . $uploader->extension, $path . $fileInfo['uniqueName']);
-                        $filePerm = (int)$ajaxupload->config['newFilePermissions'];
-                        @chmod($path . $fileInfo['uniqueName'], octdec($filePerm));
-
-                        $fileInfo['originalName'] = $uploader->filename . '.' . $uploader->extension;
-
-                        // Create thumbnail
-                        $fileInfo['thumbName'] = $ajaxupload->generateThumbnail($fileInfo);
-                        if ($fileInfo['thumbName']) {
-                            // Fill session
-                            $hash = hash('md5', serialize($fileInfo));
-                            $_SESSION['ajaxupload'][$uid][$hash] = $fileInfo;
-                            // Prepare returned values (filename, originalName & fileid)
-                            $result['filename'] = $fileInfo['base_url'] . $fileInfo['thumbName'];
-                            $result['originalName'] = $fileInfo['originalName'];
-                            $result['fileid'] = $hash;
-                        } else {
-                            unset($result['success']);
-                            $result['error'] = $this->modx->lexicon('ajaxupload.thumbnailGenerationProblem');
-                            @unlink($path . $fileInfo['uniqueName']);
-                        }
-                    } else {
-                        unset($result['success']);
-                        // Error message
-                        $result['error'] = $this->modx->lexicon('ajaxupload.maxFiles', array('maxFiles' => $ajaxupload->config['maxFiles']));
-                        // Delete uploaded file
-                        @unlink($path . $uploader->filename . '.' . $uploader->extension);
-                    }
-                }
+                $result = $this->createUploads($uid);
             }
             $output = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
         }
         return $output;
+    }
+
+    /**
+     * @param $uid
+     * @param $delete
+     * @return array
+     */
+    private function deleteUploads($uid, $delete)
+    {
+        $result = [];
+        if (strtolower($delete) == 'all') {
+            // Delete all uploaded files/thumbs & clean session
+            if (is_array($this->session[$uid])) {
+                foreach ($this->session[$uid] as $fileInfo) {
+                    $fileInfo = $this->deleteFile($fileInfo);
+                    $this->session[$uid . 'delete'][] = $fileInfo;
+                }
+            }
+            $this->session[$uid] = [];
+            $result['success'] = true;
+        } else {
+            // Delete one uploaded file/thumb & remove session entry
+            $fileId = preg_replace('/[^0-9a-f]/', '', $delete);
+            if (isset($this->session[$uid][$fileId])) {
+                $fileInfo = $this->session[$uid][$fileId];
+                $fileInfo = $this->deleteFile($fileInfo);
+                $this->session[$uid . 'delete'][] = $fileInfo;
+                unset($this->session[$uid][$fileId]);
+                $result['success'] = true;
+            } else {
+                $result['error'] = $this->modx->lexicon('ajaxupload.notFound', ['maxFiles' => $this->ajaxupload->getOption('maxFiles')]);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param $uid
+     * @return array|bool[]
+     */
+    private function createUploads($uid)
+    {
+        // Upload the image(s)
+        $uploader = new qqFileUploader($this->ajaxupload->getOption('allowedExtensions'), $this->ajaxupload->getOption('sizeLimit'));
+        // To pass data through iframe you will need to encode all html tags
+        $lexicon = [
+            'notWritable' => $this->modx->lexicon('ajaxupload.notWritable'),
+            'noFile' => $this->modx->lexicon('ajaxupload.noFile'),
+            'emptyFile' => $this->modx->lexicon('ajaxupload.emptyFile'),
+            'largeFile' => $this->modx->lexicon('ajaxupload.largeFile'),
+            'wrongExtension' => $this->modx->lexicon('ajaxupload.wrongExtension'),
+            'saveError' => $this->modx->lexicon('ajaxupload.saveError')
+        ];
+        $result = $uploader->handleUpload($this->ajaxupload->getOption('cachePath'), true, $lexicon);
+
+        // File successful uploaded
+        if ($result['success']) {
+            $fileInfo = [];
+            $path = $uploader->path;
+            // Check if count of uploaded files are below max file count
+            if (count($this->session[$uid]) < $this->ajaxupload->getOption('maxFiles')) {
+                $fileInfo['originalBaseUrl'] = $this->ajaxupload->getOption('cachePath');
+                $fileInfo['path'] = $path;
+                $fileInfo['base_url'] = $this->ajaxupload->getOption('cacheUrl');
+
+                // Create unique filename and set permissions
+                $fileInfo['uniqueName'] = md5($uploader->filename . time()) . '.' . $uploader->extension;
+                @rename($path . $uploader->filename . '.' . $uploader->extension, $path . $fileInfo['uniqueName']);
+                $filePerm = (int)$this->ajaxupload->getOption('newFilePermissions');
+                @chmod($path . $fileInfo['uniqueName'], octdec($filePerm));
+
+                $fileInfo['originalName'] = $uploader->filename . '.' . $uploader->extension;
+
+                // Create thumbnail
+                $fileInfo['thumbName'] = $this->ajaxupload->generateThumbnail($fileInfo);
+                if ($fileInfo['thumbName']) {
+                    // Fill session
+                    $hash = hash('md5', serialize($fileInfo));
+                    $this->session[$uid][$hash] = $fileInfo;
+                    // Prepare returned values (filename, originalName & fileid)
+                    $result['filename'] = $fileInfo['base_url'] . $fileInfo['thumbName'];
+                    $result['originalName'] = $fileInfo['originalName'];
+                    $result['fileid'] = $hash;
+                } else {
+                    unset($result['success']);
+                    $result['error'] = $this->modx->lexicon('ajaxupload.thumbnailGenerationProblem');
+                    @unlink($path . $fileInfo['uniqueName']);
+                }
+            } else {
+                unset($result['success']);
+                // Error message
+                $result['error'] = $this->modx->lexicon('ajaxupload.maxFiles', ['maxFiles' => $this->ajaxupload->getOption('maxFiles')]);
+                // Delete uploaded file
+                @unlink($path . $uploader->filename . '.' . $uploader->extension);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param array $fileInfo
+     * @return array
+     */
+    private function deleteFile($fileInfo)
+    {
+        if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
+            unlink($fileInfo['path'] . $fileInfo['uniqueName']);
+            $fileInfo['uniqueName'] = '';
+        }
+        if (file_exists($fileInfo['path'] . $fileInfo['thumbName'])) {
+            unlink($fileInfo['path'] . $fileInfo['thumbName']);
+            $fileInfo['thumbName'] = '';
+        }
+        return $fileInfo;
     }
 }
 

@@ -1,7 +1,7 @@
 /**
  * AjaxUpload Plugin
  *
- * @author Thomas Jakobi <thomas.jakobi@partout.info>
+ * @author Thomas Jakobi <office@treehillstudio.com>
  *
  * @package ajaxupload
  * @subpackage jqueryplugin

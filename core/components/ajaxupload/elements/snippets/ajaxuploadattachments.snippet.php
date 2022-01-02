@@ -9,35 +9,17 @@
  * @var array $scriptProperties
  * @var fiHooks $hook
  */
-$ajaxuploadFieldname = $modx->getOption('ajaxuploadFieldname', $scriptProperties, '');
-$ajaxuploadFieldformat = $modx->getOption('ajaxuploadFieldformat', $scriptProperties, 'csv');
-$debug = (bool)$modx->getOption('ajaxuploadDebug', $scriptProperties, $modx->getOption('ajaxupload.debug', null, false));
 
-$assetsPath = $modx->getOption('assets_path');
-$assetsUrl = $modx->getOption('assets_url');
-$assetsUrlLength = strlen($assetsUrl);
+use TreehillStudio\AjaxUpload\Snippets\AjaxUploadAttachmentsHook;
 
-if ($ajaxuploadFieldname) {
-    $attachments = $hook->getValue($ajaxuploadFieldname);
-    if ($ajaxuploadFieldformat == 'json') {
-        $attachments = json_decode($attachments, true);
-    } else {
-        $attachments = (!empty($attachments)) ? explode(',', $attachments) : array();
-    }
+$corePath = $modx->getOption('ajaxupload.core_path', null, $modx->getOption('core_path') . 'components/ajaxupload/');
+/** @var AjaxUpload $ajaxupload */
+$ajaxupload = $modx->getService('ajaxupload', 'AjaxUpload', $corePath . 'model/ajaxupload/', [
+    'core_path' => $corePath
+]);
 
-    $hook->modx->getService('mail', 'mail.modPHPMailer');
-
-    foreach ($attachments as $attachment) {
-        $attachment = substr($attachment, $assetsUrlLength);
-        if (file_exists($assetsPath . $attachment) && is_file($assetsPath . $attachment)) {
-            $hook->modx->mail->mailer->AddAttachment($assetsPath . $attachment);
-        } elseif ($debug) {
-            if (!is_file($assetsPath . $attachment)) {
-                $modx->log(xPDO::LOG_LEVEL_ERROR, 'The attached file ' . $assetsPath . $attachment . ' is not a file!', '', 'AjaxUploadAttachments');
-            } elseif (!file_exists($assetsPath . $attachment)) {
-                $modx->log(xPDO::LOG_LEVEL_ERROR, 'The attached file ' . $assetsPath . $attachment . ' does not exist!', '', 'AjaxUploadAttachments');
-            }
-        }
-    }
+$snippet = new AjaxUploadAttachmentsHook($modx, $hook, $scriptProperties);
+if ($snippet instanceof TreehillStudio\AjaxUpload\Snippets\AjaxUploadAttachmentsHook) {
+    return $snippet->execute();
 }
-return true;
+return 'TreehillStudio\AjaxUpload\Snippets\AjaxUploadAttachmentsHook class not found';
