@@ -3,7 +3,7 @@
  * Upload/Delete images in the upload queue
  *
  * @package ajaxupload
- * @subpackage processor
+ * @subpackage processors
  */
 
 use TreehillStudio\AjaxUpload\Processors\Processor;

@@ -3,7 +3,7 @@
  * Abstract processor
  *
  * @package ajaxupload
- * @subpackage processor
+ * @subpackage processors
  */
 
 namespace TreehillStudio\AjaxUpload\Processors;
