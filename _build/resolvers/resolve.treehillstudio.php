@@ -5,8 +5,8 @@
  * @package ajaxupload
  * @subpackage build
  *
- * @var mixed $object
  * @var array $options
+ * @var xPDOObject $object
  * @var xPDOTransport $transport
  */
 
@@ -34,10 +34,8 @@ $c->where(
 );
 $c->where(
     [
-        [
-            'modTransportPackage.signature:LIKE' => $options['namespace'] . '-%',
-        ],
-        'installed:IS NOT' => null
+        'modTransportPackage.signature:LIKE' => $options['namespace'] . '-%',
+        'modTransportPackage.installed:IS NOT' => null
     ]
 );
 $c->limit(1);
