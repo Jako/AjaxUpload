@@ -19,6 +19,7 @@ const banner = '/*!\n' +
     ' * Version: <%= pkg.version %>\n' +
     ' * Build date: ' + format("yyyy-MM-dd", new Date()) + '\n' +
     ' */';
+const year = new Date().getFullYear();
 
 gulp.task('scripts-web', function () {
     return gulp.src([
@@ -67,7 +68,7 @@ gulp.task('bump-copyright', function () {
         'core/components/ajaxupload/model/ajaxupload/ajaxupload.class.php',
         'core/components/ajaxupload/src/AjaxUpload.php',
     ], {base: './'})
-        .pipe(replace(/Copyright 2013(-\d{4})? by/g, 'Copyright ' + (new Date().getFullYear() > 2013 ? '2013-' : '') + new Date().getFullYear() + ' by'))
+        .pipe(replace(/Copyright 2013(-\d{4})? by/g, 'Copyright ' + (year > 2013 ? '2013-' : '') + year + ' by'))
         .pipe(gulp.dest('.'));
 });
 gulp.task('bump-version', function () {
@@ -81,7 +82,7 @@ gulp.task('bump-docs', function () {
     return gulp.src([
         'mkdocs.yml',
     ], {base: './'})
-        .pipe(replace(/&copy; 2013(-\d{4})?/g, '&copy; ' + (new Date().getFullYear() > 2013 ? '2013-' : '') + new Date().getFullYear()))
+        .pipe(replace(/&copy; 2013(-\d{4})?/g, '&copy; ' + (year > 2013 ? '2013-' : '') + year))
         .pipe(gulp.dest('.'));
 });
 gulp.task('bump', gulp.series('bump-copyright', 'bump-version', 'bump-docs'));
@@ -92,7 +93,7 @@ gulp.task('watch', function () {
     gulp.watch(['./source/js/**/*.js'], gulp.series('scripts-web'));
     // Watch .scss files
     gulp.watch(['./source/scss/**/*.scss'], gulp.series('sass-web'));
-    // Watch .scss files
+    // Watch *.(png|jpg|gif|svg) files
     gulp.watch(['./source/images/**/*.(png|jpg|gif|svg)'], gulp.series('images-web'));
 });
 
