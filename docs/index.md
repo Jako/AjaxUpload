@@ -7,8 +7,8 @@ FormIt mails.
 
 ### Requirements
 
-* MODX Revolution 2.2.0+
-* PHP v5.3+
+* MODX Revolution 2.8+
+* PHP 7.1.8+
 
 ### Features
 
