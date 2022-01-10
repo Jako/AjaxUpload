@@ -17,7 +17,7 @@ class Formit2AjaxUploadHook extends Hook
      *
      * @return array
      */
-    public function getDefaultProperties(): array
+    public function getDefaultProperties()
     {
         return [
             'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
@@ -35,7 +35,7 @@ class Formit2AjaxUploadHook extends Hook
      * @return string
      * @throws /Exception
      */
-    public function execute(): string
+    public function execute()
     {
         $uidConfig = $this->ajaxupload->session[$this->getProperty('uid') . 'config'] ?? [];
         

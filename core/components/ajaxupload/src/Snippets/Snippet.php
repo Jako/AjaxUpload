@@ -63,7 +63,7 @@ abstract class Snippet
      *
      * @return array
      */
-    public function getDefaultProperties(): array
+    public function getDefaultProperties()
     {
         return [];
     }
@@ -72,7 +72,7 @@ abstract class Snippet
      * @param array $properties
      * @return array
      */
-    public function initProperties(array $properties = []): array
+    public function initProperties(array $properties = [])
     {
         $result = [];
         foreach ($this->getDefaultProperties() as $key => $value) {
@@ -96,7 +96,7 @@ abstract class Snippet
      * @param $value
      * @return int
      */
-    protected function getInt($value): int
+    protected function getInt($value)
     {
         return (int)$value;
     }
@@ -105,7 +105,7 @@ abstract class Snippet
      * @param $value
      * @return bool
      */
-    protected function getBool($value): bool
+    protected function getBool($value)
     {
         return ($value == 1 || $value == '1' || $value == true || $value == 'true');
     }
@@ -126,7 +126,7 @@ abstract class Snippet
      * @param string $separator
      * @return array
      */
-    protected function getExplodeSeparated($value, $separator = ','): array
+    protected function getExplodeSeparated($value, $separator = ',')
     {
         return (is_string($value) && $value !== '') ? array_map('trim', explode($separator, $value)) : [];
     }
@@ -136,7 +136,7 @@ abstract class Snippet
      * @param string $default
      * @return string
      */
-    protected function getNormalizeDate($value, $default = 'today 0:00'): string
+    protected function getNormalizeDate($value, $default = 'today 0:00')
     {
         return $this->ajaxupload->normalizeDate($value, $default);
     }
@@ -146,7 +146,7 @@ abstract class Snippet
      * @param string $default
      * @return string
      */
-    protected function getDateInterval($value, $default = '+1 day'): string
+    protected function getDateInterval($value, $default = '+1 day')
     {
         return (!empty($value) && DateInterval::createFromDateString($value)) ? $value : $default;
     }
@@ -156,7 +156,7 @@ abstract class Snippet
      *
      * @return array
      */
-    public function getProperties(): array
+    public function getProperties()
     {
         return $this->properties;
     }
