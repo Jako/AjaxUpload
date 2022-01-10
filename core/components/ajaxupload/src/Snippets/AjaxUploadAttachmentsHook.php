@@ -34,7 +34,7 @@ class AjaxUploadAttachmentsHook extends Hook
     /**
      * Execute the hook and return success.
      *
-     * @return string
+     * @return bool
      * @throws /Exception
      */
     public function execute()
