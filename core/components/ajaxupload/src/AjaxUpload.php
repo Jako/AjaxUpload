@@ -530,17 +530,17 @@ class AjaxUpload
         }
         if ($this->getOption('addCss')) {
             if ($this->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/' . $this->namespace . '/')) {
-                $this->modx->regClientCSS($cssSourceUrl . 'ajaxupload.css?v='.$this->version);
+                $this->modx->regClientCSS($cssSourceUrl . 'ajaxupload.css?v=' . $this->version);
             } else {
-                $this->modx->regClientCSS($cssUrl . 'ajaxupload.min.css?v='.$this->version);
+                $this->modx->regClientCSS($cssUrl . 'ajaxupload.min.css?v=' . $this->version);
             }
         }
         if ($this->getOption('addJscript')) {
             if ($this->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/' . $this->namespace . '/')) {
-                $this->modx->regClientScript($jsSourceUrl . 'fileuploader.js?v='.$this->version);
-                $this->modx->regClientScript($jsSourceUrl . 'ajaxupload.js?v='.$this->version);
+                $this->modx->regClientScript($jsSourceUrl . 'fileuploader.js?v=' . $this->version);
+                $this->modx->regClientScript($jsSourceUrl . 'ajaxupload.js?v=' . $this->version);
             } else {
-                $this->modx->regClientScript($jsUrl . 'ajaxupload.min.js?v='.$this->version);
+                $this->modx->regClientScript($jsUrl . 'ajaxupload.min.js?v=' . $this->version);
             }
         }
         $properties = $this->options;
