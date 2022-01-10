@@ -37,7 +37,7 @@ class Formit2AjaxUploadHook extends Hook
      */
     public function execute()
     {
-        $uidConfig = $this->ajaxupload->session[$this->getProperty('uid') . 'config'] ?? [];
+        $uidConfig = $this->ajaxupload->session[$this->getProperty('uid') . 'config'] ?? $this->getProperties();
         
         if (!$this->ajaxupload->initialize($uidConfig)) {
             $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not initialize AjaxUpload class.', '', 'AjaxUpload');

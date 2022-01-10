@@ -158,6 +158,9 @@ class AjaxUpload
      */
     public function initialize($properties = [])
     {
+        // Override uid with properties;
+        $this->options['uid'] = $this->getOption('uid', $properties, $this->options['uid']);
+
         switch ($this->getOption('modxversion')) {
             case 3:
                 if (!$this->modx->getService('phpthumb', \MODX\Revolution\modPhpThumb::class)) {
