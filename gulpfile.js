@@ -113,7 +113,7 @@ gulp.task('watch', function () {
     // Watch .js files
     gulp.watch(['./source/js/**/*.js'], gulp.series('scripts-web'));
     // Watch .scss files
-    gulp.watch(['./source/scss/**/*.scss'], gulp.series('sass-web'));
+    gulp.watch(['./source/sass/**/*.scss'], gulp.series('sass-web'));
     // Watch *.(png|jpg|gif|svg) files
     gulp.watch(['./source/images/**/*.(png|jpg|gif|svg)'], gulp.series('images-web'));
 });

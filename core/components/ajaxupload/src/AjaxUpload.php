@@ -69,7 +69,7 @@ class AjaxUpload
      */
     public function __construct(modX &$modx, $options = [])
     {
-        $this->modx = &$modx;
+        $this->modx =& $modx;
         $this->namespace = $this->getOption('namespace', $options, $this->namespace);
 
         $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/' . $this->namespace . '/');
