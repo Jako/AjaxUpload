@@ -87,7 +87,10 @@ abstract class Snippet
             } else {
                 $result[$parts[0]] = $this->modx->getOption($key, $properties, $value, true);
             }
-            unset($properties[$key]);
+            if ($this->propertyPrefix) {
+                unset($properties[$key]);
+            }
+            unset($properties[$parts[0]]);
         }
         return array_merge($result, $properties);
     }
