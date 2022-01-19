@@ -144,7 +144,7 @@
             $.get(_this.options.uploadAction, {
                 'delete': 'all',
                 'uid': _this.options.uid,
-                'action': 'web/upload'
+                'action': 'upload'
             }, function (clearAnswer) {
                 if (clearAnswer.success) {
                     $('.file-uploader-items', _this.$el).empty();

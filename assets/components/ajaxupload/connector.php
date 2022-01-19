@@ -8,10 +8,8 @@
  * @var modX $modx
  */
 
-// Allow anonymous users for web/upload processor
-if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'web/upload') {
-    define('MODX_REQP', false);
-}
+/* Allow anonymous users */
+define('MODX_REQP', false);
 
 require_once dirname(__FILE__, 4) . '/config.core.php';
 require_once MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
@@ -23,15 +21,15 @@ $ajaxupload = $modx->getService('ajaxupload', 'AjaxUpload', $corePath . 'model/a
     'core_path' => $corePath
 ]);
 
+$_REQUEST['action'] = 'web/' . $_REQUEST['action'];
+
 // Set HTTP_MODAUTH for web processors
 if (defined('MODX_REQP') && MODX_REQP === false) {
     $_SERVER['HTTP_MODAUTH'] = $modx->user->getUserToken($modx->context->get('key'));
 }
 
-$processorsPath = $ajaxupload->getOption('processorsPath');
-
 // Handle request
 $modx->request->handleRequest([
-    'processors_path' => $processorsPath,
+    'processors_path' => $ajaxupload->getOption('processorsPath'),
     'location' => ''
 ]);
