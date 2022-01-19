@@ -50,7 +50,7 @@ class AjaxUpload
     public $options = [];
 
     /**
-     * An array of debug informations
+     * An array of debug information
      * @var array $debug
      */
     public $debug;
@@ -556,7 +556,7 @@ class AjaxUpload
     }
 
     /**
-     * Output debug informations.
+     * Output debug information.
      *
      * @access public
      * @return string The debug output
