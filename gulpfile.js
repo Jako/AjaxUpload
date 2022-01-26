@@ -108,7 +108,6 @@ gulp.task('bump-requirements', function () {
 });
 gulp.task('bump', gulp.series('bump-copyright', 'bump-version', 'bump-docs', 'bump-requirements'));
 
-
 gulp.task('watch', function () {
     // Watch .js files
     gulp.watch(['./source/js/**/*.js'], gulp.series('scripts-web'));
