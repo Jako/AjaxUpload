@@ -74,7 +74,7 @@
         {
           "name": "AjaxUpload2Formit",
           "description": "AjaxUpload Formit hook. Save the upload queue into Formit field.",
-          "file": "ajaxupload2formit.snippet.php",
+          "file": "ajaxupload2formit.hook.php",
           "properties": [
             {
               "name": "ajaxuploadUid",
@@ -113,7 +113,7 @@
         {
           "name": "Formit2AjaxUpload",
           "description": "AjaxUpload Formit preHook. Prefill the upload queue from Formit field.",
-          "file": "formit2ajaxupload.snippet.php",
+          "file": "formit2ajaxupload.hook.php",
           "properties": [
             {
               "name": "ajaxuploadUid",
@@ -147,7 +147,7 @@
         {
           "name": "AjaxUploadAttachments",
           "description": "AjaxUpload Formit hook. Attach the uploaded files to the mail.",
-          "file": "ajaxuploadattachments.snippet.php"
+          "file": "ajaxuploadattachments.hook.php"
         }
       ]
     },
