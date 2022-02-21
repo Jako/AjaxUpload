@@ -8,7 +8,6 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
-use DateInterval;
 use modX;
 use TreehillStudio\AjaxUpload\AjaxUpload;
 
@@ -27,6 +26,7 @@ abstract class Snippet
      * @var AjaxUpload $ajaxupload
      */
     protected $ajaxupload;
+
     /**
      * The snippet properties
      * @var array $properties
@@ -50,7 +50,6 @@ abstract class Snippet
         $this->modx =& $modx;
 
         $corePath = $this->modx->getOption('ajaxupload.core_path', null, $this->modx->getOption('core_path') . 'components/ajaxupload/');
-        /** @var AjaxUpload $ajaxupload */
         $this->ajaxupload = $this->modx->getService('ajaxupload', 'AjaxUpload', $corePath . 'model/ajaxupload/', [
             'core_path' => $corePath
         ]);
@@ -132,26 +131,6 @@ abstract class Snippet
     protected function getExplodeSeparated($value, $separator = ',')
     {
         return (is_string($value) && $value !== '') ? array_map('trim', explode($separator, $value)) : [];
-    }
-
-    /**
-     * @param mixed $value
-     * @param string $default
-     * @return string
-     */
-    protected function getNormalizeDate($value, $default = 'today 0:00')
-    {
-        return $this->ajaxupload->normalizeDate($value, $default);
-    }
-
-    /**
-     * @param mixed $value
-     * @param string $default
-     * @return string
-     */
-    protected function getDateInterval($value, $default = '+1 day')
-    {
-        return (!empty($value) && DateInterval::createFromDateString($value)) ? $value : $default;
     }
 
     /**
