@@ -22,12 +22,6 @@ class AjaxUploadAttachmentsHook extends Hook
         return [
             'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
             'fieldname' => '',
-            'fieldformat' => 'csv',
-            'target' => '',
-            'uid' => '',
-            'cacheExpires::int' => $this->modx->getOption('ajaxupload.cache_expires', null, '4'),
-            'clearQueue::bool' => false,
-            'allowOverwrite::bool' => true,
         ];
     }
 

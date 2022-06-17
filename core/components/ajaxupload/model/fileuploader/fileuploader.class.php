@@ -44,7 +44,7 @@ class qqUploadedFileXhr {
 		}
 
 		$target = fopen($path, "w");
-		fseek($temp, 0, SEEK_SET);
+		fseek($temp, 0);
 		stream_copy_to_stream($temp, $target);
 		fclose($target);
 
@@ -154,6 +154,8 @@ class qqFileUploader {
      * @param bool $replaceOldFile
      * @param array $messages
      * @return array array('success'=>true) or array('error'=>'error message')
+     * @throws Exception
+     * @throws Exception
      */
 	function handleUpload($uploadDirectory, $replaceOldFile = false, $messages = array()) {
 		if (!is_writable($uploadDirectory)) {

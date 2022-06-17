@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "Upload button for uploading multiple files with progress-bar",
   "author": "Thomas Jakobi",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "package": {
     "elements": {
       "chunks": [
@@ -148,6 +148,17 @@
           "name": "AjaxUploadAttachments",
           "description": "AjaxUpload Formit hook. Attach the uploaded files to the mail.",
           "file": "ajaxuploadattachments.hook.php"
+        },
+        {
+          "name": "AjaxUploadRequired",
+          "description": "AjaxUpload Formit hook. Add an error message, when no file is uploaded.",
+          "file": "ajaxuploadattachments.hook.php",
+          "properties": [
+            {
+              "name": "ajaxuploadRequiredMessage",
+              "value": ""
+            }
+          ]
         }
       ]
     },
