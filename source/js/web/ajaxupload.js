@@ -62,7 +62,7 @@
                 action: _this.options.uploadAction,
                 params: {
                     uid: _this.options.uid,
-                    action: 'web/upload'
+                    action: 'upload'
                 },
                 dragText: _this.options.dragText,
                 uploadButtonText: _this.options.uploadButtonText,
