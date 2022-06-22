@@ -41,7 +41,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.6.2';
+    public $version = '1.6.2-pl2';
 
     /**
      * The class options
