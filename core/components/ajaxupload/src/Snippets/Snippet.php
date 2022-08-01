@@ -118,7 +118,7 @@ abstract class Snippet
      */
     protected function getAssociativeJson($value)
     {
-        return json_decode($value, true);
+        return is_string($value) ? json_decode($value, true) : $value;
     }
 
     /**
