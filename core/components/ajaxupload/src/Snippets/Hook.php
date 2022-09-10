@@ -38,8 +38,8 @@ abstract class Hook extends Snippet
      */
     public function __construct(modX $modx, $hook, $properties = [])
     {
-        parent::__construct($modx, $properties);
-
         $this->hook = &$hook;
+
+        parent::__construct($modx, $properties);
     }
 }
