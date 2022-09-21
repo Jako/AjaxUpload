@@ -126,7 +126,7 @@
             $.get(_this.options.uploadAction, {
                 'delete': fileid,
                 'uid': _this.options.uid,
-                'action': 'web/upload'
+                'action': 'upload'
             }, function (deleteAnswer) {
                 if (deleteAnswer.success) {
                     el.fadeOut(function () {
