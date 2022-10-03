@@ -36,11 +36,6 @@
     
     
       
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sora:300,400,400i,700%7CJetBrains+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Sora";--md-code-font-family:"JetBrains Mono"}</style>
-      
     
     
     
@@ -343,6 +338,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#make-the-upload-required" class="md-nav__link">
+    Make the upload required
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#system-settings" class="md-nav__link">
     System Settings
   </a>
@@ -424,6 +426,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#make-the-upload-required" class="md-nav__link">
+    Make the upload required
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#system-settings" class="md-nav__link">
     System Settings
   </a>
@@ -459,7 +468,7 @@ hotlinking uploaded not published files. Automatic thumbnail generation for
 uploaded jpeg, png and gif files. Other uploaded files will get a generic icon
 the file extension.</p>
 <p>The package contains FormIt hooks for prefilling the upload queue from a FormIt
-field value and be save the upload queue into a FormIt field value after a form
+field value and to save the upload queue into a FormIt field value after a form
 submission. A third FormIt hook could attach the uploaded files to the FormIt
 mails.</p>
 <h2 id="display-the-upload-button">Display the Upload Button</h2>
@@ -613,6 +622,31 @@ AjaxUploadAttachments hook to the FormIt Call before the email hook:</p>
 ]]
 </code></pre></div>
 <p>The AjaxUploadAttachments hook uses the properties of the hooks above.</p>
+<h2 id="make-the-upload-required">Make the upload required</h2>
+<p>If you want to make the upload required, you have to add the AjaxUploadRequired
+hook to the FormIt Call before the email hook:</p>
+<div class="highlight"><pre><span></span><code>[[!FormIt?
+...
+&amp;hooks=`AjaxUpload2Formit,AjaxUploadRequired,email`
+]]
+</code></pre></div>
+<p>The AjaxUploadRequired hook uses additional properties:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ajaxuploadRequiredMessage</td>
+<td>The error message added, when no file is uploaded. It defaults to the lexicon entry <code>ajaxupload.uploadRequired</code>.</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
 <h2 id="system-settings">System Settings</h2>
 <p>AjaxUpload uses the following system settings in the namespace <code>ajaxupload</code>:</p>
 <table>
