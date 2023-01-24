@@ -289,8 +289,8 @@ snippet call in the FormIt form:</p>
 <tbody>
 <tr>
 <td>uid</td>
-<td>Unique upload queue id <sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
-<td>md5 of MODX 'site_url' setting and the current resource id</td>
+<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
+<td>-</td>
 </tr>
 <tr>
 <td>language</td>
@@ -325,17 +325,17 @@ snippet call in the FormIt form:</p>
 <tr>
 <td>addJquery</td>
 <td>Add jQuery script at the end of the body</td>
-<td>0 (No)</td>
+<td>No</td>
 </tr>
 <tr>
 <td>addJscript</td>
 <td>Add the snippet javascript and the fileuploader script at the end of the body</td>
-<td>1 (Yes)</td>
+<td>Yes</td>
 </tr>
 <tr>
 <td>addCss</td>
-<td>Add the snippet css at the end of the head</td>
-<td>1 (Yes)</td>
+<td>Add the snippet css ad the end of the head</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>
@@ -366,22 +366,22 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <tbody>
 <tr>
 <td>ajaxuploadUid</td>
-<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
-<td>md5 of MODX site_url setting and the current resource id</td>
+<td>Unique upload queue id.</td>
+<td>-</td>
 </tr>
 <tr>
 <td>ajaxuploadFieldname</td>
-<td>(required) FormIt field, the filenames/paths of the (already) uploaded files are saved in</td>
+<td>Formit field, the filenames/paths of the (already) uploaded files are saved in.</td>
 <td>-</td>
 </tr>
 <tr>
 <td>ajaxuploadTarget</td>
-<td>(required) Target path for the (already) uploaded files (relative to $modx-&gt;getOption['assetsPath']). The folder should exist or should be createable and it has to be writable for PHP.</td>
+<td>Target path for the (already) uploaded files (relative to $modx-&gt;getOption['assetsPath']).</td>
 <td>-</td>
 </tr>
 <tr>
 <td>ajaxuploadFieldformat</td>
-<td>Format of the data saved in ajaxuploadFieldname</td>
+<td>Format of the data saved in <code>ajaxuploadFieldname</code>.</td>
 <td>csv</td>
 </tr>
 </tbody>
@@ -398,12 +398,12 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <tbody>
 <tr>
 <td>ajaxuploadClearQueue</td>
-<td>Clear the upload queue after a sucessful run of the hook</td>
+<td>Clear the upload queue after a sucessful run of the hook.</td>
 <td>0 (No)</td>
 </tr>
 <tr>
 <td>ajaxuploadAllowOverwrite</td>
-<td>Allow overwrite of existing files with the same filename</td>
+<td>Allow overwrite of existing files with the same filename.</td>
 <td>1 (Yes)</td>
 </tr>
 </tbody>
@@ -448,6 +448,7 @@ hook to the FormIt Call before the email hook:</p>
 <thead>
 <tr>
 <th>Key</th>
+<th>Name</th>
 <th>Description</th>
 <th>Default</th>
 </tr>
@@ -455,8 +456,15 @@ hook to the FormIt Call before the email hook:</p>
 <tbody>
 <tr>
 <td>ajaxupload.cache_expires</td>
+<td>Expire Time</td>
 <td>Expire Time of the AjaxUpload cache (in hours)</td>
 <td>4</td>
+</tr>
+<tr>
+<td>ajaxupload.debug</td>
+<td>Debug</td>
+<td>Log debug information in the MODX error log.</td>
+<td>No</td>
 </tr>
 </tbody>
 </table>
@@ -464,7 +472,7 @@ hook to the FormIt Call before the email hook:</p>
 <hr/>
 <ol>
 <li id="fn:1">
-<p>The parameter uid should be set different for each upload button on the site to separate multiple upload queues. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">↩</a></p>
+<p>The parameter uid should be set different for each upload button on the site to separate multiple upload queues. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 </ol>
 </div>
@@ -505,7 +513,7 @@ hook to the FormIt Call before the email hook:</p>
 <div class="md-footer-meta__inner md-grid">
 <div class="md-copyright">
 <div class="md-copyright__highlight">
-      © 2013-2022 <a href="https://treehillstudio.com">Treehill Studio</a>
+      © 2013-2023 <a href="https://treehillstudio.com">Treehill Studio</a>
 </div>
   
   
