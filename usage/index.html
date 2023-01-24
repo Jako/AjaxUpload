@@ -289,53 +289,53 @@ snippet call in the FormIt form:</p>
 <tbody>
 <tr>
 <td>uid</td>
-<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
-<td>-</td>
+<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</td>
+<td>md5 of MODX 'site_url' setting and the current resource id</td>
 </tr>
 <tr>
 <td>language</td>
-<td>Snippet/Javascript language</td>
+<td>Snippet/Javascript language.</td>
 <td>-</td>
 </tr>
 <tr>
 <td>allowedExtensions</td>
-<td>Allowed file extensions for upload</td>
+<td>Allowed file extensions for upload.</td>
 <td>jpg,jpeg,png,gif</td>
 </tr>
 <tr>
 <td>maxFilesizeMb</td>
-<td>Maximum size for one file to upload</td>
+<td>Maximum size for one file to upload.</td>
 <td>8</td>
 </tr>
 <tr>
 <td>maxFiles</td>
-<td>Maximum count of files to upload</td>
+<td>Maximum count of files to upload.</td>
 <td>3</td>
 </tr>
 <tr>
 <td>thumbX</td>
-<td>Horizontal size of generated thumb</td>
+<td>Horizontal size of generated thumb.</td>
 <td>100</td>
 </tr>
 <tr>
 <td>thumbY</td>
-<td>Vertical size of generated thumb</td>
+<td>Vertical size of generated thumb.</td>
 <td>100</td>
 </tr>
 <tr>
 <td>addJquery</td>
-<td>Add jQuery script at the end of the body</td>
-<td>No</td>
+<td>Add jQuery script at the end of the body.</td>
+<td>0 (No)</td>
 </tr>
 <tr>
 <td>addJscript</td>
-<td>Add the snippet javascript and the fileuploader script at the end of the body</td>
-<td>Yes</td>
+<td>Add the snippet javascript and the fileuploader script at the end of the body.</td>
+<td>1 (Yes)</td>
 </tr>
 <tr>
 <td>addCss</td>
-<td>Add the snippet css ad the end of the head</td>
-<td>Yes</td>
+<td>Add the snippet css ad the end of the head.</td>
+<td>1 (Yes)</td>
 </tr>
 </tbody>
 </table>
@@ -371,12 +371,12 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 </tr>
 <tr>
 <td>ajaxuploadFieldname</td>
-<td>Formit field, the filenames/paths of the (already) uploaded files are saved in.</td>
+<td><strong>(required)</strong> Formit field, the filenames/paths of the (already) uploaded files are saved in.</td>
 <td>-</td>
 </tr>
 <tr>
 <td>ajaxuploadTarget</td>
-<td>Target path for the (already) uploaded files (relative to $modx-&gt;getOption['assetsPath']).</td>
+<td><strong>(required)</strong> Target path for the (already) uploaded files (relative to $modx-&gt;getOption['assetsPath']).</td>
 <td>-</td>
 </tr>
 <tr>
