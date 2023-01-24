@@ -152,7 +152,7 @@
         {
           "name": "AjaxUploadRequired",
           "description": "AjaxUpload Formit hook. Add an error message, when no file is uploaded.",
-          "file": "ajaxuploadattachments.hook.php",
+          "file": "ajaxuploadrequired.hook.php",
           "properties": [
             {
               "name": "ajaxuploadRequiredMessage",
