@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2022 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2013-2023 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package ajaxupload
  * @subpackage classfile

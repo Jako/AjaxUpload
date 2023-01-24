@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "Upload button for uploading multiple files with progress-bar",
   "author": "Thomas Jakobi",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "package": {
     "elements": {
       "chunks": [
@@ -107,6 +107,11 @@
               "name": "ajaxuploadClearQueue",
               "type": "combo-boolean",
               "value": "0"
+            },
+            {
+              "name": "ajaxuploadAllowOverwrite",
+              "type": "combo-boolean",
+              "value": "1"
             }
           ]
         },

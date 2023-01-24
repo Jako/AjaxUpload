@@ -32,18 +32,20 @@ snippet call in the FormIt form:
 
 The AjaxUpload snippet uses the following properties:
 
-| Property          | Description                                                                   | Default                                                    |
-|-------------------|-------------------------------------------------------------------------------|------------------------------------------------------------|
-| uid               | Unique upload queue id [^1]                                                   | md5 of MODX 'site_url' setting and the current resource id |
-| language          | Snippet/Javascript language                                                   | -                                                          |
-| allowedExtensions | Allowed file extensions for upload                                            | jpg,jpeg,png,gif                                           |
-| maxFilesizeMb     | Maximum size for one file to upload                                           | 8                                                          |
-| maxFiles          | Maximum count of files to upload                                              | 3                                                          |
-| thumbX            | Horizontal size of generated thumb                                            | 100                                                        |
-| thumbY            | Vertical size of generated thumb                                              | 100                                                        |
-| addJquery         | Add jQuery script at the end of the body                                      | 0 (No)                                                     |
-| addJscript        | Add the snippet javascript and the fileuploader script at the end of the body | 1 (Yes)                                                    |
-| addCss            | Add the snippet css at the end of the head                                    | 1 (Yes)                                                    |
+| Property          | Description                                                                    | Default                                                    |
+|-------------------|--------------------------------------------------------------------------------|------------------------------------------------------------|
+| uid               | Unique upload queue id [^1].                                                   | md5 of MODX 'site_url' setting and the current resource id |
+| language          | Snippet/Javascript language.                                                   | -                                                          |
+| allowedExtensions | Allowed file extensions for upload.                                            | jpg,jpeg,png,gif                                           |
+| maxFilesizeMb     | Maximum size for one file to upload.                                           | 8                                                          |
+| maxFiles          | Maximum count of files to upload.                                              | 3                                                          |
+| thumbX            | Horizontal size of generated thumb.                                            | 100                                                        |
+| thumbY            | Vertical size of generated thumb.                                              | 100                                                        |
+| addJquery         | Add jQuery script at the end of the body.                                      | 0 (No)                                                     |
+| addJscript        | Add the snippet javascript and the fileuploader script at the end of the body. | 1 (Yes)                                                    |
+| addCss            | Add the snippet css ad the end of the head.                                    | 1 (Yes)                                                    |
+
+[^1]: The parameter uid should be set different for each upload button on the site to separate multiple upload queues.
 
 If you want to change the text output in the upload section (i.e. the upload
 button), you have to edit the MODX lexicon in the namespace `ajaxupload`.
@@ -67,19 +69,19 @@ use the FormIt hooks in the *FormIt snippet* call:
 
 The AjaxUpload2Formit and the Formit2AjaxUpload hook use almost the same properties:
 
-| Property              | Description                                                                                                                                                                              | Default                                                  |
-|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| ajaxuploadUid         | Unique upload queue id [^1]                                                                                                                                                              | md5 of MODX site_url setting and the current resource id |
-| ajaxuploadFieldname   | (required) FormIt field, the filenames/paths of the (already) uploaded files are saved in                                                                                                | -                                                        |
-| ajaxuploadTarget      | (required) Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). The folder should exist or should be createable and it has to be writable for PHP. | -                                                        |
-| ajaxuploadFieldformat | Format of the data saved in ajaxuploadFieldname                                                                                                                                          | csv                                                      |
+| Property              | Description                                                                                               | Default |
+|-----------------------|-----------------------------------------------------------------------------------------------------------|---------|
+| ajaxuploadUid         | Unique upload queue id.                                                                                   | -       |
+| ajaxuploadFieldname   | **(required)** Formit field, the filenames/paths of the (already) uploaded files are saved in.            | -       |
+| ajaxuploadTarget      | **(required)** Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). | -       |
+| ajaxuploadFieldformat | Format of the data saved in `ajaxuploadFieldname`.                                                        | csv     |
 
 The AjaxUpload2Formit hook uses additional properties:
 
-| Property                 | Description                                              | Default |
-|--------------------------|----------------------------------------------------------|---------|
-| ajaxuploadClearQueue     | Clear the upload queue after a sucessful run of the hook | 0 (No)  |
-| ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename | 1 (Yes) |
+| Property                 | Description                                               | Default |
+|--------------------------|-----------------------------------------------------------|---------|
+| ajaxuploadClearQueue     | Clear the upload queue after a sucessful run of the hook. | 0 (No)  |
+| ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename. | 1 (Yes) |
 
 ## Attach the uploaded files to a mail
 
@@ -94,8 +96,6 @@ AjaxUploadAttachments hook to the FormIt Call before the email hook:
 ```
 
 The AjaxUploadAttachments hook uses the properties of the hooks above.
-
-[^1]: The parameter uid should be set different for each upload button on the site to separate multiple upload queues.
 
 ## Make the upload required
 
@@ -119,6 +119,7 @@ The AjaxUploadRequired hook uses additional properties:
 
 AjaxUpload uses the following system settings in the namespace `ajaxupload`:
 
-| Key                      | Description                                    | Default |
-|--------------------------|------------------------------------------------|---------|
-| ajaxupload.cache_expires | Expire Time of the AjaxUpload cache (in hours) | 4       |
+| Key                      | Name        | Description                                    | Default |
+|--------------------------|-------------|------------------------------------------------|---------|
+| ajaxupload.cache_expires | Expire Time | Expire Time of the AjaxUpload cache (in hours) | 4       |
+| ajaxupload.debug         | Debug       | Log debug information in the MODX error log.   | No      |
