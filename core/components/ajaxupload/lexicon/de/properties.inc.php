@@ -30,3 +30,5 @@ $_lang['ajaxupload.formit2ajaxupload.ajaxuploadUid'] = 'Eindeutige ID für die U
 $_lang['ajaxupload.formit2ajaxupload.csv'] = 'CSV';
 $_lang['ajaxupload.formit2ajaxupload.json'] = 'JSON';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadAllowOverwrite'] = 'Überschreiben vorhandener Dateien mit demselben Dateinamen zulassen.';
+$_lang['ajaxupload.ajaxupload.uploadSectionTpl'] = 'Name eines Chunks, der den HTML-Code für den Upload-Bereich enthält.';
+$_lang['ajaxupload.ajaxupload.scriptTpl'] = 'Name eines Chunks, der den Javascript-Code für den Upload-Bereich enthält.';
