@@ -21,7 +21,7 @@ class AjaxUploadRequiredHook extends Hook
     {
         return [
             'fieldname' => '',
-            'requiredMessage' => '',
+            'requiredMessage' => $this->modx->lexicon('ajaxupload.uploadRequired'),
         ];
     }
 
@@ -36,7 +36,7 @@ class AjaxUploadRequiredHook extends Hook
         if ($this->getProperty('fieldname')) {
             $files = $this->hook->getValue($this->getProperty('fieldname'));
             if (empty($files)) {
-                $this->hook->addError($this->getProperty('fieldname'), $this->getProperty('requiredMessage', $this->modx->lexicon('ajaxupload.uploadRequired')));
+                $this->hook->addError($this->getProperty('fieldname'), $this->getProperty('requiredMessage'));
             }
         }
         return !$this->hook->hasErrors();
