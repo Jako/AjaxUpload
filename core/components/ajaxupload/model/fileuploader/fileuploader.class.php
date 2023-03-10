@@ -155,7 +155,6 @@ class qqFileUploader {
      * @param array $messages
      * @return array array('success'=>true) or array('error'=>'error message')
      * @throws Exception
-     * @throws Exception
      */
 	function handleUpload($uploadDirectory, $replaceOldFile = false, $messages = array()) {
 		if (!is_writable($uploadDirectory)) {

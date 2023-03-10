@@ -34,7 +34,11 @@ class AjaxUploadUploadProcessor extends Processor
             if ($delete !== false) {
                 $result = $this->deleteUploads($uid, $delete);
             } else {
-                $result = $this->createUploads($uid);
+                try {
+                    $result = $this->createUploads($uid);
+                } catch (Exception $e) {
+                    $result = ['error' => $e->getMessage()];
+                }
             }
             $output = htmlspecialchars(json_encode($result), ENT_NOQUOTES);
         }
@@ -78,6 +82,7 @@ class AjaxUploadUploadProcessor extends Processor
     /**
      * @param $uid
      * @return array|bool[]
+     * @throws Exception
      */
     private function createUploads($uid)
     {

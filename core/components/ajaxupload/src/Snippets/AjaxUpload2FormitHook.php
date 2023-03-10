@@ -54,9 +54,9 @@ class AjaxUpload2FormitHook extends Hook
             return false;
         }
 
-        $errors = $this->ajaxupload->saveUploads($this->getProperty('target'), $this->getProperty('clearQueue'));
-        if ($errors) {
-            $this->hook->addError($this->getProperty('uid'), $errors);
+        $error = $this->ajaxupload->saveUploads($this->getProperty('target'), $this->getProperty('clearQueue'), $this->getProperty('allowOverwrite'));
+        if ($error) {
+            $this->hook->addError($this->getProperty('uid'), $error);
             return false;
         }
 

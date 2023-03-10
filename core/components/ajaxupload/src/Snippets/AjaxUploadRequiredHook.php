@@ -8,8 +8,6 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
-use xPDO;
-
 class AjaxUploadRequiredHook extends Hook
 {
     /**

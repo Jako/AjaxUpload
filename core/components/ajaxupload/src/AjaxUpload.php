@@ -41,7 +41,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.6.4';
+    public $version = '1.6.5';
 
     /**
      * The class options
@@ -104,14 +104,14 @@ class AjaxUpload
         // Add default options
         $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
         $this->options = array_merge($this->options, [
-            'debug' => (bool)$this->getOption('debug', $options, false),
+            'debug' => $this->getBooleanOption('debug', $options, false),
             'modxversion' => $modxversion['version'],
+            'cacheExpires' => intval($this->getOption('cache_expires', $options, 4)),
             'uid' => $this->getOption('uid', $options, md5($this->modx->getOption('site_url') . '-' . $resourceId)),
-            'uploadAction' => $assetsUrl . 'connector.php',
+            'imageTpl' => $this->getOption('image_tpl', $options, 'tplAjaxUploadImage'),
+            'uploadAction' => $this->getOption('connectorUrl'),
             'newFilePermissions' => '0664',
             'maxConnections' => 1,
-            'cacheExpires' => intval($this->getOption('cacheExpires', $options, 4)),
-            'allowOverwrite' => (bool)$this->getOption('allowOverwrite', $options, false),
             'language' => $this->modx->getOption('language', $options, $this->modx->cultureKey, true)
         ]);
         $this->debug = [];
@@ -147,6 +147,20 @@ class AjaxUpload
             }
         }
         return $option;
+    }
+
+    /**
+     * Get Boolean Option
+     *
+     * @param string $key
+     * @param array $options
+     * @param mixed $default
+     * @return bool
+     */
+    public function getBooleanOption($key, $options = [], $default = null)
+    {
+        $option = $this->getOption($key, $options, $default);
+        return ($option === 'true' || $option === true || $option === '1' || $option === 1);
     }
 
     /**
@@ -192,6 +206,8 @@ class AjaxUpload
             $allowedExtensions = $this->modx->getOption('allowedExtensions', $properties, 'jpg,jpeg,png,gif');
             $allowedExtensions = (!is_array($allowedExtensions)) ? explode(',', $allowedExtensions) : $allowedExtensions;
             $options = [
+                'debug' => (bool)$this->getOption('debug', $properties, false),
+                'cacheExpires' => intval($this->getOption('cacheExpires', $properties, 4)),
                 'allowedExtensions' => $allowedExtensions,
                 'allowedExtensionsString' => (!empty($allowedExtensions)) ? "['" . implode("','", $allowedExtensions) . "']" : '',
                 'sizeLimit' => $this->modx->getOption('sizeLimit', $properties, $this->modx->getOption('maxFilesizeMb', $properties, 8) * 1024 * 1024),
@@ -201,7 +217,6 @@ class AjaxUpload
                 'addJquery' => (bool)$this->modx->getOption('addJquery', $properties, false),
                 'addJscript' => $this->modx->getOption('addJscript', $properties, true),
                 'addCss' => $this->modx->getOption('addCss', $properties, true),
-                'debug' => (bool)$this->getOption('debug', $properties, false)
             ];
             $this->options = array_merge($this->options, $options);
             $this->session[$this->getOption('uid') . 'config'] = $this->options;
@@ -210,7 +225,6 @@ class AjaxUpload
             if (!@mkdir($this->getOption('cachePath'), 0755)) {
                 $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not create the cache path.', '', 'AjaxUpload');
             }
-
         }
         $this->clearCache($this->getOption('cacheExpires'));
         return true;
@@ -223,7 +237,7 @@ class AjaxUpload
      * @param array $files An array of already uploaded files.
      * @return string html file list to prefill the template
      */
-    private function loadFiles(&$files = [])
+    public function loadFiles(&$files = [])
     {
         $itemList = [];
 
@@ -236,7 +250,7 @@ class AjaxUpload
                     'style' => 'width: ' . $this->getOption('thumbX') . 'px; height: ' . $this->getOption('thumbY') . 'px;'
                 ];
                 $files[$id]['thumbName'] = $this->generateThumbnail($fileInfo);
-                $itemList[] = $this->modx->getChunk('tplAjaxUploadImage', $properties);
+                $itemList[] = $this->modx->getChunk($this->getOption('imageTpl'), $properties);
             } else {
                 unset($files[$id]);
             }
@@ -397,22 +411,23 @@ class AjaxUpload
      * @access public
      * @param string $target Target path (relative to $modx->getOption['assets_path'])
      * @param bool $clearQueue
+     * @param bool $allowOverwrite
      * @return boolean|string
      */
-    public function saveUploads($target, $clearQueue = false)
+    public function saveUploads($target, $clearQueue = false, $allowOverwrite = true)
     {
-        $errors = false;
+        $error = false;
         $target = rtrim($target, '/') . '/';
         if (!file_exists(MODX_ASSETS_PATH . $target)) {
             $cacheManager = $this->modx->getCacheManager();
             if (!$cacheManager->writeTree(MODX_ASSETS_PATH . $target)) {
-                $errors = $this->modx->lexicon('ajaxupload.targetNotCreatable');
-                $this->modx->log(xPDO::LOG_LEVEL_ERROR, $errors, '', 'AjaxUpload');
+                $error = $this->modx->lexicon('ajaxupload.targetNotCreatable');
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, $error, '', 'AjaxUpload');
             }
         }
         foreach ($this->session[$this->getOption('uid')] as $fileId => &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-                if (!$this->getOption('allowOverwrite')) {
+                if (!$allowOverwrite) {
                     $pathinfo = pathinfo($fileInfo['originalName']);
                     $i = 0;
                     while (file_exists(MODX_ASSETS_PATH . $target . $pathinfo['filename'] . (empty($i) ? '' : ('_' . $i)) . '.' . $pathinfo['extension'])) {
@@ -421,8 +436,8 @@ class AjaxUpload
                     $fileInfo['originalName'] = $pathinfo['filename'] . (empty($i) ? '' : ('_' . $i)) . '.' . $pathinfo['extension'];
                 }
                 if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], MODX_ASSETS_PATH . $target . $fileInfo['originalName'])) {
-                    $errors = $this->modx->lexicon('ajaxupload.targetNotWritable');
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, $errors, '', 'AjaxUpload');
+                    $error = $this->modx->lexicon('ajaxupload.targetNotWritable');
+                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, $error, '', 'AjaxUpload');
                 } else {
                     $fileInfo['originalPath'] = MODX_ASSETS_PATH . $target;
                     $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
@@ -434,7 +449,7 @@ class AjaxUpload
                 }
             }
         }
-        return $errors;
+        return $error;
     }
 
     /**
@@ -468,7 +483,7 @@ class AjaxUpload
         }
         switch ($format) {
             case 'json' :
-                $output = json_encode($output);
+                $output = json_encode($output, JSON_UNESCAPED_SLASHES);
                 break;
             case 'csv':
             default :
@@ -481,7 +496,6 @@ class AjaxUpload
      * Clear the current uploads.
      *
      * @access public
-     * @param void
      * @return void
      */
     public function clearValue()
@@ -509,63 +523,5 @@ class AjaxUpload
             }
         }
         closedir($cache);
-    }
-
-    /**
-     * Output the form inputs.
-     *
-     * @access public
-     * @return string The output
-     */
-    public function output()
-    {
-        $assetsUrl = $this->getOption('assetsUrl');
-        $jsUrl = $this->getOption('jsUrl') . 'web/';
-        $jsSourceUrl = $assetsUrl . '../../../source/js/web/';
-        $cssUrl = $this->getOption('cssUrl') . 'web/';
-        $cssSourceUrl = $assetsUrl . '../../../source/css/web/';
-
-        if ($this->getOption('addJquery')) {
-            $this->modx->regClientScript('//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js');
-        }
-        if ($this->getOption('addCss')) {
-            if ($this->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/' . $this->namespace . '/')) {
-                $this->modx->regClientCSS($cssSourceUrl . 'ajaxupload.css?v=' . $this->version);
-            } else {
-                $this->modx->regClientCSS($cssUrl . 'ajaxupload.min.css?v=' . $this->version);
-            }
-        }
-        if ($this->getOption('addJscript')) {
-            if ($this->getOption('debug') && ($assetsUrl != MODX_ASSETS_URL . 'components/' . $this->namespace . '/')) {
-                $this->modx->regClientScript($jsSourceUrl . 'fileuploader.js?v=' . $this->version);
-                $this->modx->regClientScript($jsSourceUrl . 'ajaxupload.js?v=' . $this->version);
-            } else {
-                $this->modx->regClientScript($jsUrl . 'ajaxupload.min.js?v=' . $this->version);
-            }
-        }
-        $properties = $this->options;
-        $this->modx->regClientScript($this->modx->getChunk('tplAjaxuploadScript', $properties), true);
-
-        // preload files from $_SESSION
-        $itemList = '';
-        if (is_array($this->session[$this->getOption('uid')])) {
-            $itemList = $this->loadFiles($this->session[$this->getOption('uid')]);
-        }
-        $properties['items'] = $itemList;
-        return $this->modx->getChunk('tplAjaxuploadUploadSection', $properties);
-    }
-
-    /**
-     * Output debug information.
-     *
-     * @access public
-     * @return string The debug output
-     */
-    public function debugOutput()
-    {
-        if ($this->getOption('debug')) {
-            $this->debug[] = '$_SESSION["ajaxupload"]:<pre>' . print_r($this->session[$this->getOption('uid')], true) . '</pre>';
-        }
-        return implode('<br/>', $this->debug);
     }
 }

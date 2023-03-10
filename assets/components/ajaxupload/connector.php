@@ -21,6 +21,7 @@ $ajaxupload = $modx->getService('ajaxupload', 'AjaxUpload', $corePath . 'model/a
     'core_path' => $corePath
 ]);
 
+// Restrict action to web processors
 $_REQUEST['action'] = 'web/' . $_REQUEST['action'];
 
 // Set HTTP_MODAUTH for web processors
