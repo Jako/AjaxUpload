@@ -254,22 +254,21 @@
 </a>
 <h1>Usage</h1>
 <h2 id="how-it-works">How it works</h2>
-<p>Ajaxupload generates an upload button for uploading multiple files with progress
-counter in FormIt forms. Works well in FF3.6+, Safari4+, Chrome and falls back to
-hidden iframe based upload in other browsers, providing good user experience
-everywhere.</p>
-<p>All uploaded files and generated thumbnails are given random filenames to avoid
-hotlinking uploaded not published files. Automatic thumbnail generation for
-uploaded jpeg, png and gif files. Other uploaded files will get a generic icon
-the file extension.</p>
-<p>The package contains FormIt hooks for prefilling the upload queue from a FormIt
-field value and to save the upload queue into a FormIt field value after a form
-submission. A third FormIt hook could attach the uploaded files to the FormIt
-mails.</p>
+<p>Ajaxupload creates an upload button for uploading multiple files with progress
+counter in FormIt forms. Works well in FF3.6+, Safari4+, Chrome and falls back
+to a hidden iframe-based upload in other browsers, providing a good user
+experience everywhere.</p>
+<p>All uploaded files and generated thumbnails are given random file names to avoid
+hotlinking of uploaded unpublished files. Automatic thumbnail generation for
+uploaded jpg, png and gif files. Other uploaded files get a generic file
+extension icon.</p>
+<p>The package includes FormIt hooks for pre-filling the upload queue from a FormIt
+field and saving the upload queue to a FormIt field after a form submission. A
+third FormIt hook can append the uploaded files to the FormIt mails.</p>
 <h2 id="display-the-upload-button">Display the Upload Button</h2>
-<p>To display the upload button, you have to insert the <em>AjaxUpload snippet</em> call
-somewhere in a Resource. If you want to use it with FormIt, you should place the
-snippet call in the FormIt form:</p>
+<p>To display the upload button, you need to place the <em>AjaxUpload snippet</em> call
+somewhere in a Resource. If you want to use it with FormIt, you need to place
+the snippet call in the FormIt form:</p>
 <div class="highlight"><pre><span></span><code>[[!AjaxUpload?
 &amp;uid=`image`
 &amp;allowedExtensions=`jpg,jpeg,png,gif`
@@ -288,39 +287,9 @@ snippet call in the FormIt form:</p>
 </thead>
 <tbody>
 <tr>
-<td>uid</td>
-<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</td>
-<td>md5 of MODX 'site_url' setting and the current resource id</td>
-</tr>
-<tr>
-<td>language</td>
-<td>Snippet/Javascript language.</td>
-<td>-</td>
-</tr>
-<tr>
-<td>allowedExtensions</td>
-<td>Allowed file extensions for upload.</td>
-<td>jpg,jpeg,png,gif</td>
-</tr>
-<tr>
-<td>maxFilesizeMb</td>
-<td>Maximum size for one file to upload.</td>
-<td>8</td>
-</tr>
-<tr>
-<td>maxFiles</td>
-<td>Maximum count of files to upload.</td>
-<td>3</td>
-</tr>
-<tr>
-<td>thumbX</td>
-<td>Horizontal size of generated thumb.</td>
-<td>100</td>
-</tr>
-<tr>
-<td>thumbY</td>
-<td>Vertical size of generated thumb.</td>
-<td>100</td>
+<td>addCss</td>
+<td>Add the snippet css ad the end of the head.</td>
+<td>1 (Yes)</td>
 </tr>
 <tr>
 <td>addJquery</td>
@@ -333,9 +302,44 @@ snippet call in the FormIt form:</p>
 <td>1 (Yes)</td>
 </tr>
 <tr>
-<td>addCss</td>
-<td>Add the snippet css ad the end of the head.</td>
-<td>1 (Yes)</td>
+<td>allowedExtensions</td>
+<td>Allowed file extensions for upload.</td>
+<td>jpg,jpeg,png,gif</td>
+</tr>
+<tr>
+<td>language</td>
+<td>Snippet/Javascript language.</td>
+<td>-</td>
+</tr>
+<tr>
+<td>maxFiles</td>
+<td>Maximum count of files to upload.</td>
+<td>3</td>
+</tr>
+<tr>
+<td>maxFilesizeMb</td>
+<td>Maximum size for one file to upload.</td>
+<td>8</td>
+</tr>
+<tr>
+<td>thumbX</td>
+<td>Horizontal size of generated thumb.</td>
+<td>100</td>
+</tr>
+<tr>
+<td>thumbY</td>
+<td>Vertical size of generated thumb.</td>
+<td>100</td>
+</tr>
+<tr>
+<td>uid</td>
+<td>Unique upload queue id <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</td>
+<td>md5 of MODX 'site_url' setting and the current resource id</td>
+</tr>
+<tr>
+<td>uploadSectionTpl</td>
+<td>Name of a chunk that contains the HTML code for the upload section.</td>
+<td>tplAjaxuploadUploadSection</td>
 </tr>
 </tbody>
 </table>
@@ -365,9 +369,9 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 </thead>
 <tbody>
 <tr>
-<td>ajaxuploadUid</td>
-<td>Unique upload queue id.</td>
-<td>-</td>
+<td>ajaxuploadFieldformat</td>
+<td>Format of the data saved in <code>ajaxuploadFieldname</code>.</td>
+<td>csv</td>
 </tr>
 <tr>
 <td>ajaxuploadFieldname</td>
@@ -380,12 +384,14 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <td>-</td>
 </tr>
 <tr>
-<td>ajaxuploadFieldformat</td>
-<td>Format of the data saved in <code>ajaxuploadFieldname</code>.</td>
-<td>csv</td>
+<td>ajaxuploadUid</td>
+<td>Unique upload queue id.</td>
+<td>-</td>
 </tr>
 </tbody>
 </table>
+<p>The folder in <code>ajaxuploadTarget</code> has to exist and it has to be writable for PHP
+or it must be createable.</p>
 <p>The AjaxUpload2Formit hook uses additional properties:</p>
 <table>
 <thead>
@@ -397,14 +403,14 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 </thead>
 <tbody>
 <tr>
-<td>ajaxuploadClearQueue</td>
-<td>Clear the upload queue after a sucessful run of the hook.</td>
-<td>0 (No)</td>
-</tr>
-<tr>
 <td>ajaxuploadAllowOverwrite</td>
 <td>Allow overwrite of existing files with the same filename.</td>
 <td>1 (Yes)</td>
+</tr>
+<tr>
+<td>ajaxuploadClearQueue</td>
+<td>Clear the upload queue after a sucessful run of the hook.</td>
+<td>0 (No)</td>
 </tr>
 </tbody>
 </table>
@@ -466,13 +472,19 @@ hook to the FormIt Call before the email hook:</p>
 <td>Log debug information in the MODX error log.</td>
 <td>No</td>
 </tr>
+<tr>
+<td>ajaxupload.image_tpl</td>
+<td>Image Template</td>
+<td>Name of a chunk that contains the HTML code for displaying the uploaded image.</td>
+<td>tplAjaxUploadImage</td>
+</tr>
 </tbody>
 </table>
 <div class="footnote">
 <hr/>
 <ol>
 <li id="fn:1">
-<p>The parameter uid should be set different for each upload button on the site to separate multiple upload queues. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
+<p>The parameter uid has to be set different for each upload button on the site to separate multiple upload queues. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 </ol>
 </div>
