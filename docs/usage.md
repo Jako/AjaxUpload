@@ -100,6 +100,17 @@ AjaxUploadAttachments hook to the FormIt Call before the email hook:
 
 The AjaxUploadAttachments hook uses the properties of the hooks above.
 
+## Remove the uploaded files
+
+If you want to remove the uploaded files i.e. after the mail is sent, you have to add the AjaxUploadRemove hook after the email hook:
+
+```
+[[!FormIt?
+...
+&hooks=`AjaxUpload2Formit,AjaxUploadAttachments,email,AjaxUploadRemove`
+]]
+```
+
 ## Make the upload required
 
 If you want to make the upload required, you have to add the AjaxUploadRequired

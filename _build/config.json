@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "Upload button for uploading multiple files with progress-bar",
   "author": "Thomas Jakobi",
-  "version": "1.6.5",
+  "version": "1.6.6-rc1",
   "package": {
     "elements": {
       "chunks": [
@@ -163,6 +163,11 @@
           "file": "ajaxuploadattachments.hook.php"
         },
         {
+          "name": "AjaxUploadRemoveHook",
+          "description": "AjaxUpload Formit hook. Remove the uploaded files after sending the mail.",
+          "file": "ajaxuploadremove.hook.php"
+        },
+        {
           "name": "AjaxUploadRequired",
           "description": "AjaxUpload Formit hook. Add an error message, when no file is uploaded.",
           "file": "ajaxuploadrequired.hook.php",
@@ -184,13 +189,11 @@
       },
       {
         "key": "cache_expires",
-        "type": "textfield",
         "area": "site",
         "value": "4"
       },
       {
         "key": "image_tpl",
-        "type": "textfield",
         "area": "site",
         "value": "tplAjaxUploadImage"
       }
