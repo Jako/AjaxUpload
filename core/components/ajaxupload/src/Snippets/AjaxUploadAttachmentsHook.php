@@ -21,6 +21,7 @@ class AjaxUploadAttachmentsHook extends Hook
     {
         return [
             'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
+            'removeUpload::bool' => false,
             'fieldname' => '',
         ];
     }
@@ -51,6 +52,9 @@ class AjaxUploadAttachmentsHook extends Hook
                 $attachment = substr($attachment, $assetsUrlLength);
                 if (file_exists($assetsPath . $attachment) && is_file($assetsPath . $attachment)) {
                     $this->hook->modx->mail->mailer->AddAttachment($assetsPath . $attachment);
+                    if ($this->getProperty('removeUpload')) {
+                        unlink($assetsPath . $attachment);
+                    }
                 } elseif ($this->getProperty('debug')) {
                     if (!is_file($assetsPath . $attachment)) {
                         $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'The attached file ' . $assetsPath . $attachment . ' is not a file!', '', 'AjaxUploadAttachments');
