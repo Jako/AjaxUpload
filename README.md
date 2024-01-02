@@ -1,4 +1,4 @@
-[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/-/modx-ajaxupload-standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-standard/)
+[![Default Lexicon](https://hosted.weblate.org/widgets/modx-extras/ajaxupload/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/ajaxupload/)
 
 # AjaxUpload
 
@@ -40,4 +40,4 @@ The project is licensed under the [GPLv2 license](https://github.com/Jako/AjaxUp
 
 ## Translations
 
-Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-standard/), the [Properties Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-properties/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/modx-ajaxupload-system-settings/)
+Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/ajaxupload/standard/), the [Properties Lexicon](https://hosted.weblate.org/projects/modx-extras/ajaxupload/properties/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/ajaxupload/system-settings/)
