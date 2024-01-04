@@ -17,3 +17,11 @@ FormIt mails.
 * Uploaded files and generated thumbnails gets random filenames to avoid hotlinking uploaded not published files.
 * Automatic thumbnail generation for uploaded jpeg, png and gif files.
 * FormIt hooks to prefill the upload queue, read the upload queue after form submission and attach the uploaded files to FormIt mails.
+
+### License
+
+The project is licensed under the [GPLv2 license](https://github.com/Jako/AjaxUpload/LICENSE.md).
+
+### Translations [![Default Lexicon](https://hosted.weblate.org/widget/modx-extras/ajaxupload/standard/svg-badge.svg)](https://hosted.weblate.org/projects/modx-extras/ajaxupload/)
+
+Translations of the package can be made for the [Default Lexicon](https://hosted.weblate.org/projects/modx-extras/ajaxupload/standard/), the [Properties Lexicon](https://hosted.weblate.org/projects/modx-extras/ajaxupload/properties/) and the [System Setting Lexicon](https://hosted.weblate.org/projects/modx-extras/ajaxupload/system-settings/)
