@@ -74,7 +74,7 @@ const sassWeb = function () {
 gulp.task('sass', gulp.series(sassWeb));
 
 const imagesWeb = function () {
-    return gulp.src('./source/images/**/*.+(png|jpg|gif|svg)')
+    return gulp.src('./source/images/**/*.+(png|jpg|gif|svg)', {encoding: false})
         .pipe(gulp.dest('assets/components/ajaxupload/images/'));
 };
 gulp.task('images', gulp.series(imagesWeb));
