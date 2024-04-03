@@ -26,5 +26,5 @@ $_lang['ajaxupload.targetNotWritable'] = 'Could not copy the uploaded file to th
 $_lang['ajaxupload.thumbnailGenerationProblem'] = 'Thumbnail generation failed.';
 $_lang['ajaxupload.typeError'] = 'Unfortunately the file(s) you selected weren’t the type we were expecting. Only {extensions} files are allowed.';
 $_lang['ajaxupload.uploadButton'] = 'Upload';
-$_lang['ajaxupload.uploadRequired'] = 'Вы должны загрузить хотя бы один файл!';
+$_lang['ajaxupload.uploadRequired'] = 'You have to upload at least one file!';
 $_lang['ajaxupload.wrongExtension'] = 'File has an invalid extension, it should be one of [[+allowedExtensions]].';
