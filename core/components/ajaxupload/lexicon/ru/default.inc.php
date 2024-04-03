@@ -26,5 +26,5 @@ $_lang['ajaxupload.targetNotWritable'] = 'Не удалось скопирова
 $_lang['ajaxupload.thumbnailGenerationProblem'] = 'Эскиз не создан.';
 $_lang['ajaxupload.typeError'] = 'К сожалению файл(ы) этого типа загрузить нельзя. Только файлы {extensions}.';
 $_lang['ajaxupload.uploadButton'] = 'Прикрепить файл';
-$_lang['ajaxupload.uploadRequired'] = 'You have to upload at least one file!';
+$_lang['ajaxupload.uploadRequired'] = 'Вы должны загрузить хотя бы один файл!';
 $_lang['ajaxupload.wrongExtension'] = 'У файла неверное расширение, он может быть только [[+allowedExtensions]].';
