@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage lexicon
  */
-$_lang['ajaxupload.ajaxupload.addCss'] = 'Snippet CSS am Ende des Head-Bereichs einfügen.';
+$_lang['ajaxupload.ajaxupload.addCss'] = 'CSS am Ende des Head-Bereichs einfügen.';
 $_lang['ajaxupload.ajaxupload.addJquery'] = 'jQuery Javascript am Ende des Body-Bereichs einfügen.';
 $_lang['ajaxupload.ajaxupload.addJscript'] = 'Snippet Javascript und das Fileuploader Script am Ende des Body-Bereichs einfügen.';
 $_lang['ajaxupload.ajaxupload.allowedExtensions'] = 'Erlaubte Erweiterungen für den Upload.';
