@@ -120,6 +120,11 @@
               "name": "ajaxuploadAllowOverwrite",
               "type": "combo-boolean",
               "value": "1"
+            },
+            {
+              "name": "ajaxuploadSanitizeFilename",
+              "type": "combo-boolean",
+              "value": "0"
             }
           ]
         },

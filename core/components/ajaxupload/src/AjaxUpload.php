@@ -412,9 +412,10 @@ class AjaxUpload
      * @param string $target Target path (relative to $modx->getOption['assets_path'])
      * @param bool $clearQueue
      * @param bool $allowOverwrite
+     * @param bool $sanitizeFilename
      * @return boolean|string
      */
-    public function saveUploads($target, $clearQueue = false, $allowOverwrite = true)
+    public function saveUploads($target, $clearQueue = false, $allowOverwrite = true, $sanitizeFilename = false)
     {
         $error = false;
         $target = rtrim($target, '/') . '/';
@@ -427,6 +428,23 @@ class AjaxUpload
         }
         foreach ($this->session[$this->getOption('uid')] as $fileId => &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
+                if ($sanitizeFilename) {
+                    $pathinfo = pathinfo($fileInfo['originalName']);
+                    $fileName = $pathinfo['filename'];
+
+                    // Replace all spaces and special characters with -
+                    $fileName = strip_tags($fileName); // strip HTML
+                    $fileName = strtolower($fileName); // convert to lowercase
+                    $fileName = preg_replace('/[^A-Za-z0-9 _-]/', '', $fileName); // strip non-alphanumeric characters
+                    $fileName = preg_replace('/\s+/', '-', $fileName); // convert white-space to dash
+                    $fileName = preg_replace('/-+/', '-', $fileName); // convert multiple dashes to one
+                    $fileName = str_replace(',', '-', $fileName); // replace comma
+                    $fileName = str_replace('.', '-', $fileName); // replace period
+                    $fileName = trim($fileName, '-'); // trim edges
+
+                    // Reunite with file extension
+                    $fileInfo['originalName'] = $fileName . '.' . $pathinfo['extension'];
+                }
                 if (!$allowOverwrite) {
                     $pathinfo = pathinfo($fileInfo['originalName']);
                     $i = 0;
