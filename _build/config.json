@@ -163,7 +163,7 @@
           "file": "ajaxuploadattachments.hook.php"
         },
         {
-          "name": "AjaxUploadRemoveHook",
+          "name": "AjaxUploadRemove",
           "description": "AjaxUpload Formit hook. Remove the uploaded files after sending the mail.",
           "file": "ajaxuploadremove.hook.php"
         },
