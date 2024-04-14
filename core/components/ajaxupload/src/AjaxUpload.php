@@ -434,9 +434,6 @@ class AjaxUpload
                     // Replace all spaces and special characters with -
                     $fileName = $this->modx->filterPathSegment($pathinfo['filename']);
                     $fileName = preg_replace('/[^A-Za-z0-9 _-]/', '', $fileName); // strip non-alphanumeric characters
-                    $fileName = str_replace(',', '-', $fileName); // replace comma
-                    $fileName = str_replace('.', '-', $fileName); // replace period
-                    $fileName = trim($fileName, '-'); // trim edges
 
                     // Reunite with file extension
                     $fileInfo['originalName'] = $fileName . '.' . $pathinfo['extension'];
