@@ -430,14 +430,10 @@ class AjaxUpload
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
                 if ($sanitizeFilename) {
                     $pathinfo = pathinfo($fileInfo['originalName']);
-                    $fileName = $pathinfo['filename'];
 
                     // Replace all spaces and special characters with -
-                    $fileName = strip_tags($fileName); // strip HTML
-                    $fileName = strtolower($fileName); // convert to lowercase
+                    $fileName = $this->modx->filterPathSegment($pathinfo['filename']);
                     $fileName = preg_replace('/[^A-Za-z0-9 _-]/', '', $fileName); // strip non-alphanumeric characters
-                    $fileName = preg_replace('/\s+/', '-', $fileName); // convert white-space to dash
-                    $fileName = preg_replace('/-+/', '-', $fileName); // convert multiple dashes to one
                     $fileName = str_replace(',', '-', $fileName); // replace comma
                     $fileName = str_replace('.', '-', $fileName); // replace period
                     $fileName = trim($fileName, '-'); // trim edges
