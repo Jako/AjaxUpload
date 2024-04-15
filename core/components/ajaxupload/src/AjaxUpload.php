@@ -431,9 +431,9 @@ class AjaxUpload
                 if ($sanitizeFilename) {
                     $pathinfo = pathinfo($fileInfo['originalName']);
 
-                    // Replace all spaces and special characters with -
-                    $fileName = $this->modx->filterPathSegment($pathinfo['filename']);
-                    $fileName = preg_replace('/[^A-Za-z0-9 _-]/', '', $fileName); // strip non-alphanumeric characters
+                    // Replace all spaces and punctuation characters with -
+                    $fileName = str_replace(['/',"'",'"','(',')',';','>','<',',','.','?','!'], '-', $pathinfo['filename']);
+                    $fileName = $this->modx->filterPathSegment($fileName);
 
                     // Reunite with file extension
                     $fileInfo['originalName'] = $fileName . '.' . $pathinfo['extension'];
