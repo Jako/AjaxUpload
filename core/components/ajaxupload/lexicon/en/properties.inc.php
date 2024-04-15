@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage lexicon
  */
-$_lang['ajaxupload.ajaxupload.addCss'] = 'Add the snippet css ad the end of the head.';
+$_lang['ajaxupload.ajaxupload.addCss'] = 'Add the CSS at the end of the head.';
 $_lang['ajaxupload.ajaxupload.addJquery'] = 'Add jQuery script at the end of the body.';
 $_lang['ajaxupload.ajaxupload.addJscript'] = 'Add the snippet javascript and the fileuploader script at the end of the body.';
 $_lang['ajaxupload.ajaxupload.allowedExtensions'] = 'Allowed file extensions for upload.';
@@ -18,7 +18,7 @@ $_lang['ajaxupload.ajaxupload.thumbY'] = 'Vertical size of generated thumb.';
 $_lang['ajaxupload.ajaxupload.uid'] = 'Unique upload queue id.';
 $_lang['ajaxupload.ajaxupload.uploadSectionTpl'] = 'Name of a chunk that contains the HTML code for the upload section.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadAllowOverwrite'] = 'Allow overwrite of existing files with the same filename.';
-$_lang['ajaxupload.ajaxupload2formit.ajaxuploadClearQueue'] = 'Clear the upload queue after a sucessful run of the hook.';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadClearQueue'] = 'Clear the upload queue after a successful run of the hook.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'] = 'Format of the data saved in `ajaxuploadFieldname`.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'] = 'Formit field, the filenames/paths of the (already) uploaded files are saved in.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'] = 'Target path for the (already) uploaded files (relative to $modx->getOption[\'assetsPath\']). The folder should exist or should be createable and it has to be writable for PHP.';
