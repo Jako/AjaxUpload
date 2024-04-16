@@ -32,3 +32,4 @@ $_lang['ajaxupload.formit2ajaxupload.ajaxuploadTarget'] = 'Doel locatie voor ree
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadUid'] = 'Uniek ID voor upload wachtrij.';
 $_lang['ajaxupload.formit2ajaxupload.csv'] = 'CSV';
 $_lang['ajaxupload.formit2ajaxupload.json'] = 'JSON';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadSanitizeFilename'] = 'De bestandsnaam van het geüploade bestand zuiveren.';
