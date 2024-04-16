@@ -201,6 +201,16 @@
         "key": "image_tpl",
         "area": "site",
         "value": "tplAjaxUploadImage"
+      },
+      {
+        "key": "filename_restrict_chars",
+        "area": "file",
+        "value": "pattern"
+      },
+      {
+        "key": "filename_restrict_chars_pattern",
+        "area": "file",
+        "value": "/[\\0\\x0B\\t\\n\\r\\f\\a,.?!;:()&=+%#<>\"~`@\\?\\[\\]\\{\\}\\|\\^\\'\\\\\\\\]/"
       }
     ]
   },
