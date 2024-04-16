@@ -120,6 +120,11 @@
               "name": "ajaxuploadAllowOverwrite",
               "type": "combo-boolean",
               "value": "1"
+            },
+            {
+              "name": "ajaxuploadSanitizeFilename",
+              "type": "combo-boolean",
+              "value": "0"
             }
           ]
         },
@@ -196,6 +201,21 @@
         "key": "image_tpl",
         "area": "site",
         "value": "tplAjaxUploadImage"
+      },
+      {
+        "key": "filename_translit",
+        "area": "file",
+        "value": "iconv_ascii"
+      },
+      {
+        "key": "filename_restrict_chars",
+        "area": "file",
+        "value": "pattern"
+      },
+      {
+        "key": "filename_restrict_chars_pattern",
+        "area": "file",
+        "value": "/[\\0\\x0B\\t\\n\\r\\f\\a,.?!;:()&=+%#<>\"~`@\\?\\[\\]\\{\\}\\|\\^\\'\\\\\\\\]/"
       }
     ]
   },

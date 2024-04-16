@@ -112,6 +112,9 @@ class AjaxUpload
             'uploadAction' => $this->getOption('connectorUrl'),
             'newFilePermissions' => '0664',
             'maxConnections' => 1,
+            'filenameTranslit' => $this->getOption('filename_translit', $options, 'iconv_ascii'),
+            'filenameRestrictChars' => $this->getOption('filename_restrict_chars', $options, 'pattern'),
+            'filenameRestrictCharsPattern' => $this->getOption('filename_restrict_chars_pattern', $options, "/[\\0\\x0B\\t\\n\\r\\f\\a,.?!;:()&=+%#<>\"~`@\\?\\[\\]\\{\\}\\|\\^\\'\\\\\\\\]/"),
             'language' => $this->modx->getOption('language', $options, $this->modx->cultureKey, true)
         ]);
         $this->debug = [];
@@ -412,9 +415,10 @@ class AjaxUpload
      * @param string $target Target path (relative to $modx->getOption['assets_path'])
      * @param bool $clearQueue
      * @param bool $allowOverwrite
+     * @param bool $sanitizeFilename
      * @return boolean|string
      */
-    public function saveUploads($target, $clearQueue = false, $allowOverwrite = true)
+    public function saveUploads($target, $clearQueue = false, $allowOverwrite = true, $sanitizeFilename = false)
     {
         $error = false;
         $target = rtrim($target, '/') . '/';
@@ -427,6 +431,15 @@ class AjaxUpload
         }
         foreach ($this->session[$this->getOption('uid')] as $fileId => &$fileInfo) {
             if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
+                if ($sanitizeFilename) {
+                    $pathinfo = pathinfo($fileInfo['originalName']);
+                    $fileName = $this->modx->filterPathSegment($pathinfo['filename'], [
+                        'friendly_alias_translit' => $this->getOption('filenameTranslit'),
+                        'friendly_alias_restrict_chars' => $this->getOption('filenameRestrictChars'),
+                        'friendly_alias_restrict_chars_pattern' => $this->getOption('filenameRestrictCharsPattern'),
+                    ]);
+                    $fileInfo['originalName'] = $fileName . '.' . $pathinfo['extension'];
+                }
                 if (!$allowOverwrite) {
                     $pathinfo = pathinfo($fileInfo['originalName']);
                     $i = 0;
