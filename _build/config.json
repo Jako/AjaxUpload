@@ -203,6 +203,11 @@
         "value": "tplAjaxUploadImage"
       },
       {
+        "key": "filename_translit",
+        "area": "file",
+        "value": "iconv_ascii"
+      },
+      {
         "key": "filename_restrict_chars",
         "area": "file",
         "value": "pattern"

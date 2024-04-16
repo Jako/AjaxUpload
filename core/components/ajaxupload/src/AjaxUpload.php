@@ -433,6 +433,7 @@ class AjaxUpload
 
                     // Filter spaces and punctuation characters
                     $fileName = $this->modx->filterPathSegment($pathinfo['filename'], [
+                        'friendly_alias_translit' => $this->modx->getOption('ajaxupload.filename_translit', null, $this->modx->getOption('friendly_alias_translit')),
                         'friendly_alias_restrict_chars' => $this->modx->getOption('ajaxupload.filename_restrict_chars', null, $this->modx->getOption('friendly_alias_restrict_chars')),
                         'friendly_alias_restrict_chars_pattern' => $this->modx->getOption('ajaxupload.filename_restrict_chars_pattern', null, $this->modx->getOption('friendly_alias_restrict_chars_pattern')),
                     ]);
