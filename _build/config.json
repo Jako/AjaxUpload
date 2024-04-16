@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "Upload button for uploading multiple files with progress-bar",
   "author": "Thomas Jakobi",
-  "version": "1.6.6-rc1",
+  "version": "1.6.6-rc2",
   "package": {
     "elements": {
       "chunks": [
