@@ -32,3 +32,4 @@ $_lang['ajaxupload.formit2ajaxupload.ajaxuploadTarget'] = 'Pfad in dem die hochg
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadUid'] = 'Eindeutige ID für die Upload Queue.';
 $_lang['ajaxupload.formit2ajaxupload.csv'] = 'CSV';
 $_lang['ajaxupload.formit2ajaxupload.json'] = 'JSON';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadSanitizeFilename'] = 'Bereinigen Sie den Dateinamen der hochgeladenen Datei.';
