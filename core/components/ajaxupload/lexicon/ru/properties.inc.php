@@ -32,3 +32,4 @@ $_lang['ajaxupload.formit2ajaxupload.ajaxuploadTarget'] = 'Путь для со�
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadUid'] = 'Уникальный id очереди загрузки.';
 $_lang['ajaxupload.formit2ajaxupload.csv'] = 'CSV';
 $_lang['ajaxupload.formit2ajaxupload.json'] = 'JSON';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadSanitizeFilename'] = 'Дезинфекция имени загружаемого файла.';
