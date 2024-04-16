@@ -28,6 +28,7 @@ class AjaxUpload2FormitHook extends Hook
             'cacheExpires::int' => $this->modx->getOption('ajaxupload.cache_expires', null, '4'),
             'clearQueue::bool' => false,
             'allowOverwrite::bool' => true,
+            'sanitizeFilename::bool' => false,
         ];
     }
 
@@ -54,7 +55,12 @@ class AjaxUpload2FormitHook extends Hook
             return false;
         }
 
-        $error = $this->ajaxupload->saveUploads($this->getProperty('target'), $this->getProperty('clearQueue'), $this->getProperty('allowOverwrite'));
+        $error = $this->ajaxupload->saveUploads(
+            $this->getProperty('target'),
+            $this->getProperty('clearQueue'),
+            $this->getProperty('allowOverwrite'),
+            $this->getProperty('sanitizeFilename')
+        );
         if ($error) {
             $this->hook->addError($this->getProperty('uid'), $error);
             return false;

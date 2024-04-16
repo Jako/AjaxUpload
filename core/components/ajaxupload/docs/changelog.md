@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add AjaxUploadRemove hook
+- Add an option to sanitize file names in the AjaxUpload2FormIt hook - Thanks to [Hugo Peek](https://github.com/hugopeek)
+
+### Fixed
+
+- Snippet name of the AjaxUploadRemove hook
 
 ## [1.6.5] - 2023-03-10
 

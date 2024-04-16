@@ -69,12 +69,13 @@ use the FormIt hooks in the *FormIt snippet* call:
 
 The AjaxUpload2Formit and the Formit2AjaxUpload hook use almost the same properties:
 
-| Property              | Description                                                                                                | Default |
-|-----------------------|------------------------------------------------------------------------------------------------------------|---------|
-| ajaxuploadFieldformat | Format of the data saved in `ajaxuploadFieldname`.                                                         | csv     |
-| ajaxuploadFieldname   | **(required)** Formit field, the filenames/paths of the (already) uploaded files are saved in.             | -       |
-| ajaxuploadTarget      | **(required)** Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']).  | -       |
-| ajaxuploadUid         | Unique upload queue id.                                                                                    | -       |
+| Property                   | Description                                                                                               | Default |
+|----------------------------|-----------------------------------------------------------------------------------------------------------|---------|
+| ajaxuploadFieldformat      | Format of the data saved in `ajaxuploadFieldname`.                                                        | csv     |
+| ajaxuploadFieldname        | **(required)** Formit field, the filenames/paths of the (already) uploaded files are saved in.            | -       |
+| ajaxuploadSanitizeFilename | Sanitize the filename of the uploaded file.                                                               | 0 (No)  |
+| ajaxuploadTarget           | **(required)** Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). | -       |
+| ajaxuploadUid              | Unique upload queue id.                                                                                   | -       |
 
 The folder in `ajaxuploadTarget` has to exist and it has to be writable for PHP
 or it must be createable.
@@ -133,8 +134,11 @@ The AjaxUploadRequired hook uses additional properties:
 
 AjaxUpload uses the following system settings in the namespace `ajaxupload`:
 
-| Key                      | Name           | Description                                                                    | Default            |
-|--------------------------|----------------|--------------------------------------------------------------------------------|--------------------|
-| ajaxupload.cache_expires | Expire Time    | Expire Time of the AjaxUpload cache (in hours)                                 | 4                  |
-| ajaxupload.debug         | Debug          | Log debug information in the MODX error log.                                   | No                 |
-| ajaxupload.image_tpl     | Image Template | Name of a chunk that contains the HTML code for displaying the uploaded image. | tplAjaxUploadImage |
+| Key                                        | Name                                   | Description                                                                                                                                                                                                                                                                                                                            | Default                                                     |
+|--------------------------------------------|----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| ajaxupload.cache_expires                   | Expire Time                            | Expire Time of the AjaxUpload cache (in hours)                                                                                                                                                                                                                                                                                         | 4                                                           |
+| ajaxupload.debug                           | Debug                                  | Log debug information in the MODX error log.                                                                                                                                                                                                                                                                                           | No                                                          |
+| ajaxupload.filename_restrict_chars         | Filename character restriction method  | The method used to restrict characters used in the filename. "pattern" allows a RegEx pattern to be provided, "legal" allows any legal URL characters, "alpha" allows only letters of the alphabet, and "alphanumeric" allows only letters and numbers. If empty, the value from the equivalent MODX FURL system setting is inherited. | pattern                                                     |
+| ajaxupload.filename_restrict_chars_pattern | Filename character restriction pattern | A valid RegEx for restricting characters in the filename. If empty, the value from the equivalent MODX FURL system setting is inherited.                                                                                                                                                                                               | /[\0\x0B\t\n\r\f\a,.?!;:()&=+%#<>"~`@\?\[\]\{\}\|\^\'\\\\]/ |
+| ajaxupload.filename_translit               | Filename transliteration method        | Defaults to iconv_ascii, to eliminate potential issues with accented characters. If empty, the value from the equivalent MODX FURL system setting is inherited.                                                                                                                                                                        | iconv_ascii                                                 |
+| ajaxupload.image_tpl                       | Image Template                         | Name of a chunk that contains the HTML code for displaying the uploaded image.                                                                                                                                                                                                                                                         | tplAjaxUploadImage                                          |
