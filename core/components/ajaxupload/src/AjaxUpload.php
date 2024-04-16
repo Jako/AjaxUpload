@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2023 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2013-2024 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package ajaxupload
  * @subpackage classfile
@@ -41,7 +41,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.6.6-rc1';
+    public $version = '1.6.6-rc2';
 
     /**
      * The class options
@@ -112,9 +112,9 @@ class AjaxUpload
             'uploadAction' => $this->getOption('connectorUrl'),
             'newFilePermissions' => '0664',
             'maxConnections' => 1,
-            'filenameTranslit' => $this->getOption('filename_translit', $options, 'iconv_ascii'),
-            'filenameRestrictChars' => $this->getOption('filename_restrict_chars', $options, 'pattern'),
-            'filenameRestrictCharsPattern' => $this->getOption('filename_restrict_chars_pattern', $options, "/[\\0\\x0B\\t\\n\\r\\f\\a,.?!;:()&=+%#<>\"~`@\\?\\[\\]\\{\\}\\|\\^\\'\\\\\\\\]/"),
+            'filenameTranslit' => $this->modx->getOption($this->namespace . '.filename_translit', null, $this->modx->getOption('filename_translit', null, 'iconv_ascii')),
+            'filenameRestrictChars' => $this->modx->getOption($this->namespace . '.filename_restrict_chars', null, $this->modx->getOption('filename_restrict_chars', null, 'pattern')),
+            'filenameRestrictCharsPattern' => $this->modx->getOption($this->namespace . '.filename_restrict_chars_pattern', null, $this->modx->getOption('filename_restrict_chars_pattern', null, "/[\\0\\x0B\\t\\n\\r\\f\\a,.?!;:()&=+%#<>\"~`@\\?\\[\\]\\{\\}\\|\\^\\'\\\\\\\\]/")),
             'language' => $this->modx->getOption('language', $options, $this->modx->cultureKey, true)
         ]);
         $this->debug = [];

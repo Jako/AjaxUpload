@@ -21,6 +21,7 @@ $_lang['ajaxupload.ajaxupload2formit.ajaxuploadAllowOverwrite'] = 'Bestaande bes
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadClearQueue'] = 'Leeg de wachtrij nadat de hook succesvol heeft gedraaid.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'] = 'Formaat van de data opgeslagen in `ajaxuploadFieldname`.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'] = 'Het Formit veld waarin de paden/bestandsnamen van reeds voltooide uploads worden opgeslagen.';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadSanitizeFilename'] = 'De bestandsnaam van het geüploade bestand zuiveren.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'] = 'Doel locatie voor reeds geuploade bestanden (relatief aan $modx->getOption[\'assetsPath\']). Zorg ervoor dat PHP schrijfrechten heeft op deze locatie.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'] = 'Uniek ID voor upload wachtrij.';
 $_lang['ajaxupload.ajaxupload2formit.csv'] = 'CSV';

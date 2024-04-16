@@ -21,6 +21,7 @@ $_lang['ajaxupload.ajaxupload2formit.ajaxuploadAllowOverwrite'] = 'Allow overwri
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadClearQueue'] = 'Clear the upload queue after a successful run of the hook.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'] = 'Format of the data saved in `ajaxuploadFieldname`.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'] = 'Formit field, the filenames/paths of the (already) uploaded files are saved in.';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadSanitizeFilename'] = 'Sanitize the filename of the uploaded file.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'] = 'Target path for the (already) uploaded files (relative to $modx->getOption[\'assetsPath\']). The folder should exist or should be createable and it has to be writable for PHP.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'] = 'Unique upload queue id.';
 $_lang['ajaxupload.ajaxupload2formit.csv'] = 'CSV';

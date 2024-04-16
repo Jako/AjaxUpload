@@ -34,8 +34,7 @@
 }
 
 .qq-upload-button, .qq-clear-button {
-  display: block;
-  /* or inline-block */
+  display: block; /* or inline-block */
   width: 105px;
   padding: 7px 0;
   text-align: center;

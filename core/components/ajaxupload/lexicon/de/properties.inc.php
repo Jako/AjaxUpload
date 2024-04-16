@@ -21,6 +21,7 @@ $_lang['ajaxupload.ajaxupload2formit.ajaxuploadAllowOverwrite'] = 'Überschreibe
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadClearQueue'] = 'Upload Queue nach dem erfolgreichen Ausführen des Hooks leeren.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'] = 'Format der in `ajaxuploadFieldname` gespeicherten Daten.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'] = 'Formit Feld, in dem Dateiname und Pfad der hochgeladenen Dateien gespeichert werden.';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadSanitizeFilename'] = 'Bereinigen Sie den Dateinamen der hochgeladenen Datei.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'] = 'Pfad in dem die hochgeladenen Dateien abgespeichert werden (Relative zo $modx->getOption[\'assetsPath\']). Der Ordner sollte existieren oder erstellbar sein und er muss für PHP beschreibbar sein.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'] = 'Eindeutige ID für die Upload Queue.';
 $_lang['ajaxupload.ajaxupload2formit.csv'] = 'CSV';

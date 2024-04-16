@@ -21,6 +21,7 @@ $_lang['ajaxupload.ajaxupload2formit.ajaxuploadAllowOverwrite'] = 'Разреш�
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadClearQueue'] = 'Очистите очередь загрузки после успешного выполнения хука.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldformat'] = 'Формат данных, сохранённых в `ajaxuploadFieldname`.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadFieldname'] = 'Поле Formit для сохранения (уже) загруженных имён/путей файлов.';
+$_lang['ajaxupload.ajaxupload2formit.ajaxuploadSanitizeFilename'] = 'Дезинфекция имени загружаемого файла.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadTarget'] = 'Путь для сохранения (уже) загруженных файлов (относительно $modx->getOption[\'assetsPath\']). Папка должна существовать или должна быть создана, и она должна быть доступна для записи PHP.';
 $_lang['ajaxupload.ajaxupload2formit.ajaxuploadUid'] = 'Уникальный id очереди загрузки.';
 $_lang['ajaxupload.ajaxupload2formit.csv'] = 'CSV';
