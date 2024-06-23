@@ -1,6 +1,6 @@
 .file-uploader-buttons,.file-uploader-items{clear:left}.file-uploader-items .file-wrap{float:left;margin:0 .5em .5em 0;position:relative}.file-uploader-items .delete-button{background:url(../../images/delete.png);display:block;height:15px;position:absolute;right:-3px;text-indent:-1000em;top:-3px;width:15px}.file-uploader-items .thumb{height:auto;position:relative;width:auto}.file-uploader-items .title{display:none}.qq-uploader{position:relative;width:100%}.qq-clear-button,.qq-upload-button{background:#800;border-bottom:1px solid #ddd;color:#fff;display:block;float:left;margin-right:7px;padding:7px 0;text-align:center;width:105px}.qq-clear-button:hover,.qq-upload-button:hover{background:#c00}.qq-clear-button{cursor:pointer}.qq-clear-button:focus{outline:1px dotted #000}.qq-upload-drop-area{background:#ff9797;height:100%;left:0;min-height:70px;position:absolute;text-align:center;top:0;width:100%;z-index:2}.qq-upload-drop-area span{display:block;font-size:16px;margin-top:-8px;position:absolute;top:50%;width:100%}.qq-upload-drop-area-active{background:#ff7171}.qq-upload-list{clear:left;list-style:none;margin:15px 0;padding:0}.qq-upload-list li{font-size:12px;line-height:15px;margin:0;padding:0}.qq-upload-cancel,.qq-upload-failed-text,.qq-upload-file,.qq-upload-size,.qq-upload-spinner{margin-right:7px}.qq-upload-spinner{background:url(../../images/loading.gif);display:inline-block;height:15px;vertical-align:text-bottom;width:15px}.qq-upload-cancel,.qq-upload-size{font-size:11px}.qq-upload-failed-text{display:none}.qq-upload-fail .qq-upload-failed-text{display:inline}
 /*!
  * AjaxUpload - Upload button for uploading multiple files with progress-bar
- * Version: 1.6.6-rc2
- * Build date: 2024-04-16
+ * Version: 1.6.6
+ * Build date: 2024-06-23
  */
