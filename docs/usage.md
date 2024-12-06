@@ -20,7 +20,7 @@ To display the upload button, you need to place the *AjaxUpload snippet* call
 somewhere in a Resource. If you want to use it with FormIt, you need to place
 the snippet call in the FormIt form:
 
-```
+```html
 [[!AjaxUpload?
 &uid=`image`
 &allowedExtensions=`jpg,jpeg,png,gif`
@@ -55,7 +55,7 @@ button), you have to edit the MODX lexicon in the namespace `ajaxupload`.
 To set/retreive the uploaded images in the upload queue by FormIt, you have to
 use the FormIt hooks in the *FormIt snippet* call:
 
-```
+```html
 [[!FormIt?
 ...
 &preHooks=`Formit2AjaxUpload`
@@ -92,7 +92,7 @@ The AjaxUpload2Formit hook uses additional properties:
 If you want to attach the uploaded files to the email, you have to add the
 AjaxUploadAttachments hook to the FormIt Call before the email hook:
 
-```
+```html
 [[!FormIt?
 ...
 &hooks=`AjaxUpload2Formit,AjaxUploadAttachments,email`
@@ -105,7 +105,7 @@ The AjaxUploadAttachments hook uses the properties of the hooks above.
 
 If you want to remove the uploaded files i.e. after the mail is sent, you have to add the AjaxUploadRemove hook after the email hook:
 
-```
+```html
 [[!FormIt?
 ...
 &hooks=`AjaxUpload2Formit,AjaxUploadAttachments,email,AjaxUploadRemove`
@@ -117,7 +117,7 @@ If you want to remove the uploaded files i.e. after the mail is sent, you have t
 If you want to make the upload required, you have to add the AjaxUploadRequired
 hook to the FormIt Call before the email hook:
 
-```
+```html
 [[!FormIt?
 ...
 &hooks=`AjaxUpload2Formit,AjaxUploadRequired,email`
