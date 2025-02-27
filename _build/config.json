@@ -1,16 +1,12 @@
 {
   "name": "AjaxUpload",
   "lowCaseName": "ajaxupload",
-  "description": "Upload button for uploading multiple files with progress-bar",
+  "description": "FilePond based upload for FormIt",
   "author": "Thomas Jakobi",
-  "version": "1.6.6",
+  "version": "2.0.0-b5",
   "package": {
     "elements": {
       "chunks": [
-        {
-          "name": "tplAjaxuploadImage",
-          "file": "image.chunk.html"
-        },
         {
           "name": "tplAjaxuploadScript",
           "file": "script.chunk.html"
@@ -31,41 +27,35 @@
               "value": ""
             },
             {
-              "name": "language",
+              "name": "placeholderPrefix",
+              "value": "fi."
+            },
+            {
+              "name": "fieldformat",
+              "type": "list",
+              "options": [
+                {
+                  "text": "ajaxupload.formit2ajaxupload.csv",
+                  "value": "csv"
+                },
+                {
+                  "text": "ajaxupload.formit2ajaxupload.json",
+                  "value": "json"
+                }
+              ],
+              "value": "csv"
+            },
+            {
+              "name": "value",
               "value": ""
             },
             {
-              "name": "allowedExtensions",
-              "value": "jpg,jpeg,png,gif"
-            },
-            {
-              "name": "maxFilesizeMb",
-              "value": "8"
-            },
-            {
-              "name": "maxFiles",
-              "value": "3"
-            },
-            {
-              "name": "thumbX",
-              "value": "100"
-            },
-            {
-              "name": "thumbY",
-              "value": "100"
-            },
-            {
-              "name": "addJquery",
-              "type": "combo-boolean",
-              "value": "0"
-            },
-            {
-              "name": "addJscript",
+              "name": "addCss",
               "type": "combo-boolean",
               "value": "1"
             },
             {
-              "name": "addCss",
+              "name": "addJscript",
               "type": "combo-boolean",
               "value": "1"
             },
@@ -76,6 +66,27 @@
             {
               "name": "uploadSectionTpl",
               "value": "tplAjaxuploadUploadSection"
+            },
+            {
+              "name": "acceptedFileTypes",
+              "value": "image/jpeg,image/gif,image/png,image/webp"
+            },
+            {
+              "name": "maxFiles",
+              "value": "3"
+            },
+            {
+              "name": "maxFileSize",
+              "value": "8MB"
+            },
+            {
+              "name": "showCredits",
+              "type": "combo-boolean",
+              "value": "1"
+            },
+            {
+              "name": "targetRelativePath",
+              "value": ""
             }
           ]
         },
@@ -86,10 +97,6 @@
           "properties": [
             {
               "name": "ajaxuploadUid",
-              "value": ""
-            },
-            {
-              "name": "ajaxuploadFieldname",
               "value": ""
             },
             {
@@ -112,9 +119,8 @@
               "value": "csv"
             },
             {
-              "name": "ajaxuploadClearQueue",
-              "type": "combo-boolean",
-              "value": "0"
+              "name": "ajaxuploadCacheExpires",
+              "value": ""
             },
             {
               "name": "ajaxuploadAllowOverwrite",
@@ -125,6 +131,10 @@
               "name": "ajaxuploadSanitizeFilename",
               "type": "combo-boolean",
               "value": "0"
+            },
+            {
+              "name": "ajaxuploadTargetRelativePath",
+              "value": ""
             }
           ]
         },
@@ -135,10 +145,6 @@
           "properties": [
             {
               "name": "ajaxuploadUid",
-              "value": ""
-            },
-            {
-              "name": "ajaxuploadFieldname",
               "value": ""
             },
             {
@@ -159,24 +165,101 @@
                 }
               ],
               "value": "csv"
+            },
+            {
+              "name": "ajaxuploadCacheExpires",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadTargetRelativePath",
+              "value": ""
             }
           ]
         },
         {
           "name": "AjaxUploadAttachments",
           "description": "AjaxUpload Formit hook. Attach the uploaded files to the mail.",
-          "file": "ajaxuploadattachments.hook.php"
+          "file": "ajaxuploadattachments.hook.php",
+          "properties": [
+            {
+              "name": "ajaxuploadUid",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadFieldformat",
+              "type": "list",
+              "options": [
+                {
+                  "text": "ajaxupload.ajaxupload2formit.csv",
+                  "value": "csv"
+                },
+                {
+                  "text": "ajaxupload.ajaxupload2formit.json",
+                  "value": "json"
+                }
+              ],
+              "value": "csv"
+            },
+            {
+              "name": "ajaxuploadTargetRelativePath",
+              "value": ""
+            }
+          ]
         },
         {
           "name": "AjaxUploadRemove",
           "description": "AjaxUpload Formit hook. Remove the uploaded files after sending the mail.",
-          "file": "ajaxuploadremove.hook.php"
+          "file": "ajaxuploadremove.hook.php",
+          "properties": [
+            {
+              "name": "ajaxuploadUid",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadFieldformat",
+              "type": "list",
+              "options": [
+                {
+                  "text": "ajaxupload.ajaxupload2formit.csv",
+                  "value": "csv"
+                },
+                {
+                  "text": "ajaxupload.ajaxupload2formit.json",
+                  "value": "json"
+                }
+              ],
+              "value": "csv"
+            },
+            {
+              "name": "ajaxuploadTargetRelativePath",
+              "value": ""
+            }
+          ]
         },
         {
           "name": "AjaxUploadRequired",
           "description": "AjaxUpload Formit hook. Add an error message, when no file is uploaded.",
           "file": "ajaxuploadrequired.hook.php",
           "properties": [
+            {
+              "name": "ajaxuploadUid",
+              "value": ""
+            },
+            {
+              "name": "ajaxuploadFieldformat",
+              "type": "list",
+              "options": [
+                {
+                  "text": "ajaxupload.ajaxupload2formit.csv",
+                  "value": "csv"
+                },
+                {
+                  "text": "ajaxupload.ajaxupload2formit.json",
+                  "value": "json"
+                }
+              ],
+              "value": "csv"
+            },
             {
               "name": "ajaxuploadRequiredMessage",
               "value": ""
@@ -194,35 +277,15 @@
       },
       {
         "key": "cache_expires",
-        "area": "site",
+        "area": "system",
         "value": "4"
-      },
-      {
-        "key": "image_tpl",
-        "area": "site",
-        "value": "tplAjaxUploadImage"
-      },
-      {
-        "key": "filename_translit",
-        "area": "file",
-        "value": "iconv_ascii"
-      },
-      {
-        "key": "filename_restrict_chars",
-        "area": "file",
-        "value": "pattern"
-      },
-      {
-        "key": "filename_restrict_chars_pattern",
-        "area": "file",
-        "value": "/[\\0\\x0B\\t\\n\\r\\f\\a,.?!;:()&=+%#<>\"~`@\\?\\[\\]\\{\\}\\|\\^\\'\\\\\\\\]/"
       }
     ]
   },
   "dependencies": [
     {
       "name": "php",
-      "version": ">=7.2"
+      "version": ">=7.4"
     },
     {
       "name": "modx",

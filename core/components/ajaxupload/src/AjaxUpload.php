@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2024 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2013-2025 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package ajaxupload
  * @subpackage classfile
@@ -10,8 +10,9 @@
 
 namespace TreehillStudio\AjaxUpload;
 
-use modPhpThumb;
+use modLexicon;
 use modX;
+use TreehillStudio\AjaxUpload\Helper\Parse;
 use xPDO;
 
 /**
@@ -41,7 +42,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '1.6.6';
+    public $version = '2.0.0-b5';
 
     /**
      * The class options
@@ -56,10 +57,9 @@ class AjaxUpload
     public $debug;
 
     /**
-     * The AjaxUpload session
-     * @var array $session
+     * @var Parse $parse
      */
-    public $session;
+    public $parse = null;
 
     /**
      * AjaxUpload constructor
@@ -98,8 +98,12 @@ class AjaxUpload
             'imagesUrl' => $assetsUrl . 'images/',
             'connectorUrl' => $assetsUrl . 'connector.php',
             'cachePath' => $assetsPath . 'cache/',
-            'cacheUrl' => $assetsUrl . 'cache/'
         ], $options);
+
+        $lexicon = $this->modx->getService('lexicon', modLexicon::class);
+        $lexicon->load($this->namespace . ':default');
+
+        $this->packageName = $this->modx->lexicon('ajaxupload');
 
         // Add default options
         $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
@@ -107,25 +111,17 @@ class AjaxUpload
             'debug' => $this->getBooleanOption('debug', $options, false),
             'modxversion' => $modxversion['version'],
             'cacheExpires' => intval($this->getOption('cache_expires', $options, 4)),
-            'uid' => $this->getOption('uid', $options, md5($this->modx->getOption('site_url') . '-' . $resourceId)),
-            'imageTpl' => $this->getOption('image_tpl', $options, 'tplAjaxUploadImage'),
-            'uploadAction' => $this->getOption('connectorUrl'),
-            'newFilePermissions' => '0664',
-            'maxConnections' => 1,
-            'filenameTranslit' => $this->modx->getOption($this->namespace . '.filename_translit', null, $this->modx->getOption('filename_translit', null, 'iconv_ascii')),
-            'filenameRestrictChars' => $this->modx->getOption($this->namespace . '.filename_restrict_chars', null, $this->modx->getOption('filename_restrict_chars', null, 'pattern')),
-            'filenameRestrictCharsPattern' => $this->modx->getOption($this->namespace . '.filename_restrict_chars_pattern', null, $this->modx->getOption('filename_restrict_chars_pattern', null, "/[\\0\\x0B\\t\\n\\r\\f\\a,.?!;:()&=+%#<>\"~`@\\?\\[\\]\\{\\}\\|\\^\\'\\\\\\\\]/")),
-            'language' => $this->modx->getOption('language', $options, $this->modx->cultureKey, true)
+            'uid' => preg_replace('/[^a-z0-9]/', '', $this->getOption('uid', $options, md5($this->modx->getOption('site_url') . '-' . $resourceId))),
+            'newFilePermissions' => $this->modx->getOption('new_file_permissions', $options, '0644'),
+            'newFolderPermissions' => $this->modx->getOption('new_folder_permissions', $options, '0755'),
         ]);
         $this->debug = [];
 
         if (!isset($_SESSION['ajaxupload'])) {
             $_SESSION['ajaxupload'] = [];
         }
-        $this->session =& $_SESSION['ajaxupload'];
 
-        $lexicon = $this->modx->getService('lexicon', 'modLexicon');
-        $lexicon->load($this->namespace . ':default');
+        $this->parse = new Parse($this->modx);
     }
 
     /**
@@ -178,63 +174,101 @@ class AjaxUpload
         // Override uid with properties;
         $this->options['uid'] = $this->getOption('uid', $properties, $this->options['uid']);
 
-        switch ($this->getOption('modxversion')) {
-            case 3:
-                if (!$this->modx->getService('phpthumb', \MODX\Revolution\modPhpThumb::class)) {
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not load modPhpThumb class.', '', 'AjaxUpload');
-                    $this->debug[] = 'Could not load modPhpThumb class.';
-                    return false;
-                }
-                break;
-            default:
-                if (!$this->modx->loadClass('modPhpThumb', $this->modx->getOption('core_path') . 'model/phpthumb/', true, true)) {
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not load modPhpThumb class.', '', 'AjaxUpload');
-                    $this->debug[] = 'Could not load modPhpThumb class.';
-                    return false;
-                }
-                break;
-        }
-        if (!class_exists('qqFileUploader')) {
-            include_once $this->getOption('modelPath') . 'fileuploader/fileuploader.class.php';
-        }
-        $language = $this->getOption('language') ? $this->getOption('language') . ':' : '';
-        $this->modx->lexicon->load($language . 'ajaxupload:default');
-        if (!isset($this->session[$this->getOption('uid')])) {
-            $this->session[$this->getOption('uid')] = [];
-        }
-        if (!isset($this->session[$this->getOption('uid') . 'delete'])) {
-            $this->session[$this->getOption('uid') . 'delete'] = [];
-        }
-        if (count($properties)) {
-            $allowedExtensions = $this->modx->getOption('allowedExtensions', $properties, 'jpg,jpeg,png,gif');
-            $allowedExtensions = (!is_array($allowedExtensions)) ? explode(',', $allowedExtensions) : $allowedExtensions;
-            $options = [
-                'debug' => (bool)$this->getOption('debug', $properties, false),
+        if (!empty($properties)) {
+            $acceptedFileTypes = $this->modx->getOption('acceptedFileTypes', $properties, 'image/jpeg,image/gif,image/png,image/webp');
+            $acceptedFileTypes = (!is_array($acceptedFileTypes)) ? explode(',', $acceptedFileTypes) : $acceptedFileTypes;
+            $this->options = array_merge($this->options, [
+                'debug' => $this->getBooleanOption('debug', $properties, false),
                 'cacheExpires' => intval($this->getOption('cacheExpires', $properties, 4)),
-                'allowedExtensions' => $allowedExtensions,
-                'allowedExtensionsString' => (!empty($allowedExtensions)) ? "['" . implode("','", $allowedExtensions) . "']" : '',
-                'sizeLimit' => $this->modx->getOption('sizeLimit', $properties, $this->modx->getOption('maxFilesizeMb', $properties, 8) * 1024 * 1024),
-                'maxFiles' => (integer)$this->modx->getOption('maxFiles', $properties, 3),
-                'thumbX' => (integer)$this->modx->getOption('thumbX', $properties, 100),
-                'thumbY' => (integer)$this->modx->getOption('thumbY', $properties, 100),
-                'addJquery' => (bool)$this->modx->getOption('addJquery', $properties, false),
-                'addJscript' => $this->modx->getOption('addJscript', $properties, true),
+                'acceptedFileTypes' => $acceptedFileTypes,
+                'maxFiles' => intval($this->modx->getOption('maxFiles', $properties, 3)),
+                'maxFileSize' => $this->modx->getOption('maxFileSize', $properties, '8MB'),
+                'addJscript' => $this->getBooleanOption('addJscript', $properties, true),
                 'addCss' => $this->modx->getOption('addCss', $properties, true),
-            ];
-            $this->options = array_merge($this->options, $options);
-            $this->session[$this->getOption('uid') . 'config'] = $this->options;
+            ]);
         }
         if (!@is_dir($this->getOption('cachePath'))) {
-            if (!@mkdir($this->getOption('cachePath'), 0755)) {
-                $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not create the cache path.', '', 'AjaxUpload');
-            }
+            $this->createCachePath($this->getOption('cachePath'));
         }
-        $this->clearCache($this->getOption('cacheExpires'));
+        if ($this->getOption('uid')) {
+            $this->createCachePath($this->getOption('cachePath') . 'tmp');
+            $this->clearCache($this->getOption('cachePath') . 'tmp/', $this->getOption('cacheExpires'));
+            $this->createCachePath($this->getOption('cachePath') . 'uploads');
+            $this->clearCache($this->getOption('cachePath') . 'uploads/', $this->getOption('cacheExpires'));
+            $this->createCachePath($this->getOption('cachePath') . 'variants');
+            $this->clearCache($this->getOption('cachePath') . 'variants/', $this->getOption('cacheExpires'));
+        }
         return true;
     }
 
     /**
-     * Preload file list for display if uploaded files exist.
+     * @return bool
+     */
+    public function prepareFilePond()
+    {
+        // Prepare FilePond constants
+        define('TRANSFER_DIR', $this->getOption('cachePath') . 'tmp');
+        define('UPLOAD_DIR', $this->getOption('cachePath') . 'uploads');
+        define('VARIANTS_DIR', $this->getOption('cachePath') . 'variants');
+        define('METADATA_FILENAME', '.metadata');
+
+        $success = $this->createCachePath($this->getOption('cachePath') . 'tmp');
+        $success = $success && $this->createCachePath($this->getOption('cachePath') . 'uploads');
+        $success = $success && $this->createCachePath($this->getOption('cachePath') . 'variants');
+        if (!$success) {
+            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not create the cache path.', '', 'AjaxUpload');
+        }
+        return $success;
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    public function relativeToAbsolutePath($path)
+    {
+        if (strpos($path, '/') === 0) {
+            return $path;
+        } elseif (preg_match('/\{(core|base|assets)_path}/', $path)) {
+            return str_replace(array(
+                '{core_path}',
+                '{base_path}',
+                '{assets_path}',
+            ), array(
+                $this->modx->getOption('core_path', null, MODX_CORE_PATH),
+                $this->modx->getOption('base_path', null, MODX_BASE_PATH),
+                $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH),
+            ), $path);
+        } else {
+            return $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH) . $path;
+        }
+    }
+
+    /**
+     * Get the relative path between two paths
+     *
+     * @param $from
+     * @param $to
+     * @param string $separator
+     * @return string
+     */
+    public function relativePath($from, $to, $separator = DIRECTORY_SEPARATOR)
+    {
+        $from = str_replace(array('/', '\\'), $separator, $from);
+        $to = str_replace(array('/', '\\'), $separator, $to);
+
+        $arFrom = explode($separator, rtrim($from, $separator));
+        $arTo = explode($separator, rtrim($to, $separator));
+        while (count($arFrom) && count($arTo) && ($arFrom[0] == $arTo[0])) {
+            array_shift($arFrom);
+            array_shift($arTo);
+        }
+
+        return str_pad('', count($arFrom) * 3, '..' . $separator) . implode($separator, $arTo);
+    }
+
+    /**
+     * Preload file list if uploaded files exist.
      *
      * @access private
      * @param array $files An array of already uploaded files.
@@ -245,278 +279,16 @@ class AjaxUpload
         $itemList = [];
 
         foreach ($files as $id => $fileInfo) {
-            if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
+            if (file_exists($fileInfo['path'] . $fileInfo['fileName'])) {
                 $properties = [
                     'fileid' => $id,
-                    'thumb' => $fileInfo['base_url'] . $fileInfo['thumbName'],
-                    'original' => $fileInfo['originalName'],
-                    'style' => 'width: ' . $this->getOption('thumbX') . 'px; height: ' . $this->getOption('thumbY') . 'px;'
                 ];
-                $files[$id]['thumbName'] = $this->generateThumbnail($fileInfo);
-                $itemList[] = $this->modx->getChunk($this->getOption('imageTpl'), $properties);
+                $itemList[] = $this->parse->getChunk($this->getOption('fileTpl'), $properties);
             } else {
                 unset($files[$id]);
             }
         }
         return implode("\r\n", $itemList);
-    }
-
-    /**
-     * Generate a thumbnail with a random name for an image.
-     *
-     * @access public
-     * @param array $fileInfo An array of file information.
-     * @return string html file list to prefill the template
-     */
-    public function generateThumbnail($fileInfo = [])
-    {
-        if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-            if (!isset($fileInfo['thumbName'])) {
-                $path_info = pathinfo($fileInfo['uniqueName']);
-                $thumbOptions = [];
-                if (in_array(strtolower($path_info['extension']), ['jpg', 'jpeg', 'png', 'gif'])) {
-                    $thumbOptions['src'] = $fileInfo['path'] . $fileInfo['uniqueName'];
-                    if ($this->getOption('thumbX')) {
-                        $thumbOptions['w'] = $this->getOption('thumbX');
-                    }
-                    if ($this->getOption('thumbY')) {
-                        $thumbOptions['h'] = $this->getOption('thumbY');
-                    }
-                    if ($this->getOption('thumbX') && $this->getOption('thumbY')) {
-                        $thumbOptions['zc'] = '1';
-                    }
-                } else {
-                    $thumbOptions['src'] = $this->getOption('assetsPath') . '/images/generic.png';
-                    $thumbOptions['aoe'] = '1';
-                    $thumbOptions['fltr'] = ['wmt|' . strtoupper($path_info['extension']) . '|5|C|000000'];
-                    if ($this->getOption('thumbX')) {
-                        $thumbOptions['w'] = $this->getOption('thumbX');
-                    }
-                    if ($this->getOption('thumbY')) {
-                        $thumbOptions['h'] = $this->getOption('thumbY');
-                    }
-                    if ($this->getOption('thumbX') && $this->getOption('thumbY')) {
-                        $thumbOptions['zc'] = '1';
-                    }
-                    $thumbOptions['f'] = 'png';
-                    $path_info['extension'] = 'png';
-                }
-                $thumbName = md5($path_info['basename'] . time() . '.thumb') . '.' . $path_info['extension'];
-
-                // Compatibility for 3.x
-                if (!class_exists('modPhpThumb')) {
-                    class_alias(\MODX\Revolution\modPhpThumb::class, \modPhpThumb::class);
-                }
-                // generate Thumbnail & save it
-                $phpThumb = new modPhpThumb($this->modx, $thumbOptions);
-                $phpThumb->initialize();
-                if ($phpThumb->GenerateThumbnail()) {
-                    if (!$phpThumb->RenderToFile($fileInfo['path'] . $thumbName)) {
-                        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Thumbnail generation: Thumbnail not saved.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages), '', 'AjaxUpload');
-                        $this->debug[] = 'Thumbnail generation: Thumbnail not saved.' . "\nDebugmessaes:\n" . implode("\n", $phpThumb->debugmessages);
-                    } else {
-                        $filePerm = (int)$this->getOption('newFilePermissions');
-                        if (!@chmod($fileInfo['path'] . $thumbName, octdec($filePerm))) {
-                            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not change the thumbnail file permission.', '', 'AjaxUpload');
-                        }
-                    }
-                } else {
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Thumbnail generation: Thumbnail not created.' . "\nDebugmessages:\n" . implode("\n", $phpThumb->debugmessages), '', 'AjaxUpload');
-                    $this->debug[] = 'Thumbnail generation: Thumbnail not created.' . "\nDebugmessaes:\n" . implode("\n", $phpThumb->debugmessages);
-                }
-                $fileInfo['thumbName'] = $thumbName;
-            }
-            return $fileInfo['thumbName'];
-        } else {
-            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Thumbnail generation: Original file not found.', '', 'AjaxUpload');
-            $this->debug[] = 'Thumbnail generation: Original file not found';
-            return false;
-        }
-    }
-
-    /**
-     * Retreive already uploaded files.
-     *
-     * @access public
-     * @param array| $files Array of filenames (relative to $modx->getOption['assetsPath'])
-     * @return void
-     */
-    public function retrieveUploads($files = [])
-    {
-        foreach ($files as $file) {
-            $file = str_replace($this->modx->getOption('assets_url'), '', '/' . ltrim($file, '/'));
-            $pathinfo = pathinfo($file);
-            if (file_exists($this->modx->getOption('assets_path') . $file)) {
-                $fileInfo = [];
-
-                // Get original file info
-                $originalName = $pathinfo['basename'];
-                $originalExtension = $pathinfo['extension'];
-                $originalFilename = (isset($pathinfo['filename'])) ? $pathinfo['filename'] : substr($originalName, 0, strrpos($originalName, '.'));
-                $path = $this->modx->getOption('assets_path') . $pathinfo['dirname'] . '/';
-
-                // Prepare session file info
-                $fileInfo['originalName'] = $originalName;
-                $fileInfo['originalPath'] = $path;
-                $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url');
-                $fileInfo['path'] = $this->getOption('cachePath');
-                $fileInfo['base_url'] = $this->getOption('cacheUrl');
-
-                // Check if file is already in session
-                $found = false;
-                foreach ($this->session[$this->getOption('uid')] as $sessionInfo) {
-                    if ($sessionInfo['originalName'] === $fileInfo['originalName']) {
-                        $found = true;
-                        break;
-                    }
-                }
-
-                // create unique filename and set permissions
-                if (empty($fileInfo['uniqueName'])) {
-                    $fileInfo['uniqueName'] = md5($originalFilename . time()) . '.' . $originalExtension;
-                }
-                if (!@copy($fileInfo['originalPath'] . $fileInfo['originalName'], $fileInfo['path'] . $fileInfo['uniqueName'])) {
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not copy the uploaded file to the upload cache.', '', 'AjaxUpload');
-                }
-                $filePerm = (int)$this->getOption('newFilePermissions');
-                if (!@chmod($fileInfo['path'] . $fileInfo['uniqueName'], octdec($filePerm))) {
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not change the uploaded file permission in the upload cache.', '', 'AjaxUpload');
-                }
-
-                // create thumbnail
-                $fileInfo['thumbName'] = $this->generateThumbnail($fileInfo);
-                if ($fileInfo['thumbName']) {
-                    // fill session
-                    if (!$found) {
-                        $this->session[$this->getOption('uid')][] = $fileInfo;
-                    }
-                } else {
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Thumbnail generation: Original file not found.', '', 'AjaxUpload');
-                    $this->debug[] = 'Thumbnail generation: Original file not found';
-                    @unlink($fileInfo['path'] . $fileInfo['uniqueName']);
-                }
-            } else {
-                // Check if not found file is in session and delete the unique file and the thumbnail
-                foreach ($this->session[$this->getOption('uid')] as $sessionInfo) {
-                    if ($sessionInfo['originalName'] === $pathinfo['basename']) {
-                        @unlink($this->getOption('cachePath') . $sessionInfo['uniqueName']);
-                        @unlink($this->getOption('cachePath') . $sessionInfo['thumbName']);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Save the uploaded files to the specified target.
-     *
-     * @access public
-     * @param string $target Target path (relative to $modx->getOption['assets_path'])
-     * @param bool $clearQueue
-     * @param bool $allowOverwrite
-     * @param bool $sanitizeFilename
-     * @return boolean|string
-     */
-    public function saveUploads($target, $clearQueue = false, $allowOverwrite = true, $sanitizeFilename = false)
-    {
-        $error = false;
-        $target = rtrim($target, '/') . '/';
-        if (!file_exists(MODX_ASSETS_PATH . $target)) {
-            $cacheManager = $this->modx->getCacheManager();
-            if (!$cacheManager->writeTree(MODX_ASSETS_PATH . $target)) {
-                $error = $this->modx->lexicon('ajaxupload.targetNotCreatable');
-                $this->modx->log(xPDO::LOG_LEVEL_ERROR, $error, '', 'AjaxUpload');
-            }
-        }
-        foreach ($this->session[$this->getOption('uid')] as $fileId => &$fileInfo) {
-            if (file_exists($fileInfo['path'] . $fileInfo['uniqueName'])) {
-                if ($sanitizeFilename) {
-                    $pathinfo = pathinfo($fileInfo['originalName']);
-                    $fileName = $this->modx->filterPathSegment($pathinfo['filename'], [
-                        'friendly_alias_translit' => $this->getOption('filenameTranslit'),
-                        'friendly_alias_restrict_chars' => $this->getOption('filenameRestrictChars'),
-                        'friendly_alias_restrict_chars_pattern' => $this->getOption('filenameRestrictCharsPattern'),
-                    ]);
-                    $fileInfo['originalName'] = $fileName . '.' . $pathinfo['extension'];
-                }
-                if (!$allowOverwrite) {
-                    $pathinfo = pathinfo($fileInfo['originalName']);
-                    $i = 0;
-                    while (file_exists(MODX_ASSETS_PATH . $target . $pathinfo['filename'] . (empty($i) ? '' : ('_' . $i)) . '.' . $pathinfo['extension'])) {
-                        ++$i;
-                    }
-                    $fileInfo['originalName'] = $pathinfo['filename'] . (empty($i) ? '' : ('_' . $i)) . '.' . $pathinfo['extension'];
-                }
-                if (!@copy($fileInfo['path'] . $fileInfo['uniqueName'], MODX_ASSETS_PATH . $target . $fileInfo['originalName'])) {
-                    $error = $this->modx->lexicon('ajaxupload.targetNotWritable');
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, $error, '', 'AjaxUpload');
-                } else {
-                    $fileInfo['originalPath'] = MODX_ASSETS_PATH . $target;
-                    $fileInfo['originalBaseUrl'] = $this->modx->getOption('assets_url') . $target;
-                }
-                if ($clearQueue) {
-                    @unlink($fileInfo['path'] . $fileInfo['uniqueName']);
-                    @unlink($fileInfo['path'] . $fileInfo['thumbName']);
-                    unset($fileInfo[$fileId]);
-                }
-            }
-        }
-        return $error;
-    }
-
-    /**
-     * Delete existing files in target that are deleted in $_SESSION.
-     *
-     * @access public
-     * @return void
-     */
-    public function deleteExisting()
-    {
-        foreach ($this->session[$this->getOption('uid') . 'delete'] as $fileInfo) {
-            if (isset($fileInfo['originalPath']) && file_exists($fileInfo['originalPath'] . $fileInfo['originalName'])) {
-                @unlink($fileInfo['originalPath'] . $fileInfo['originalName']);
-            }
-        }
-        $this->session[$this->getOption('uid') . 'delete'] = [];
-    }
-
-    /**
-     * Get the current uploads in specified format.
-     *
-     * @access public
-     * @param string $format Format of the returned value
-     * @return string Current uploads formatted by $format
-     */
-    public function getValue($format)
-    {
-        $output = [];
-        foreach ($this->session[$this->getOption('uid')] as $fileInfo) {
-            $output[] = ($fileInfo['originalBaseUrl'] ?? $fileInfo['base_url']) . $fileInfo['originalName'];
-        }
-        switch ($format) {
-            case 'json' :
-                $output = json_encode($output, JSON_UNESCAPED_SLASHES);
-                break;
-            case 'csv':
-            default :
-                $output = implode(',', $output);
-        }
-        return $output;
-    }
-
-    /**
-     * Clear the current uploads.
-     *
-     * @access public
-     * @return void
-     */
-    public function clearValue()
-    {
-        if (isset($this->session[$this->getOption('uid')])) {
-            unset($this->session[$this->getOption('uid')]);
-            unset($this->session[$this->getOption('uid') . 'config']);
-        }
     }
 
     /**
@@ -526,15 +298,29 @@ class AjaxUpload
      * @param integer $hours Specified hours
      * @return void
      */
-    public function clearCache($hours = 4)
+    public function clearCache($path, $hours = 4)
     {
-        $cache = opendir($this->getOption('cachePath'));
+        $cache = opendir($path);
         while (false !== ($file = readdir($cache))) {
-            $filelastmodified = filemtime($this->getOption('cachePath') . $file);
-            if (((time() - $filelastmodified) > ($hours * 3600)) && is_file($this->getOption('cachePath') . $file)) {
-                @unlink($this->getOption('cachePath') . $file);
+            $filelastmodified = filemtime($path . $file);
+            if (((time() - $filelastmodified) > ($hours * 3600)) && is_file($path . $file)) {
+                @unlink($path . $file);
             }
         }
         closedir($cache);
+    }
+
+    /**
+     * @param string $path The created path
+     * @return bool
+     */
+    public function createCachePath($path)
+    {
+        $cacheManager = $this->modx->getCacheManager();
+        if (!$cacheManager->writeTree($path, ['new_folder_permissions' => $this->getOption('newFolderPermissions')])) {
+            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not create the cache path "' . $path . '".', '', 'AjaxUpload');
+            return false;
+        }
+        return true;
     }
 }

@@ -8,9 +8,7 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
-use xPDO;
-
-class AjaxUploadRemoveHook extends Hook
+class AjaxUploadRemoveHook extends AjaxUploadHook
 {
     /**
      * Get default snippet properties.
@@ -20,8 +18,9 @@ class AjaxUploadRemoveHook extends Hook
     public function getDefaultProperties()
     {
         return [
-            'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
-            'fieldname' => '',
+            'uid::explodeSeparated' => '',
+            'fieldformat' => 'csv',
+            'targetRelativePath' => MODX_ASSETS_PATH,
         ];
     }
 
@@ -33,28 +32,11 @@ class AjaxUploadRemoveHook extends Hook
      */
     public function execute()
     {
-        if ($this->getProperty('fieldname')) {
-            $assetsPath = $this->modx->getOption('assets_path');
-            $assetsUrl = $this->modx->getOption('assets_url');
-            $assetsUrlLength = strlen($assetsUrl);
-
-            $attachments = $this->hook->getValue($this->getProperty('fieldname'));
-            if ($this->getProperty('fieldformat') == 'json') {
-                $attachments = json_decode($attachments, true);
-            } else {
-                $attachments = (!empty($attachments)) ? explode(',', $attachments) : [];
-            }
-
-            foreach ($attachments as $attachment) {
-                $attachment = substr($attachment, $assetsUrlLength);
-                if (file_exists($assetsPath . $attachment) && is_file($assetsPath . $attachment)) {
-                    unlink($assetsPath . $attachment);
-                } elseif ($this->getProperty('debug')) {
-                    if (!is_file($assetsPath . $attachment)) {
-                        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'The attached file ' . $assetsPath . $attachment . ' is not a file!', '', 'AjaxUploadAttachments');
-                    } elseif (!file_exists($assetsPath . $attachment)) {
-                        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'The attached file ' . $assetsPath . $attachment . ' does not exist!', '', 'AjaxUploadAttachments');
-                    }
+        foreach ($this->getProperty('uid') as $uid) {
+            $files = $this->getUidValues($uid);
+            foreach ($files as $file) {
+                if (file_exists($this->getProperty('targetRelativePath') . $file)) {
+                    unlink($this->getProperty('targetRelativePath') . $file);
                 }
             }
         }

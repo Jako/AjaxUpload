@@ -1,28 +1,62 @@
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#file-uploader-[[+uid]]').ajaxUpload({
-            uploadAction: '[[+connectorUrl]]',
-            uid: '[[+uid]]',
-            dragText: '[[%ajaxupload.dropArea]]',
-            uploadButtonText: '[[%ajaxupload.uploadButton]]',
-            cancelButtonText: '[[%ajaxupload.cancel]]',
-            failUploadText: '[[%ajaxupload.failed]]',
-            deleteText: '[[%ajaxupload.deleteButton]]',
-            clearText: '[[%ajaxupload.clearButton]]',
-            hideShowDropArea: true,
-            thumbX: '[[+thumbX]]px',
-            thumbY: '[[+thumbY]]px',
-            allowedExtensions: [[+allowedExtensionsString]],
-            sizeLimit: [[+sizeLimit]],
-            maxFiles: [[+maxFiles]],
-            maxConnections: [[+maxConnections]],
-            messages: {
-                typeError: "[[%ajaxupload.typeError]]",
-                sizeError: "[[%ajaxupload.sizeError]]",
-                minSizeError: "[[%ajaxupload.minSizeError]]",
-                emptyError: "[[%ajaxupload.emptyError]]",
-                onLeave: "[[%ajaxupload.onLeave]]"
-            }
-        });
+<script>
+    FilePond.registerPlugin(
+        FilePondPluginFileValidateType,
+        FilePondPluginFileValidateSize,
+        FilePondPluginImagePreview
+    );
+    FilePond.create(document.querySelector('#filepond-[[+uid]]'), {
+        name: '[[+name]]',
+        server: {
+            url: '[[+connectorUrl]]',
+            process: '?uid=[[+uid]]&action=process',
+            patch: '?uid=[[+uid]]&action=patch',
+            revert: '?uid=[[+uid]]&action=revert',
+            fetch: '?uid=[[+uid]]&action=fetch',
+            restore: '?uid=[[+uid]]&action=restore&id=',
+            load: '?uid=[[+uid]]&action=load',
+        },
+        chunkUploads: true,
+        credits: [[+credits]],
+        acceptedFileTypes: [[+acceptedFileTypes]],
+        maxFiles: "[[+maxFiles]]",
+        maxFileSize: "[[+maxFileSize]]",
+        files: [[+files]],
+        labelIdle: '[[%ajaxupload.labelIdle? &topic=`web` &namespace=`ajaxupload`]]',
+        labelInvalidField: '[[%ajaxupload.labelInvalidField? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileWaitingForSize: '[[%ajaxupload.labelFileWaitingForSize? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileSizeNotAvailable: '[[%ajaxupload.labelFileSizeNotAvailable? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileLoading: '[[%ajaxupload.labelFileLoading? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileLoadError: '[[%ajaxupload.labelFileLoadError? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileProcessing: '[[%ajaxupload.labelFileProcessing? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileProcessingComplete: '[[%ajaxupload.labelFileProcessingComplete? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileProcessingAborted: '[[%ajaxupload.labelFileProcessingAborted? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileProcessingError: '[[%ajaxupload.labelFileProcessingError? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileProcessingRevertError: '[[%ajaxupload.labelFileProcessingRevertError? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileRemoveError: '[[%ajaxupload.labelFileRemoveError? &topic=`web` &namespace=`ajaxupload`]]',
+        labelTapToCancel: '[[%ajaxupload.labelTapToCancel? &topic=`web` &namespace=`ajaxupload`]]',
+        labelTapToRetry: '[[%ajaxupload.labelTapToRetry? &topic=`web` &namespace=`ajaxupload`]]',
+        labelTapToUndo: '[[%ajaxupload.labelTapToUndo? &topic=`web` &namespace=`ajaxupload`]]',
+        labelButtonRemoveItem: '[[%ajaxupload.labelButtonRemoveItem? &topic=`web` &namespace=`ajaxupload`]]',
+        labelButtonAbortItemLoad: '[[%ajaxupload.labelButtonAbortItemLoad? &topic=`web` &namespace=`ajaxupload`]]',
+        labelButtonRetryItemLoad: '[[%ajaxupload.labelButtonRetryItemLoad? &topic=`web` &namespace=`ajaxupload`]]',
+        labelButtonAbortItemProcessing: '[[%ajaxupload.labelButtonAbortItemProcessing? &topic=`web` &namespace=`ajaxupload`]]',
+        labelButtonUndoItemProcessing: '[[%ajaxupload.labelButtonUndoItemProcessing? &topic=`web` &namespace=`ajaxupload`]]',
+        labelButtonRetryItemProcessing: '[[%ajaxupload.labelButtonRetryItemProcessing? &topic=`web` &namespace=`ajaxupload`]]',
+        labelButtonProcessItem: '[[%ajaxupload.labelButtonProcessItem? &topic=`web` &namespace=`ajaxupload`]]',
+        labelMaxFileSizeExceeded: '[[%ajaxupload.labelMaxFileSizeExceeded? &topic=`web` &namespace=`ajaxupload`]]',
+        labelMaxFileSize: '[[%ajaxupload.labelMaxFileSize? &topic=`web` &namespace=`ajaxupload`]]',
+        labelMaxTotalFileSizeExceeded: '[[%ajaxupload.labelMaxTotalFileSizeExceeded? &topic=`web` &namespace=`ajaxupload`]]',
+        labelMaxTotalFileSize: '[[%ajaxupload.labelMaxTotalFileSize? &topic=`web` &namespace=`ajaxupload`]]',
+        labelFileTypeNotAllowed: '[[%ajaxupload.labelFileTypeNotAllowed? &topic=`web` &namespace=`ajaxupload`]]',
+        fileValidateTypeLabelExpectedTypes: '[[%ajaxupload.fileValidateTypeLabelExpectedTypes? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelFormatError: '[[%ajaxupload.imageValidateSizeLabelFormatError? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelImageSizeTooSmall: '[[%ajaxupload.imageValidateSizeLabelImageSizeTooSmall? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelImageSizeTooBig: '[[%ajaxupload.imageValidateSizeLabelImageSizeTooBig? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelExpectedMinSize: '[[%ajaxupload.imageValidateSizeLabelExpectedMinSize? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelExpectedMaxSize: '[[%ajaxupload.imageValidateSizeLabelExpectedMaxSize? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelImageResolutionTooLow: '[[%ajaxupload.imageValidateSizeLabelImageResolutionTooLow? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelImageResolutionTooHigh: '[[%ajaxupload.imageValidateSizeLabelImageResolutionTooHigh? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelExpectedMinResolution: '[[%ajaxupload.imageValidateSizeLabelExpectedMinResolution? &topic=`web` &namespace=`ajaxupload`]]',
+        imageValidateSizeLabelExpectedMaxResolution: '[[%ajaxupload.imageValidateSizeLabelExpectedMaxResolution? &topic=`web` &namespace=`ajaxupload`]]'
     });
 </script>

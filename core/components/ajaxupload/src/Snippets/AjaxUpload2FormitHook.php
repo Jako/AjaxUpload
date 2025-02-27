@@ -8,9 +8,11 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
+use TreehillStudio\AjaxUpload\FilePond\FilePond;
+use TreehillStudio\AjaxUpload\FilePond\Helper\Transfer;
 use xPDO;
 
-class AjaxUpload2FormitHook extends Hook
+class AjaxUpload2FormitHook extends AjaxUploadHook
 {
     /**
      * Get default snippet properties.
@@ -21,14 +23,13 @@ class AjaxUpload2FormitHook extends Hook
     {
         return [
             'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
-            'fieldname' => '',
-            'fieldformat' => 'csv',
+            'uid::explodeSeparated' => '',
             'target' => '',
-            'uid' => '',
+            'fieldformat' => 'csv',
             'cacheExpires::int' => $this->modx->getOption('ajaxupload.cache_expires', null, '4'),
-            'clearQueue::bool' => false,
             'allowOverwrite::bool' => true,
             'sanitizeFilename::bool' => false,
+            'targetRelativePath' => MODX_ASSETS_PATH,
         ];
     }
 
@@ -44,31 +45,67 @@ class AjaxUpload2FormitHook extends Hook
             $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not initialize AjaxUpload class.', '', 'AjaxUpload');
             return false;
         }
-        if (empty($this->getProperty('fieldname'))) {
-            $this->hook->addError($this->getProperty('uid'), 'Missing parameter ajaxuploadFieldname.');
-            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadFieldname.', '', 'AjaxUpload2Formit');
+        if (empty($this->getProperty('uid'))) {
+            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadUid.', '', 'AjaxUpload2Formit');
             return false;
         }
-        if (empty($this->getProperty('target'))) {
-            $this->hook->addError($this->getProperty('uid'), 'Missing parameter ajaxuploadTarget.');
-            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'AjaxUpload2Formit');
-            return false;
-        }
+        foreach ($this->getProperty('uid') as $uid) {
+            if (empty($this->getProperty('target'))) {
+                $this->hook->addError($uid, 'Missing parameter ajaxuploadTarget.');
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'AjaxUpload2Formit');
+                return false;
+            }
+            if (empty($this->getProperty('targetRelativePath'))) {
+                $this->hook->addError($uid, 'Missing parameter ajaxuploadTargetRelativePath.');
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTargetRelativePath.', '', 'AjaxUpload2Formit');
+                return false;
+            }
 
-        $error = $this->ajaxupload->saveUploads(
-            $this->getProperty('target'),
-            $this->getProperty('clearQueue'),
-            $this->getProperty('allowOverwrite'),
-            $this->getProperty('sanitizeFilename')
-        );
-        if ($error) {
-            $this->hook->addError($this->getProperty('uid'), $error);
-            return false;
-        }
+            if (!$this->ajaxupload->prepareFilePond()) {
+                $this->hook->addError($uid, 'Could not create the cache path.');
+                return false;
+            }
 
-        $this->ajaxupload->deleteExisting();
-        $ajaxuploadValue = $this->ajaxupload->getValue($this->getProperty('fieldformat'));
-        $this->hook->setValue($this->getProperty('fieldname'), $ajaxuploadValue);
+            if (!file_exists($this->getProperty('targetRelativePath') . $this->getProperty('target'))) {
+                $cacheManager = $this->modx->getCacheManager();
+                if (!$cacheManager->writeTree($this->getProperty('targetRelativePath') . $this->getProperty('target'))) {
+                    $error = $this->modx->lexicon('ajaxupload.targetNotCreatable');
+                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, $error, '', 'AjaxUpload');
+                    $this->hook->addError($uid, $error);
+                }
+            }
+
+            $ids = $this->hook->getValue($uid);
+            $filenames = [];
+            $target = rtrim($this->ajaxupload->relativeToAbsolutePath($this->getProperty('target')), '/');
+            foreach ($ids as $id) {
+                // create transfer wrapper around upload
+                /** @var Transfer $transfer */
+                $transfer = FilePond::get_transfer(TRANSFER_DIR, $id);
+
+                // transfer not found
+                if (!$transfer) continue;
+
+                // move files
+                $files = $transfer->getFiles();
+                if ($files) {
+                    foreach ($files as $file) {
+                        $filename = FilePond::move_file($file, $target, $this->getProperty('sanitizeFilename'), $this->getProperty('allowOverwrite'));
+                        if ($filename) {
+                            if ($this->getProperty('targetRelativePath')) {
+                                $filename = $this->ajaxupload->relativePath($this->getProperty('targetRelativePath'), $filename);
+                            }
+                            $filenames[] = $filename;
+                        }
+                    }
+                }
+
+                // remove transfer directory
+                FilePond::remove_transfer_directory(TRANSFER_DIR, $id);
+            }
+
+            $this->setUidValues($uid, $filenames);
+        }
         return true;
     }
 }

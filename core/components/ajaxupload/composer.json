@@ -11,11 +11,14 @@
   "license": "GPL-2.0-or-later",
   "config": {
     "platform": {
-      "php": "7.2.5"
+      "php": "7.4"
     }
   },
   "require": {
-    "php": ">=7.2.5"
+    "php": ">=7.4",
+    "ext-curl": "*",
+    "ext-fileinfo": "*",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {

@@ -8,7 +8,7 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
-class AjaxUploadRequiredHook extends Hook
+class AjaxUploadRequiredHook extends AjaxUploadHook
 {
     /**
      * Get default snippet properties.
@@ -18,7 +18,9 @@ class AjaxUploadRequiredHook extends Hook
     public function getDefaultProperties()
     {
         return [
-            'fieldname' => '',
+            'uid' => '',
+            'uid::explodeSeparated' => '',
+            'fieldformat' => 'csv',
             'requiredMessage' => $this->modx->lexicon('ajaxupload.uploadRequired'),
         ];
     }
@@ -31,10 +33,12 @@ class AjaxUploadRequiredHook extends Hook
      */
     public function execute()
     {
-        if ($this->getProperty('fieldname')) {
-            $files = $this->hook->getValue($this->getProperty('fieldname'));
-            if (empty($files)) {
-                $this->hook->addError($this->getProperty('fieldname'), $this->getProperty('requiredMessage'));
+        foreach ($this->getProperty('uid') as $uid) {
+            if ($uid) {
+                $files = $this->getUidValues($uid);
+                if (empty($files)) {
+                    $this->hook->addError($uid, $this->getProperty('requiredMessage'));
+                }
             }
         }
         return !$this->hook->hasErrors();

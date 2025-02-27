@@ -6,6 +6,7 @@ const gulp = require('gulp'),
     footer = require('gulp-footer'),
     format = require('date-format'),
     header = require('@fomantic/gulp-header'),
+    order = require('ordered-read-streams'),
     postcss = require('gulp-postcss'),
     rename = require('gulp-rename'),
     replace = require('gulp-replace'),
@@ -35,9 +36,11 @@ pkg.dependencies.forEach(function (dependency, index) {
 });
 
 const scriptsWeb = function () {
-    return gulp.src([
-        'source/js/web/ajaxupload.js',
-        'source/js/web/fileuploader.js'
+    return order([
+        gulp.src('node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js'),
+        gulp.src('node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js'),
+        gulp.src('node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js'),
+        gulp.src('node_modules/filepond/dist/filepond.js'),
     ])
         .pipe(concat('ajaxupload.min.js'))
         .pipe(uglify())
@@ -73,11 +76,30 @@ const sassWeb = function () {
 };
 gulp.task('sass', gulp.series(sassWeb));
 
-const imagesWeb = function () {
-    return gulp.src('./source/images/**/*.+(png|jpg|gif|svg)', {encoding: false})
-        .pipe(gulp.dest('assets/components/ajaxupload/images/'));
+const lexiconWeb = function () {
+    return gulp.src('node_modules/filepond/locale/*.js', {encoding: false})
+        .pipe(replace('export default {\n', '<?php\n' +
+            '/**\n' +
+            ' * Web Lexicon Entries for AjaxUpload\n' +
+            ' *\n' +
+            ' * @package ajaxupload\n' +
+            ' * @subpackage lexicon\n' +
+            ' */\n'))
+        .pipe(replace(/'/g, '’'))
+        .pipe(replace(/ *(.*?):\s+([’`"])(.*?)\2,?\s*\n/g, '$$_lang[\'ajaxupload.$1\'] = \'$3\';\n'))
+        .pipe(replace(/ *};?\n?$/, ''))
+        .pipe(rename(function (path) {
+            // Returns a completely new object, make sure you return all keys needed!
+            return {
+                dirname: path.basename.replace(/(.*)[-_].*/, '$1'),
+                basename: 'web.inc',
+                extname: '.php'
+            };
+        }))
+        .pipe(gulp.dest('core/components/ajaxupload/lexicon/'));
 };
-gulp.task('images', gulp.series(imagesWeb));
+
+gulp.task('lexicon', gulp.series(lexiconWeb));
 
 const bumpCopyright = function () {
     return gulp.src([
@@ -116,9 +138,7 @@ gulp.task('watch', function () {
     gulp.watch(['./source/js/**/*.js'], gulp.series('scripts'));
     // Watch .scss files
     gulp.watch(['./source/sass/**/*.scss'], gulp.series('sass'));
-    // Watch *.(png|jpg|gif|svg) files
-    gulp.watch(['./source/images/**/*.(png|jpg|gif|svg)'], gulp.series('images'));
 });
 
 // Default Task
-gulp.task('default', gulp.series('bump', 'scripts', 'sass', 'images'));
+gulp.task('default', gulp.series('bump', 'scripts', 'sass'));

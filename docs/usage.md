@@ -1,58 +1,51 @@
 ## How it works
 
-Ajaxupload creates an upload button for uploading multiple files with progress
-counter in FormIt forms. Works well in FF3.6+, Safari4+, Chrome and falls back
-to a hidden iframe-based upload in other browsers, providing a good user
-experience everywhere.
+Ajaxupload creates an upload area for uploading multiple files in FormIt forms.
+All uploaded files are given random file names to avoid hotlinking of uploaded
+unpublished files.
 
-All uploaded files and generated thumbnails are given random file names to avoid
-hotlinking of uploaded unpublished files. Automatic thumbnail generation for
-uploaded jpg, png and gif files. Other uploaded files get a generic file
-extension icon.
+With two FormIt hooks the upload queues can be pre-filled from FormIt field
+value and saved into FormIt field value. With two other FormIt hooks the
+uploaded files can be attached to the FormIt mails and deleted after the form
+submit.
 
-The package includes FormIt hooks for pre-filling the upload queue from a FormIt
-field and saving the upload queue to a FormIt field after a form submission. A
-third FormIt hook can append the uploaded files to the FormIt mails.
+## Display the Upload Area
 
-## Display the Upload Button
-
-To display the upload button, you need to place the *AjaxUpload snippet* call
-somewhere in a Resource. If you want to use it with FormIt, you need to place
-the snippet call in the FormIt form:
+To display the upload area, you need to place the *AjaxUpload snippet* call
+in a form handled by FormIt:
 
 ```html
 [[!AjaxUpload?
 &uid=`image`
-&allowedExtensions=`jpg,jpeg,png,gif`
-&thumbX=`75`
-&thumbY=`75`
+&acceptedFileTypes=`image/jpeg,image/gif,image/png,image/webp`
 ]]
 ```
 
 The AjaxUpload snippet uses the following properties:
 
-| Property          | Description                                                                    | Default                                                    |
-|-------------------|--------------------------------------------------------------------------------|------------------------------------------------------------|
-| addCss            | Add the snippet css ad the end of the head.                                    | 1 (Yes)                                                    |
-| addJquery         | Add jQuery script at the end of the body.                                      | 0 (No)                                                     |
-| addJscript        | Add the snippet javascript and the fileuploader script at the end of the body. | 1 (Yes)                                                    |
-| allowedExtensions | Allowed file extensions for upload.                                            | jpg,jpeg,png,gif                                           |
-| language          | Snippet/Javascript language.                                                   | -                                                          |
-| maxFiles          | Maximum count of files to upload.                                              | 3                                                          |
-| maxFilesizeMb     | Maximum size for one file to upload.                                           | 8                                                          |
-| thumbX            | Horizontal size of generated thumb.                                            | 100                                                        |
-| thumbY            | Vertical size of generated thumb.                                              | 100                                                        |
-| uid               | Unique upload queue id [^1].                                                   | md5 of MODX 'site_url' setting and the current resource id |
-| uploadSectionTpl  | Name of a chunk that contains the HTML code for the upload section.            | tplAjaxuploadUploadSection                                 |
+| Property           | Description                                                                                                                | Default                                                    |
+|--------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| acceptedFileTypes  | Accepted file mime types for upload.                                                                                       | image/jpeg,image/gif,image/png,image/webp                  |
+| addCss             | Add the CSS at the end of the head.                                                                                        | 1 (Yes)                                                    |
+| addJscript         | Add the snippet javascript and the fileuploader script at the end of the body.                                             | 1 (Yes)                                                    |
+| fieldformat        | The value of ajaxuploadFieldformat property used in the according FormIt snippet call.                                     | csv                                                        |
+| maxFiles           | Maximum count of files to upload.                                                                                          | 3                                                          |
+| maxFileSize        | Maximum size for one file to upload.                                                                                       | 8MB                                                        |
+| placeholderPrefix  | The value of placeholderPrefix property used in the according FormIt snippet call.                                         | fi.                                                        |
+| scriptTpl          | Name of a chunk that contains the Javascript code for the upload section.                                                  | tplAjaxuploadScript                                        |
+| showCredits        | Show the credits of pqina/FilePond javascript                                                                              | 1 (Yes)                                                    |
+| targetRelativePath | The value of ajaxuploadTargetRelativePath property used in the according FormIt snippet call.                              | MODX assets path                                           |
+| uid                | Comma separated list of unique upload queue ids.                                                                           | md5 of MODX 'site_url' setting and the current resource id |
+| uploadSectionTpl   | Name of a chunk that contains the HTML code for the upload section.                                                        | tplAjaxuploadUploadSection                                 |
+| value              | Comma separated list of files in the upload queue. Supercedes the value that is retrieved with the Formit2AjaxUpload hook. | -                                                          |
 
 [^1]: The parameter uid has to be set different for each upload button on the site to separate multiple upload queues.
 
-If you want to change the text output in the upload section (i.e. the upload
-button), you have to edit the MODX lexicon in the namespace `ajaxupload`.
+All text output of the snippet can be edited in the MODX lexicon in the namespace `ajaxupload`.
 
 ## Set and retrieve the upload queue
 
-To set/retreive the uploaded images in the upload queue by FormIt, you have to
+To set/retreive the uploaded files in the upload queue by FormIt, you have to
 use the FormIt hooks in the *FormIt snippet* call:
 
 ```html
@@ -60,32 +53,28 @@ use the FormIt hooks in the *FormIt snippet* call:
 ...
 &preHooks=`Formit2AjaxUpload`
 &hooks=`AjaxUpload2Formit`
-&ajaxuploadFieldname=`image`
-&ajaxuploadTarget=`images/user/`
 &ajaxuploadUid=`image`
+&ajaxuploadTarget=`images/user/`
 ...
 ]]
 ```
 
-The AjaxUpload2Formit and the Formit2AjaxUpload hook use almost the same properties:
+The AjaxUpload2Formit and the Formit2AjaxUpload hooks use almost the same properties:
 
-| Property                   | Description                                                                                               | Default |
-|----------------------------|-----------------------------------------------------------------------------------------------------------|---------|
-| ajaxuploadFieldformat      | Format of the data saved in `ajaxuploadFieldname`.                                                        | csv     |
-| ajaxuploadFieldname        | **(required)** Formit field, the filenames/paths of the (already) uploaded files are saved in.            | -       |
-| ajaxuploadSanitizeFilename | Sanitize the filename of the uploaded file.                                                               | 0 (No)  |
-| ajaxuploadTarget           | **(required)** Target path for the (already) uploaded files (relative to $modx->getOption['assetsPath']). | -       |
-| ajaxuploadUid              | Unique upload queue id.                                                                                   | -       |
+| Property                     | Description                                                                                                                                 | Default                                   |
+|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| ajaxuploadCacheExpires       | Expire Time of the AjaxUpload cache (in hours)                                                                                              | System setting `ajaxupload.cache_expires` |
+| ajaxuploadFieldformat        | Format of the data saved in `ajaxuploadUid`.                                                                                                | csv                                       |
+| ajaxuploadTarget             | Target path for the uploaded files. The folder should exist or be created and must be writable for PHP.                                     | -                                         |
+| ajaxuploadTargetRelativePath | The path to which the target path of the upload is compared. The paths of the uploaded files are processed by FormIt relative to this path. | MODX assets path                          |
+| ajaxuploadUid                | Comma separated list of unique upload queue ids. Also the names of the fields used in the hooks.                                            | -                                         |
 
-The folder in `ajaxuploadTarget` has to exist and it has to be writable for PHP
-or it must be createable.
+The AjaxUpload2Formit hook uses the following additional properties:
 
-The AjaxUpload2Formit hook uses additional properties:
-
-| Property                 | Description                                               | Default |
-|--------------------------|-----------------------------------------------------------|---------|
-| ajaxuploadAllowOverwrite | Allow overwrite of existing files with the same filename. | 1 (Yes) |
-| ajaxuploadClearQueue     | Clear the upload queue after a sucessful run of the hook. | 0 (No)  |
+| Property                   | Description                                               | Default |
+|----------------------------|-----------------------------------------------------------|---------|
+| ajaxuploadAllowOverwrite   | Allow overwrite of existing files with the same filename. | 1 (Yes) |
+| ajaxuploadSanitizeFilename | Sanitize the filename of the uploaded file.               | 0 (No)  |
 
 ## Attach the uploaded files to a mail
 
@@ -112,6 +101,8 @@ If you want to remove the uploaded files i.e. after the mail is sent, you have t
 ]]
 ```
 
+The AjaxUploadRemove hook uses the properties of the hooks above.
+
 ## Make the upload required
 
 If you want to make the upload required, you have to add the AjaxUploadRequired
@@ -126,19 +117,15 @@ hook to the FormIt Call before the email hook:
 
 The AjaxUploadRequired hook uses additional properties:
 
-| Property                  | Description                                                                                                      | Default |
-|---------------------------|------------------------------------------------------------------------------------------------------------------|---------|
-| ajaxuploadRequiredMessage | The error message added, when no file is uploaded. It defaults to the lexicon entry `ajaxupload.uploadRequired`. | -       |
+| Property                  | Description                                        | Default                                   |
+|---------------------------|----------------------------------------------------|-------------------------------------------|
+| ajaxuploadRequiredMessage | The error message added, when no file is uploaded. | Lexicon entry `ajaxupload.uploadRequired` |
 
 ## System Settings
 
 AjaxUpload uses the following system settings in the namespace `ajaxupload`:
 
-| Key                                        | Name                                   | Description                                                                                                                                                                                                                                                                                                                            | Default                                                     |
-|--------------------------------------------|----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| ajaxupload.cache_expires                   | Expire Time                            | Expire Time of the AjaxUpload cache (in hours)                                                                                                                                                                                                                                                                                         | 4                                                           |
-| ajaxupload.debug                           | Debug                                  | Log debug information in the MODX error log.                                                                                                                                                                                                                                                                                           | No                                                          |
-| ajaxupload.filename_restrict_chars         | Filename character restriction method  | The method used to restrict characters used in the filename. "pattern" allows a RegEx pattern to be provided, "legal" allows any legal URL characters, "alpha" allows only letters of the alphabet, and "alphanumeric" allows only letters and numbers. If empty, the value from the equivalent MODX FURL system setting is inherited. | pattern                                                     |
-| ajaxupload.filename_restrict_chars_pattern | Filename character restriction pattern | A valid RegEx for restricting characters in the filename. If empty, the value from the equivalent MODX FURL system setting is inherited.                                                                                                                                                                                               | /[\0\x0B\t\n\r\f\a,.?!;:()&=+%#<>"~`@\?\[\]\{\}\|\^\'\\\\]/ |
-| ajaxupload.filename_translit               | Filename transliteration method        | Defaults to iconv_ascii, to eliminate potential issues with accented characters. If empty, the value from the equivalent MODX FURL system setting is inherited.                                                                                                                                                                        | iconv_ascii                                                 |
-| ajaxupload.image_tpl                       | Image Template                         | Name of a chunk that contains the HTML code for displaying the uploaded image.                                                                                                                                                                                                                                                         | tplAjaxUploadImage                                          |
+| Key                      | Name        | Description                                    | Default |
+|--------------------------|-------------|------------------------------------------------|---------|
+| ajaxupload.cache_expires | Expire Time | Expire Time of the AjaxUpload cache (in hours) | 4       |
+| ajaxupload.debug         | Debug       | Log debug information in the MODX error log.   | No      |

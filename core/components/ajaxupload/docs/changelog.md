@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - TBA
+
+### Added
+
+- Support for multiple upload queues in the hooks of one form.
+
+### Changed
+
+- Switch from Valums-File-Uploader/file-uploader to pqina/filepond
+- Add and remove some snippet properties of the snippets and hooks (see https://jako.github.io/AjaxUpload/migration/)
+
 ## [1.6.6] - 2024-06-23
 
 ### Added
