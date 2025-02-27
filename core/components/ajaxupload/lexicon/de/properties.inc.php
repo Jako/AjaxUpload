@@ -11,7 +11,8 @@ $_lang['ajaxupload.ajaxupload.addJscript'] = 'Snippet Javascript und das Fileupl
 $_lang['ajaxupload.ajaxupload.fieldformat'] = 'Der Wert der Eigenschaft ajaxuploadFieldformat, der im entsprechenden FormIt-Snippet-Aufruf verwendet wird.';
 $_lang['ajaxupload.ajaxupload.maxFiles'] = 'Maximale Anzahl der hochzuladenden Dateien.';
 $_lang['ajaxupload.ajaxupload.maxFileSize'] = 'Maximale Größe einer hochgeladenen Datei.';
-$_lang['ajaxupload.ajaxupload.placeholderPrefix'] = 'Der Wert der Eigenschaft placeholderPrefix, der im entsprechenden FormIt-Snippet-Aufruf verwendet wird.';$_lang['ajaxupload.ajaxupload.maxFiles'] = 'Maximale Anzahl der hochgeladenen Dateien.';
+$_lang['ajaxupload.ajaxupload.placeholderPrefix'] = 'Der Wert der Eigenschaft placeholderPrefix, der im entsprechenden FormIt-Snippet-Aufruf verwendet wird.';
+$_lang['ajaxupload.ajaxupload.maxFiles'] = 'Maximale Anzahl der hochgeladenen Dateien.';
 $_lang['ajaxupload.ajaxupload.scriptTpl'] = 'Name eines Chunks, der den Javascript-Code für den Upload-Bereich enthält.';
 $_lang['ajaxupload.ajaxupload.showCredits'] = 'Zeige die Credits von pqina/FilePond javascript';
 $_lang['ajaxupload.ajaxupload.uid'] = 'Eindeutige ID für die Upload Queue.';
