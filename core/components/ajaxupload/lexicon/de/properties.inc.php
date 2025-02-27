@@ -5,7 +5,7 @@
  * @package ajaxupload
  * @subpackage lexicon
  */
-$_lang['ajaxupload.ajaxupload.acceptedFileTypes'] = 'Akzeptierte Datei-Mime-Typen für den Upload';
+$_lang['ajaxupload.ajaxupload.acceptedFileTypes'] = 'Akzeptierte Datei-Mime-Typen für den Upload.';
 $_lang['ajaxupload.ajaxupload.addCss'] = 'CSS am Ende des Head-Bereichs einfügen.';
 $_lang['ajaxupload.ajaxupload.addJscript'] = 'Snippet Javascript und das Fileuploader Script am Ende des Body-Bereichs einfügen.';
 $_lang['ajaxupload.ajaxupload.fieldformat'] = 'Der Wert der Eigenschaft ajaxuploadFieldformat, der im entsprechenden FormIt-Snippet-Aufruf verwendet wird.';
@@ -43,3 +43,4 @@ $_lang['ajaxupload.formit2ajaxupload.ajaxuploadTargetRelativePath'] = 'Der Pfad,
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadUid'] = 'Eindeutige ID für die Upload Queue.';
 $_lang['ajaxupload.formit2ajaxupload.csv'] = 'CSV';
 $_lang['ajaxupload.formit2ajaxupload.json'] = 'JSON';
+$_lang['ajaxupload.ajaxupload.targetRelativePath'] = 'Der Wert der Eigenschaft ajaxuploadTargetRelativePath, der im entsprechenden FormIt-Snippet-Aufruf verwendet wird.';
