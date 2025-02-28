@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "FilePond based upload for FormIt",
   "author": "Thomas Jakobi",
-  "version": "2.0.0-b6",
+  "version": "2.0.0-b7",
   "package": {
     "elements": {
       "chunks": [
