@@ -24,7 +24,7 @@ class AjaxUpload
      * A reference to the modX instance
      * @var modX $modx
      */
-    public $modx;
+    public modX $modx;
 
     /**
      * The namespace
@@ -166,7 +166,6 @@ class AjaxUpload
      * Load all class files and init defaults.
      *
      * @param array $properties properties to override the default config (if set)
-     * @access public
      * @return boolean success state of initialization
      */
     public function initialize($properties = [])
@@ -247,8 +246,8 @@ class AjaxUpload
     /**
      * Get the relative path between two paths
      *
-     * @param $from
-     * @param $to
+     * @param string $from
+     * @param string $to
      * @param string $separator
      * @return string
      */
