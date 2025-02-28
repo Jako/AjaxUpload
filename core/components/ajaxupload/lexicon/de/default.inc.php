@@ -8,3 +8,7 @@
 $_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.targetNotCreatable'] = 'Der Zielordner konnte nicht erstellt werden!';
 $_lang['ajaxupload.uploadRequired'] = 'Sie müssen mindestens eine Datei hochladen!';
+$_lang['ajaxupload.missingParameterAjaxuploadTarget'] = 'Fehlender Parameter ajaxuploadTarget.';
+$_lang['ajaxupload.filledFileNotFound'] = 'Die angegebene Datei konnte nicht gefunden werden.';
+$_lang['ajaxupload.missingParameterAjaxuploadTargetRelativePath'] = 'Fehlender Parameter ajaxuploadTargetRelativePath.';
+$_lang['ajaxupload.cacheNotCreatable'] = 'Der Cache-Ordner konnte nicht erstellt werden!';
