@@ -61,13 +61,21 @@ use the FormIt hooks in the *FormIt snippet* call:
 
 The AjaxUpload2Formit and the Formit2AjaxUpload hooks use almost the same properties:
 
-| Property                     | Description                                                                                                                                 | Default                                   |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| ajaxuploadCacheExpires       | Expire Time of the AjaxUpload cache (in hours)                                                                                              | System setting `ajaxupload.cache_expires` |
-| ajaxuploadFieldformat        | Format of the data saved in `ajaxuploadUid`.                                                                                                | csv                                       |
-| ajaxuploadTarget             | Target path for the uploaded files. The folder should exist or be created and must be writable for PHP.                                     | -                                         |
-| ajaxuploadTargetRelativePath | The path to which the target path of the upload is compared. The paths of the uploaded files are processed by FormIt relative to this path. | MODX assets path                          |
-| ajaxuploadUid                | Comma separated list of unique upload queue ids. Also the names of the fields used in the hooks.                                            | -                                         |
+| Property                     | Description                                                                                                                                                                                                                          | Default                                   |
+|------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| ajaxuploadCacheExpires       | Expire Time of the AjaxUpload cache (in hours)                                                                                                                                                                                       | System setting `ajaxupload.cache_expires` |
+| ajaxuploadFieldformat        | Format of the data saved in `ajaxuploadUid`.                                                                                                                                                                                         | csv                                       |
+| ajaxuploadTarget             | Target path for the uploaded files. The folder should exist or be created and must be writable for PHP.                                                                                                                              | -                                         |
+| ajaxuploadTargetRelativePath | The path to which the target path of the upload is compared. If this property is used, the ajaxuploadTarget property has to contain an absolute path. The paths of the uploaded files are processed by FormIt relative to this path. | MODX assets path                          |
+| ajaxuploadUid                | Comma separated list of unique upload queue ids. Also the names of the fields used in the hooks.                                                                                                                                     | -                                         |
+
+!!! caution "Caution"
+
+     If the ajaxuploadTargetRelativePath property is used, the ajaxuploadTarget property has to contain an absolute path. i.e:
+     ```
+     &ajaxuploadTarget=`[[++base_path]]mycustompath/images`
+     &ajaxuploadTargetRelativePath=`[[++base_path]]mycustompath`
+     ```
 
 The AjaxUpload2Formit hook uses the following additional properties:
 

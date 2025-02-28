@@ -106,8 +106,10 @@ class AjaxUploadSnippet extends Snippet
                 $transfer = new Transfer();
                 $path = TRANSFER_DIR . DIRECTORY_SEPARATOR . $transfer->getId();
                 FilePond::create_secure_directory($path);
-                if (copy($this->getProperty('targetRelativePath') . $file, $path . DIRECTORY_SEPARATOR . basename($file))) {
-                    $ids[] = $transfer->getId();
+                if (file_exists($this->getProperty('targetRelativePath') . $file)) {
+                    if (copy($this->getProperty('targetRelativePath') . $file, $path . DIRECTORY_SEPARATOR . basename($file))) {
+                        $ids[] = $transfer->getId();
+                    }
                 }
             }
             $value = json_encode($ids);

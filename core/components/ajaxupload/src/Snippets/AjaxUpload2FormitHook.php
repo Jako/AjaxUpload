@@ -91,9 +91,8 @@ class AjaxUpload2FormitHook extends AjaxUploadHook
                     foreach ($files as $file) {
                         $filename = FilePond::move_file($file, $target, $this->getProperty('sanitizeFilename'), $this->getProperty('allowOverwrite'));
                         if ($filename) {
-                            if ($this->getProperty('targetRelativePath')) {
-                                $filename = $this->ajaxupload->relativePath($this->getProperty('targetRelativePath'), $filename);
-                            }
+                            $targetRelativePath = rtrim($this->getProperty('targetRelativePath'), '/') . '/';
+                            $filename = $this->ajaxupload->relativePath($targetRelativePath, $filename);
                             $filenames[] = $filename;
                         }
                     }
