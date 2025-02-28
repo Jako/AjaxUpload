@@ -8,3 +8,7 @@
 $_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.targetNotCreatable'] = 'Kan de doelmap niet maken!';
 $_lang['ajaxupload.uploadRequired'] = 'U moet ten minste één bestand uploaden!';
+$_lang['ajaxupload.filledFileNotFound'] = 'Het opgegeven bestand kon niet worden gevonden.';
+$_lang['ajaxupload.missingParameterAjaxuploadTarget'] = 'Parameter ajaxuploadTarget ontbreekt.';
+$_lang['ajaxupload.missingParameterAjaxuploadTargetRelativePath'] = 'Parameter ajaxuploadTargetRelativePath ontbreekt.';
+$_lang['ajaxupload.cacheNotCreatable'] = 'Kan de cache-map niet maken!';
