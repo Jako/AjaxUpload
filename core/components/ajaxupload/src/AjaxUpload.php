@@ -191,11 +191,11 @@ class AjaxUpload
         }
         if ($this->getOption('uid')) {
             $this->createCachePath($this->getOption('cachePath') . 'tmp');
-            $this->clearCache($this->getOption('cachePath') . 'tmp/', $this->getOption('cacheExpires'));
+            $this->clearCachePath($this->getOption('cachePath') . 'tmp/', $this->getOption('cacheExpires'));
             $this->createCachePath($this->getOption('cachePath') . 'uploads');
-            $this->clearCache($this->getOption('cachePath') . 'uploads/', $this->getOption('cacheExpires'));
+            $this->clearCachePath($this->getOption('cachePath') . 'uploads/', $this->getOption('cacheExpires'));
             $this->createCachePath($this->getOption('cachePath') . 'variants');
-            $this->clearCache($this->getOption('cachePath') . 'variants/', $this->getOption('cacheExpires'));
+            $this->clearCachePath($this->getOption('cachePath') . 'variants/', $this->getOption('cacheExpires'));
         }
         return true;
     }
@@ -267,42 +267,35 @@ class AjaxUpload
     }
 
     /**
-     * Preload file list if uploaded files exist.
+     * Recursive clear all files and folders in cache older than specified hours.
      *
-     * @access private
-     * @param array $files An array of already uploaded files.
-     * @return string html file list to prefill the template
-     */
-    public function loadFiles(&$files = [])
-    {
-        $itemList = [];
-
-        foreach ($files as $id => $fileInfo) {
-            if (file_exists($fileInfo['path'] . $fileInfo['fileName'])) {
-                $properties = [
-                    'fileid' => $id,
-                ];
-                $itemList[] = $this->parse->getChunk($this->getOption('fileTpl'), $properties);
-            } else {
-                unset($files[$id]);
-            }
-        }
-        return implode("\r\n", $itemList);
-    }
-
-    /**
-     * Clear all files in cache older than specified hours.
-     *
-     * @access public
-     * @param integer $hours Specified hours
+     * @param string $path Specified hours
+     * @param int $hours Specified hours
      * @return void
      */
-    public function clearCache($path, $hours = 4)
+    public function clearCachePath($path, $hours = 4)
     {
         $cache = opendir($path);
-        while (false !== ($file = readdir($cache))) {
+        if ($cache === false) {
+            return;
+        }
+        $limit = time() - $hours * 60 * 60;
+        while (($file = readdir($cache)) !== false) {
+            // Skip current and parent directory files
+            if ($file === "." || $file === "..") {
+                continue;
+            }
+            // Recursive clear the folders inside
+            if (is_dir($path . $file)) {
+                $this->clearCachePath($path . $file . '/', $hours);
+                if (count(glob($path . $file . '/*')) === 0) {
+                    @rmdir($path . $file);
+                }
+            }
+            // Clear files older than specified hours
             $filelastmodified = filemtime($path . $file);
-            if (((time() - $filelastmodified) > ($hours * 3600)) && is_file($path . $file)) {
+
+            if (($filelastmodified < $limit) && is_file($path . $file)) {
                 @unlink($path . $file);
             }
         }
