@@ -7,6 +7,7 @@
  */
 $_lang['ajaxupload'] = 'AjaxUpload';
 $_lang['ajaxupload.cacheNotCreatable'] = 'Could not create the cache folder!';
+$_lang['ajaxupload.filledFileNotFound'] = 'The filled file could not be found.';
 $_lang['ajaxupload.missingParameterAjaxuploadTarget'] = 'Missing parameter ajaxuploadTarget.';
 $_lang['ajaxupload.missingParameterAjaxuploadTargetRelativePath'] = 'Missing parameter ajaxuploadTargetRelativePath.';
 $_lang['ajaxupload.targetNotCreatable'] = 'Could not create the target folder!';

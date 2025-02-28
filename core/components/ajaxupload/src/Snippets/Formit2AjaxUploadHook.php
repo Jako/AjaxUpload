@@ -66,8 +66,12 @@ class Formit2AjaxUploadHook extends AjaxUploadHook
                     $transfer = new Transfer();
                     $path = TRANSFER_DIR . DIRECTORY_SEPARATOR . $transfer->getId();
                     FilePond::create_secure_directory($path);
-                    if (copy($this->getProperty('targetRelativePath') . $file, $path . DIRECTORY_SEPARATOR . basename($file))) {
-                        $value[] = $transfer->getId();
+                    if (file_exists($this->getProperty('targetRelativePath') . $file)) {
+                        if (copy($this->getProperty('targetRelativePath') . $file, $path . DIRECTORY_SEPARATOR . basename($file))) {
+                            $value[] = $transfer->getId();
+                        }
+                    } else {
+                        $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.filledFileNotFound'));
                     }
                 }
 
