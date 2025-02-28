@@ -138,6 +138,16 @@ if ($object->xpdo) {
                 ];
                 cleanupFolders($modx, $corePath, $assetsPath, $cleanup, 'AjaxUpload', '1.6.0');
             }
+            if ($oldPackage && $oldPackage->compareVersion('2.0.0', '>')) {
+                $cleanup = [
+                    'core' => [
+                        'components/ajaxupload/elements/chunks/image.chunk.html',
+                        'components/ajaxupload/model/fileuploader',
+                        'components/ajaxupload/processors/web/upload.class.php',
+                    ]
+                ];
+                cleanupFolders($modx, $corePath, $assetsPath, $cleanup, 'AjaxUpload', '1.6.0');
+            }
             $success = true;
             break;
         case xPDOTransport::ACTION_UNINSTALL:
