@@ -97,7 +97,7 @@ class AjaxUploadSnippet extends Snippet
         $value = $this->getProperty('value');
         if ($value) {
             if (!$this->ajaxupload->prepareFilePond()) {
-                return 'Could not create the cache path.';
+                return $this->modx->lexicon('ajaxupload.cacheNotCreatable');
             }
 
             $files = explode(',', $value);

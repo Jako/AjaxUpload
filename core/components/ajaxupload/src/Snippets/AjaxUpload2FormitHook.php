@@ -51,27 +51,26 @@ class AjaxUpload2FormitHook extends AjaxUploadHook
         }
         foreach ($this->getProperty('uid') as $uid) {
             if (empty($this->getProperty('target'))) {
-                $this->hook->addError($uid, 'Missing parameter ajaxuploadTarget.');
+                $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.missingParameterAjaxuploadTarget'));
                 $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'AjaxUpload2Formit');
                 return false;
             }
             if (empty($this->getProperty('targetRelativePath'))) {
-                $this->hook->addError($uid, 'Missing parameter ajaxuploadTargetRelativePath.');
+                $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.missingParameterAjaxuploadTargetRelativePath'));
                 $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTargetRelativePath.', '', 'AjaxUpload2Formit');
                 return false;
             }
 
             if (!$this->ajaxupload->prepareFilePond()) {
-                $this->hook->addError($uid, 'Could not create the cache path.');
+                $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.cacheNotCreatable'));
                 return false;
             }
 
             if (!file_exists($this->getProperty('targetRelativePath') . $this->getProperty('target'))) {
                 $cacheManager = $this->modx->getCacheManager();
                 if (!$cacheManager->writeTree($this->getProperty('targetRelativePath') . $this->getProperty('target'))) {
-                    $error = $this->modx->lexicon('ajaxupload.targetNotCreatable');
-                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, $error, '', 'AjaxUpload');
-                    $this->hook->addError($uid, $error);
+                    $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.targetNotCreatable'));
+                    $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not create the target folder!', '', 'AjaxUpload');
                 }
             }
 

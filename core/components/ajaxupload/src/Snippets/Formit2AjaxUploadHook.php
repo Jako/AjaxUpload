@@ -49,13 +49,13 @@ class Formit2AjaxUploadHook extends AjaxUploadHook
         }
         foreach ($this->getProperty('uid') as $uid) {
             if (empty($this->getProperty('targetRelativePath'))) {
-                $this->hook->addError($uid, 'Missing parameter ajaxuploadTargetRelativePath.');
+                $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.missingParameterAjaxuploadTargetRelativePath'));
                 $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTargetRelativePath.', '', 'AjaxUpload2Formit');
                 return false;
             }
 
             if (!$this->ajaxupload->prepareFilePond()) {
-                $this->hook->addError($uid, 'Could not create the cache path.');
+                $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.cacheNotCreatable'));
                 return false;
             }
 
