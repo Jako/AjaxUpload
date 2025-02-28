@@ -18,7 +18,6 @@ class AjaxUploadRequiredHook extends AjaxUploadHook
     public function getDefaultProperties()
     {
         return [
-            'uid' => '',
             'uid::explodeSeparated' => '',
             'fieldformat' => 'csv',
             'requiredMessage' => $this->modx->lexicon('ajaxupload.uploadRequired'),
