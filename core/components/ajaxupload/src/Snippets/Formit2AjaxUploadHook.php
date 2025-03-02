@@ -8,9 +8,12 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
+use modMediaSource;
+use TreehillStudio\AjaxUpload\FilePond\FilePond;
+use TreehillStudio\AjaxUpload\FilePond\Helper\Transfer;
 use xPDO;
 
-class Formit2AjaxUploadHook extends Hook
+class Formit2AjaxUploadHook extends AjaxUploadHook
 {
     /**
      * Get default snippet properties.
@@ -21,11 +24,11 @@ class Formit2AjaxUploadHook extends Hook
     {
         return [
             'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
-            'fieldname' => '',
-            'fieldformat' => 'csv',
+            'uid::explodeSeparated' => '',
             'target' => '',
-            'uid' => '',
-            'cacheExpires::int' => $this->modx->getOption('ajaxupload.cache_expires', null, '4')
+            'fieldformat' => 'csv',
+            'cacheExpires::int' => $this->modx->getOption('ajaxupload.cache_expires', null, '4'),
+            'targetMediasource::int' => 0,
         ];
     }
 
@@ -37,35 +40,46 @@ class Formit2AjaxUploadHook extends Hook
      */
     public function execute()
     {
-        $uidConfig = $this->ajaxupload->session[$this->getProperty('uid') . 'config'] ?? $this->getProperties();
-        
-        if (!$this->ajaxupload->initialize($uidConfig)) {
+        if (!$this->ajaxupload->initialize($this->getProperties())) {
             $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not initialize AjaxUpload class.', '', 'AjaxUpload');
             return false;
         }
-        if (empty($this->getProperty('fieldname'))) {
-            $this->hook->addError($this->getProperty('uid'), 'Missing parameter ajaxuploadFieldname.');
-            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadFieldname.', '', 'AjaxUpload2Formit');
+        if (empty($this->getProperty('uid'))) {
+            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadUid.', '', 'AjaxUpload2Formit');
             return false;
         }
-        if (empty($this->getProperty('target'))) {
-            $this->hook->addError($this->getProperty('uid'), 'Missing parameter ajaxuploadTarget.');
-            $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Missing parameter ajaxuploadTarget.', '', 'AjaxUpload2Formit');
-            return false;
+        if ($this->getProperty('targetMediasource')) {
+            /** @var modMediaSource $source */
+            $source = $this->modx->getObject('modMediaSource', $this->getProperty('targetMediasource'));
+            $source->initialize();
+            $targetPath = $source->getBasePath();
+        } else {
+            $targetPath = $this->modx->getOption('assets_path');
         }
 
-        if (!count($_POST)) {
-            $ajaxuploadValue = $this->hook->getValue($this->getProperty('fieldname'));
-            if ($ajaxuploadValue) {
-                switch ($this->getProperty('fieldformat')) {
-                    case 'json' :
-                        $ajaxuploadValue = json_decode($ajaxuploadValue, true);
-                        break;
-                    case 'csv':
-                    default :
-                        $ajaxuploadValue = explode(',', $ajaxuploadValue);
+        foreach ($this->getProperty('uid') as $uid) {
+            if (!$this->ajaxupload->prepareFilePond()) {
+                $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.cacheNotCreatable'));
+                return false;
+            }
+            if (!count($_POST)) {
+                $files = $this->getUidValues($uid);
+                $value = [];
+                foreach ($files as $file) {
+                    $transfer = new Transfer();
+                    $path = TRANSFER_DIR . DIRECTORY_SEPARATOR . $transfer->getId();
+                    FilePond::create_secure_directory($path);
+                    if (file_exists($targetPath . $file)) {
+                        if (copy($targetPath . $file, $path . DIRECTORY_SEPARATOR . basename($file))) {
+                            $value[] = $transfer->getId();
+                        }
+                    } else {
+                        $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.filledFileNotFound'));
+                    }
                 }
-                $this->ajaxupload->retrieveUploads($ajaxuploadValue);
+
+                $this->setUidValues($uid, $value);
+                $this->modx->setPlaceholder($this->getProperty('placeholderPrefix') . $uid, $value);
             }
         }
         return true;

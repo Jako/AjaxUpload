@@ -19,7 +19,7 @@ abstract class Processor extends modProcessor
 {
     public $languageTopics = ['ajaxupload:default'];
 
-    /** @var AjaxUpload */
+    /** @var AjaxUpload $ajaxupload */
     public $ajaxupload;
 
     /**
@@ -27,7 +27,7 @@ abstract class Processor extends modProcessor
      * @param modX $modx A reference to the modX instance
      * @param array $properties An array of properties
      */
-    function __construct(modX &$modx, array $properties = [])
+    public function __construct(modX &$modx, array $properties = [])
     {
         parent::__construct($modx, $properties);
 
@@ -35,5 +35,25 @@ abstract class Processor extends modProcessor
         $this->ajaxupload = $this->modx->getService('ajaxupload', 'AjaxUpload', $corePath . 'model/ajaxupload/');
     }
 
+    /**
+     * {@inheritDoc}
+     * @return bool
+     */
+    public function checkPermissions()
+    {
+        return !empty($this->permission) ? $this->modx->hasPermission($this->permission) : true;
+    }
+
     abstract public function process();
+
+    /**
+     * Get a boolean property.
+     * @param string $k
+     * @param mixed $default
+     * @return bool
+     */
+    public function getBooleanProperty($k, $default = null)
+    {
+        return ($this->getProperty($k, $default) === 'true' || $this->getProperty($k, $default) === true || $this->getProperty($k, $default) === '1' || $this->getProperty($k, $default) === 1);
+    }
 }

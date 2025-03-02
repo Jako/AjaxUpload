@@ -11,3 +11,4 @@ _packages/*.*
 
 node_modules/
 core/components/*/vendor/
+assets/components/ajaxupload/cache

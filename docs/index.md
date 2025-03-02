@@ -1,22 +1,23 @@
 # AjaxUpload
 
-AjaxUpload is an extra package for MODx Revolution. It displays an upload button
-for uploading multiple files with progress counter. The upload queue could be
-filled and saved by Formit hooks. The uploaded files could be attached to the
-FormIt mails.
+AjaxUpload is an extra package for MODx Revolution. It displays an upload area
+for uploading multiple files. The upload queue can be filled and saved by Formit
+hooks. The uploaded files can be attached to the FormIt mails and deleted after
+the form submission.
 
 ### Requirements
 
 * MODX Revolution 2.8+
-* PHP 7.2+
+* PHP 7.4+
 
 ### Features
 
-* Generate an upload button for uploading multiple files with progress counter. 
-* Works well in FF3.6+, Safari4+, Chrome and falls back to hidden iframe based upload in other browsers
-* Uploaded files and generated thumbnails gets random filenames to avoid hotlinking uploaded not published files.
-* Automatic thumbnail generation for uploaded jpeg, png and gif files.
-* FormIt hooks to prefill the upload queue, read the upload queue after form submission and attach the uploaded files to FormIt mails.
+* Generate an upload area for uploading multiple files. 
+* Uploaded files gets random filenames to avoid hotlinking uploaded not
+  published files.
+* FormIt hooks to prefill the upload queue, read the upload queue after form
+  submission, attach the uploaded files to FormIt mails and delete them afer
+  the form submission.
 
 ### License
 

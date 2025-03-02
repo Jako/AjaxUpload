@@ -8,9 +8,9 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
-use xPDO;
+use modMediaSource;
 
-class AjaxUploadAttachmentsHook extends Hook
+class AjaxUploadAttachmentsHook extends AjaxUploadHook
 {
     /**
      * Get default snippet properties.
@@ -20,8 +20,9 @@ class AjaxUploadAttachmentsHook extends Hook
     public function getDefaultProperties()
     {
         return [
-            'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
-            'fieldname' => '',
+            'uid::explodeSeparated' => '',
+            'fieldformat' => 'csv',
+            'targetMediasource::int' => 0,
         ];
     }
 
@@ -33,31 +34,19 @@ class AjaxUploadAttachmentsHook extends Hook
      */
     public function execute()
     {
-        if ($this->getProperty('fieldname')) {
-            $assetsPath = $this->modx->getOption('assets_path');
-            $assetsUrl = $this->modx->getOption('assets_url');
-            $assetsUrlLength = strlen($assetsUrl);
-
-            $attachments = $this->hook->getValue($this->getProperty('fieldname'));
-            if ($this->getProperty('fieldformat') == 'json') {
-                $attachments = json_decode($attachments, true);
-            } else {
-                $attachments = (!empty($attachments)) ? explode(',', $attachments) : [];
-            }
-
+        if ($this->getProperty('targetMediasource')) {
+            /** @var modMediaSource $source */
+            $source = $this->modx->getObject('modMediaSource', $this->getProperty('targetMediasource'));
+            $source->initialize();
+            $targetPath = $source->getBasePath();
+        } else {
+            $targetPath = $this->modx->getOption('assets_path');
+        }
+        foreach ($this->getProperty('uid') as $uid) {
+            $files = $this->getUidValues($uid);
             $this->hook->modx->getService('mail', 'mail.modPHPMailer');
-
-            foreach ($attachments as $attachment) {
-                $attachment = substr($attachment, $assetsUrlLength);
-                if (file_exists($assetsPath . $attachment) && is_file($assetsPath . $attachment)) {
-                    $this->hook->modx->mail->mailer->AddAttachment($assetsPath . $attachment);
-                } elseif ($this->getProperty('debug')) {
-                    if (!is_file($assetsPath . $attachment)) {
-                        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'The attached file ' . $assetsPath . $attachment . ' is not a file!', '', 'AjaxUploadAttachments');
-                    } elseif (!file_exists($assetsPath . $attachment)) {
-                        $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'The attached file ' . $assetsPath . $attachment . ' does not exist!', '', 'AjaxUploadAttachments');
-                    }
-                }
+            foreach ($files as $file) {
+                $this->hook->modx->mail->mailer->AddAttachment($targetPath . $file);
             }
         }
         return true;
