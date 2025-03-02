@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "FilePond based upload for FormIt",
   "author": "Thomas Jakobi",
-  "version": "2.0.0-b8",
+  "version": "2.0.0-b9",
   "package": {
     "elements": {
       "chunks": [
@@ -85,8 +85,9 @@
               "value": "1"
             },
             {
-              "name": "targetRelativePath",
-              "value": ""
+              "name": "targetMediasource",
+              "type": "modx-combo-source",
+              "value": "0"
             }
           ]
         },
@@ -133,8 +134,9 @@
               "value": "0"
             },
             {
-              "name": "ajaxuploadTargetRelativePath",
-              "value": ""
+              "name": "ajaxuploadTargetMediasource",
+              "type": "modx-combo-source",
+              "value": "0"
             }
           ]
         },
@@ -171,8 +173,9 @@
               "value": ""
             },
             {
-              "name": "ajaxuploadTargetRelativePath",
-              "value": ""
+              "name": "ajaxuploadTargetMediasource",
+              "type": "modx-combo-source",
+              "value": "0"
             }
           ]
         },
@@ -201,8 +204,9 @@
               "value": "csv"
             },
             {
-              "name": "ajaxuploadTargetRelativePath",
-              "value": ""
+              "name": "ajaxuploadTargetMediasource",
+              "type": "modx-combo-source",
+              "value": "0"
             }
           ]
         },
@@ -231,8 +235,9 @@
               "value": "csv"
             },
             {
-              "name": "ajaxuploadTargetRelativePath",
-              "value": ""
+              "name": "ajaxuploadTargetMediasource",
+              "type": "modx-combo-source",
+              "value": "0"
             }
           ]
         },

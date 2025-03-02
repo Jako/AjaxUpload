@@ -20,7 +20,7 @@ class AjaxUploadRemoveHook extends AjaxUploadHook
         return [
             'uid::explodeSeparated' => '',
             'fieldformat' => 'csv',
-            'targetRelativePath' => MODX_ASSETS_PATH,
+            'targetMediasource::int' => 0,
         ];
     }
 
@@ -32,11 +32,20 @@ class AjaxUploadRemoveHook extends AjaxUploadHook
      */
     public function execute()
     {
+        if ($this->getProperty('targetMediasource')) {
+            /** @var modMediaSource $source */
+            $source = $this->modx->getObject('modMediaSource', $this->getProperty('targetMediasource'));
+            $source->initialize();
+            $targetPath = $source->getBasePath();
+        } else {
+            $targetPath = $this->modx->getOption('assets_path');
+        }
+
         foreach ($this->getProperty('uid') as $uid) {
             $files = $this->getUidValues($uid);
             foreach ($files as $file) {
-                if (file_exists($this->getProperty('targetRelativePath') . $file)) {
-                    unlink($this->getProperty('targetRelativePath') . $file);
+                if (file_exists($targetPath . $file)) {
+                    unlink($targetPath . $file);
                 }
             }
         }

@@ -8,6 +8,8 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
+use modMediaSource;
+
 class AjaxUploadAttachmentsHook extends AjaxUploadHook
 {
     /**
@@ -20,7 +22,7 @@ class AjaxUploadAttachmentsHook extends AjaxUploadHook
         return [
             'uid::explodeSeparated' => '',
             'fieldformat' => 'csv',
-            'targetRelativePath' => MODX_ASSETS_PATH,
+            'targetMediasource::int' => 0,
         ];
     }
 
@@ -32,11 +34,19 @@ class AjaxUploadAttachmentsHook extends AjaxUploadHook
      */
     public function execute()
     {
+        if ($this->getProperty('targetMediasource')) {
+            /** @var modMediaSource $source */
+            $source = $this->modx->getObject('modMediaSource', $this->getProperty('targetMediasource'));
+            $source->initialize();
+            $targetPath = $source->getBasePath();
+        } else {
+            $targetPath = $this->modx->getOption('assets_path');
+        }
         foreach ($this->getProperty('uid') as $uid) {
             $files = $this->getUidValues($uid);
             $this->hook->modx->getService('mail', 'mail.modPHPMailer');
             foreach ($files as $file) {
-                $this->hook->modx->mail->mailer->AddAttachment($this->getProperty('targetRelativePath') . $file);
+                $this->hook->modx->mail->mailer->AddAttachment($targetPath . $file);
             }
         }
         return true;

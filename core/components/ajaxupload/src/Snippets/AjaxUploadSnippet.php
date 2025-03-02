@@ -8,6 +8,7 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
+use modMediaSource;
 use TreehillStudio\AjaxUpload\FilePond\FilePond;
 use TreehillStudio\AjaxUpload\FilePond\Helper\Post;
 use TreehillStudio\AjaxUpload\FilePond\Helper\Transfer;
@@ -37,7 +38,7 @@ class AjaxUploadSnippet extends Snippet
             'maxFiles' => 3,
             'maxFileSize' => "8MB",
             'showCredits::bool' => true,
-            'targetRelativePath' => MODX_ASSETS_PATH,
+            'targetMediasource::int' => 0,
         ];
     }
 
@@ -102,12 +103,20 @@ class AjaxUploadSnippet extends Snippet
 
             $files = explode(',', $value);
             $ids = [];
+            if ($this->getProperty('targetMediasource')) {
+                /** @var modMediaSource $source */
+                $source = $this->modx->getObject('modMediaSource', $this->getProperty('targetMediasource'));
+                $source->initialize();
+                $targetPath = $source->getBasePath();
+            } else {
+                $targetPath = $this->modx->getOption('assets_path');
+            }
             foreach ($files as $file) {
                 $transfer = new Transfer();
                 $path = TRANSFER_DIR . DIRECTORY_SEPARATOR . $transfer->getId();
                 FilePond::create_secure_directory($path);
-                if (file_exists($this->getProperty('targetRelativePath') . $file)) {
-                    if (copy($this->getProperty('targetRelativePath') . $file, $path . DIRECTORY_SEPARATOR . basename($file))) {
+                if (file_exists($targetPath . $file)) {
+                    if (copy($targetPath . $file, $path . DIRECTORY_SEPARATOR . basename($file))) {
                         $ids[] = $transfer->getId();
                     }
                 }

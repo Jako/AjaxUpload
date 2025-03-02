@@ -42,7 +42,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '2.0.0-b8';
+    public $version = '2.0.0-b9';
 
     /**
      * The class options
