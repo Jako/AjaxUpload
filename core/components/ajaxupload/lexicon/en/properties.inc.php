@@ -35,6 +35,7 @@ $_lang['ajaxupload.ajaxuploadremove.ajaxuploadTargetMediasource'] = 'If not empt
 $_lang['ajaxupload.ajaxuploadremove.ajaxuploadUid'] = 'Comma separated list of unique upload queue ids. Also the names of the fields used in the hooks.';
 $_lang['ajaxupload.ajaxuploadrequired.ajaxuploadFieldformat'] = 'Format of the data saved in `ajaxuploadUid`.';
 $_lang['ajaxupload.ajaxuploadrequired.ajaxuploadRequiredMessage'] = 'The error message added, when no file is uploaded.';
+$_lang['ajaxupload.ajaxuploadrequired.ajaxuploadRequiredUid'] = 'Comma separated list of unique upload queue ids that have to contain at least one uploaded file.';
 $_lang['ajaxupload.ajaxuploadrequired.ajaxuploadUid'] = 'Comma separated list of unique upload queue ids. Also the names of the fields used in the hooks.';
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadCacheExpires'] = 'Expire Time of the AjaxUpload cache (in hours).';
 $_lang['ajaxupload.formit2ajaxupload.ajaxuploadFieldformat'] = 'Format of the data saved in `ajaxuploadUid`.';
