@@ -19,6 +19,7 @@ class AjaxUploadRequiredHook extends AjaxUploadHook
     {
         return [
             'uid::explodeSeparated' => '',
+            'requiredUid::explodeSeparated' => '',
             'fieldformat' => 'csv',
             'requiredMessage' => $this->modx->lexicon('ajaxupload.uploadRequired'),
         ];
@@ -32,7 +33,16 @@ class AjaxUploadRequiredHook extends AjaxUploadHook
      */
     public function execute()
     {
-        foreach ($this->getProperty('uid') as $uid) {
+        $uids = $this->getProperty('uid');
+        $requiredUids = $this->getProperty('requiredUid');
+
+        if (empty($requiredUids)) {
+            $uidsToCheck = $uids;
+        } else {
+            $uidsToCheck = array_intersect($uids, $requiredUids);
+        }
+
+        foreach ($uidsToCheck as $uid) {
             if ($uid) {
                 $files = $this->getUidValues($uid);
                 if (empty($files)) {
@@ -40,6 +50,7 @@ class AjaxUploadRequiredHook extends AjaxUploadHook
                 }
             }
         }
+
         return !$this->hook->hasErrors();
     }
 }
