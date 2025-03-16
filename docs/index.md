@@ -1,9 +1,9 @@
 # AjaxUpload
 
 AjaxUpload is an extra package for MODx Revolution. It displays an upload area
-for uploading multiple files. The upload queue can be filled and saved by Formit
-hooks. The uploaded files can be attached to the FormIt mails and deleted after
-the form submission.
+with [pqinoa/filepond](https://github.com/pqina/filepond) for uploading multiple
+files. The upload queue can be filled and saved by Formit hooks. The uploaded
+files can be attached to the FormIt mails and deleted after the form submission.
 
 ### Requirements
 

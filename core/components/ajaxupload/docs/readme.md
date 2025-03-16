@@ -1,7 +1,8 @@
 # AjaxUpload
 
-Display an upload area for uploading multiple files in a form. The upload queues
-can be filled and saved by FormIt hooks.
+Display an upload area with [pqinoa/filepond](https://github.com/pqina/filepond)
+for uploading multiple files in a form. The upload queues can be filled and
+saved by FormIt hooks.
 
 - Author: Thomas Jakobi <office@treehillstudio.com>
 - License: GNU GPLv2
