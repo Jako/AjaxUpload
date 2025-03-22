@@ -77,6 +77,7 @@ class AjaxUpload2FormitHook extends AjaxUploadHook
             }
 
             $ids = $this->hook->getValue($uid);
+            $ids = isset($ids['name']) ? [] : $ids;
             $filenames = [];
             $target = rtrim($targetPath . $this->getProperty('target'), '/');
             foreach ($ids as $id) {
