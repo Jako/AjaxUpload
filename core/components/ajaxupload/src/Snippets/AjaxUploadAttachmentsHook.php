@@ -36,7 +36,7 @@ class AjaxUploadAttachmentsHook extends AjaxUploadHook
     {
         if ($this->getProperty('targetMediasource')) {
             /** @var modMediaSource $source */
-            $source = $this->modx->getObject('modMediaSource', $this->getProperty('targetMediasource'));
+            $source = $this->modx->getObject('sources.modMediaSource', $this->getProperty('targetMediasource'));
             $source->initialize();
             $targetPath = $source->getBasePath();
         } else {
