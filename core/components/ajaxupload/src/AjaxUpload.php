@@ -290,6 +290,7 @@ class AjaxUpload
                 $this->clearCachePath($path . $file . '/', $hours);
                 if (count(glob($path . $file . '/*')) === 0) {
                     @rmdir($path . $file);
+                    continue;
                 }
             }
             // Clear files older than specified hours
