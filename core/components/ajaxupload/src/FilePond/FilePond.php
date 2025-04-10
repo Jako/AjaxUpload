@@ -200,7 +200,14 @@ Options -ExecCGI -Indexes';
         header('Content-Type: ' . $file['type']);
         header('Content-Length: ' . $file['length']);
         header('Content-Disposition: inline; filename="' . $file['name'] . '"');
-        echo $file['content'] ?? self::read_file_contents($file['tmp_name']);
+
+        $content = $file['content'] ?? self::read_file_contents($file['tmp_name']);
+        if ($content !== false) {
+            echo $content;
+        } else {
+            http_response_code(500);
+            echo '';
+        }
     }
 
     /**
