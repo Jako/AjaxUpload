@@ -32,7 +32,8 @@ class AjaxUploadRestoreProcessor extends FilePondProcessor
 
         // Return file
         FilePond::echo_file($files[0]);
-        return $this->filePondSuccess();
+        @session_write_close();
+        exit;
     }
 }
 
