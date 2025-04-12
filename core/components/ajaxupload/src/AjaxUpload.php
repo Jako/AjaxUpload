@@ -282,7 +282,7 @@ class AjaxUpload
         $limit = time() - $hours * 60 * 60;
         while (($file = readdir($cache)) !== false) {
             // Skip current and parent directory files
-            if ($file === "." || $file === "..") {
+            if ($file === '.' || $file === '..') {
                 continue;
             }
             // Recursive clear the folders inside
@@ -290,8 +290,8 @@ class AjaxUpload
                 $this->clearCachePath($path . $file . '/', $hours);
                 if (count(glob($path . $file . '/*')) === 0) {
                     @rmdir($path . $file);
-                    continue;
                 }
+                continue;
             }
             // Clear files older than specified hours
             $filelastmodified = filemtime($path . $file);
