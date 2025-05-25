@@ -1,6 +1,7 @@
 {
   "name": "treehillstudio/ajaxupload",
   "description": "FilePond based upload for FormIt",
+  "version": "2.0.4",
   "authors": [
     {
       "name": "Thomas Jakobi",

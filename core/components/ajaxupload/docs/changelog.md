@@ -5,15 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.4] - 2025-05-25
+
+### Changed
+
+- Don't sanitize the filename in the FilePond class
+- Sanitize the uploaded filename with $modx->filterPathSegment
+- Close the session and exit after a file was sent to the client
+
+### Fixed
+
+- Fix filemtime issues in the clearCachePath method
+- Send the reponse code 500, when a file is not found
+
 ## [2.0.3] - 2025-04-04
 
-### Added
+### Fixed
 
 - Fix the usage of media sources in MODX 3.x
 
 ## [2.0.2] - 2025-03-22
 
-### Added
+### Fixed
 
 - Fix form submission only works when a file is uploaded [#80]
 
