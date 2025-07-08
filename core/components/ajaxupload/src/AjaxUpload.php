@@ -42,7 +42,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '2.0.4';
+    public $version = '2.0.3';
 
     /**
      * The class options
@@ -70,7 +70,6 @@ class AjaxUpload
     public function __construct(modX &$modx, $options = [])
     {
         $this->modx =& $modx;
-        $this->namespace = $this->getOption('namespace', $options, $this->namespace);
 
         $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/' . $this->namespace . '/');
         $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH) . 'components/' . $this->namespace . '/');
