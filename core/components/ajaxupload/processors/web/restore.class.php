@@ -26,7 +26,7 @@ class AjaxUploadRestoreProcessor extends FilePondProcessor
         $files = $transfer->getFiles();
 
         // No file returned
-        if (count($files) === 0) {
+        if ($files !== null && count($files) === 0) {
             return $this->filePondFailure('',404);
         }
 

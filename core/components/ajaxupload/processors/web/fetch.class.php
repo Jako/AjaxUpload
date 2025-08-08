@@ -40,7 +40,6 @@ class AjaxUploadFetchProcessor extends FilePondProcessor
 
         // If we only return headers we store the file in the transfer folder
         if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
-
             // deal with this file as if it's a file transfer, will return unique id to client
             $transfer = new Transfer();
             $transfer->restore($file);
