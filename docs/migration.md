@@ -18,9 +18,10 @@ AjaxUpload snippet call:
 | maxFilesizeMb     | The property has to be replaced with the `maxFileSize` property. The property value has to be modified.       |
 | thumbX            | Remove from snippet call.                                                                                     |
 | thumbY            | Remove from snippet call.                                                                                     |
+| uid               | The uid should contain only alphanumeric characters.                                                          |
 
-The following new properties are available and have to be added or modified in
-the AjaxUpload snippet call:
+The following new properties are available and have to be added in the
+AjaxUpload snippet call:
 
 | New property      | Change                                                                                                                                |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------------|
