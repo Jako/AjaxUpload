@@ -35,9 +35,9 @@ The AjaxUpload snippet uses the following properties:
 | scriptTpl         | Name of a chunk that contains the Javascript code for the upload section.                                                  | tplAjaxuploadScript                                        |
 | showCredits       | Show the credits of pqina/FilePond javascript                                                                              | 1 (Yes)                                                    |
 | targetMediasource | The value of ajaxuploadTargetMediasource property used in the according FormIt snippet call.                               | -                                                          |
-| uid               | Comma separated list of unique upload queue ids.                                                                           | md5 of MODX 'site_url' setting and the current resource id |
+| uid               | Comma-separated list of unique upload queue ids.                                                                           | md5 of MODX 'site_url' setting and the current resource id |
 | uploadSectionTpl  | Name of a chunk that contains the HTML code for the upload section.                                                        | tplAjaxuploadUploadSection                                 |
-| value             | Comma separated list of files in the upload queue. Supercedes the value that is retrieved with the Formit2AjaxUpload hook. | -                                                          |
+| value             | Comma-separated list of files in the upload queue. Supercedes the value that is retrieved with the Formit2AjaxUpload hook. | -                                                          |
 
 [^1]: The parameter uid has to be set different for each upload button on the site to separate multiple upload queues.
 
@@ -67,7 +67,7 @@ The AjaxUpload2Formit and the Formit2AjaxUpload hooks use almost the same proper
 | ajaxuploadFieldformat       | Format of the data saved in `ajaxuploadUid`.                                                                                                | csv                                       |
 | ajaxuploadTarget            | Target path for the uploaded files. The folder should exist or be created and must be writable for PHP.                                     | -                                         |
 | ajaxuploadTargetMediasource | If not empty, The target path is prefixed with the media source base path. Otherwise the target path is prefixed with the MODX assets path. | -                                         |
-| ajaxuploadUid               | Comma separated list of unique upload queue ids. Also the names of the fields used in the hooks.                                            | -                                         |
+| ajaxuploadUid               | Comma-separated list of unique upload queue ids. Also the names of the fields used in the hooks.                                            | -                                         |
 
 !!! caution "Caution"
 
