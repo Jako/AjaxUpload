@@ -69,7 +69,7 @@ The AjaxUpload2Formit and the Formit2AjaxUpload hooks use almost the same proper
 | ajaxuploadTargetMediasource | If not empty, The target path is prefixed with the media source base path. Otherwise the target path is prefixed with the MODX assets path. | -                                         |
 | ajaxuploadUid               | Comma-separated list of unique upload queue ids. Also the names of the fields used in the hooks.                                            | -                                         |
 
-!!! caution "Caution"
+!!! caution "Beware: Absolute path needed"
 
      If the ajaxuploadTargetRelativePath property is used, the ajaxuploadTarget property has to contain an absolute path. i.e:
      ```
