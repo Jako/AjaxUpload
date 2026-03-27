@@ -205,10 +205,18 @@ class AjaxUpload
     public function prepareFilePond()
     {
         // Prepare FilePond constants
-        define('TRANSFER_DIR', $this->getOption('cachePath') . 'tmp');
-        define('UPLOAD_DIR', $this->getOption('cachePath') . 'uploads');
-        define('VARIANTS_DIR', $this->getOption('cachePath') . 'variants');
-        define('METADATA_FILENAME', '.metadata');
+        if (!defined('TRANSFER_DIR')) {
+            define('TRANSFER_DIR', $this->getOption('cachePath') . 'tmp');
+        }
+        if (!defined('UPLOAD_DIR')) {
+            define('UPLOAD_DIR', $this->getOption('cachePath') . 'uploads');
+        }
+        if (!defined('VARIANTS_DIR')) {
+            define('VARIANTS_DIR', $this->getOption('cachePath') . 'variants');
+        }
+        if (!defined('METADATA_FILENAME')) {
+            define('METADATA_FILENAME', '.metadata');
+        }
 
         $success = $this->createCachePath($this->getOption('cachePath') . 'tmp');
         $success = $success && $this->createCachePath($this->getOption('cachePath') . 'uploads');
