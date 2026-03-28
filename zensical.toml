@@ -1,6 +1,6 @@
 [project]
 site_name = "AjaxUpload"
-site_description = "Documentation for AjaxUpload, to display an area for uploading multiple files in a FormIt form."
+site_description = "Documentation for AjaxUpload, a MODX extra for uploading multiple files in a FormIt form."
 site_author = "Treehill Studio"
 site_url = "https://jako.github.io/AjaxUpload/"
 repo_url = "https://github.com/Jako/AjaxUpload/"
