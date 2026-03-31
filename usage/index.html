@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Documentation for AjaxUpload, a MODX extra for uploading multiple files in a FormIt form.">
+        <meta name="description" content="Documentation for AjaxUpload, the uploader for multiple files in a FormIt form.">
       
       
         <meta name="author" content="Treehill Studio">
@@ -18,7 +18,7 @@
         <link rel="prev" href="../installation/">
       
       
-        <link rel="next" href="../contributors/">
+        <link rel="next" href="../migration/">
       
       
         
@@ -487,6 +487,60 @@
   
   
     <li class="md-nav__item">
+      <a href="../migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../contributors/" class="md-nav__link">
         
   
@@ -648,7 +702,7 @@ submit.</p>
 <h2 id="display-the-upload-area">Display the Upload Area</h2>
 <p>To display the upload area, you need to place the <em>AjaxUpload snippet</em> call
 in a form handled by FormIt:</p>
-<div class="language-html highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[[!AjaxUpload?
+<div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[[!AjaxUpload?
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="err">&amp;</span>uid=`image`
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="err">&amp;</span>acceptedFileTypes=`image/jpeg,image/gif,image/png,image/webp`
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>]]
@@ -705,7 +759,7 @@ in a form handled by FormIt:</p>
 </tr>
 <tr>
 <td>showCredits</td>
-<td>Show the credits of pqina/FilePond javascript</td>
+<td>Show the credits of pqina/FilePond javascript.</td>
 <td>1 (Yes)</td>
 </tr>
 <tr>
@@ -735,7 +789,7 @@ in a form handled by FormIt:</p>
 <h2 id="set-and-retrieve-the-upload-queue">Set and retrieve the upload queue</h2>
 <p>To set/retreive the uploaded files in the upload queue by FormIt, you have to
 use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
-<div class="language-html highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[[!FormIt?
+<div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[[!FormIt?
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>...
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="err">&amp;</span>preHooks=`Formit2AjaxUpload`
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="err">&amp;</span>hooks=`AjaxUpload2Formit`
@@ -756,7 +810,7 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <tbody>
 <tr>
 <td>ajaxuploadCacheExpires</td>
-<td>Expire Time of the AjaxUpload cache (in hours)</td>
+<td>Expire Time of the AjaxUpload cache (in hours).</td>
 <td>System setting <code>ajaxupload.cache_expires</code></td>
 </tr>
 <tr>
@@ -784,7 +838,7 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <div class="admonition warning">
 <p class="admonition-title">Beware: Absolute path needed</p>
 <p>If the ajaxuploadTargetRelativePath property is used, the ajaxuploadTarget property has to contain an absolute path. i.e:
- <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&amp;ajaxuploadTarget=`[[++base_path]]mycustompath/images`
+ <div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&amp;ajaxuploadTarget=`[[++base_path]]mycustompath/images`
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&amp;ajaxuploadTargetRelativePath=`[[++base_path]]mycustompath`
 </span></code></pre></div></p>
 </div>
@@ -813,7 +867,7 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <h2 id="attach-the-uploaded-files-to-a-mail">Attach the uploaded files to a mail</h2>
 <p>If you want to attach the uploaded files to the email, you have to add the
 AjaxUploadAttachments hook to the FormIt Call before the email hook:</p>
-<div class="language-html highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[[!FormIt?
+<div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[[!FormIt?
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>...
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="err">&amp;</span>hooks=`AjaxUpload2Formit,AjaxUploadAttachments,email`
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>]]
@@ -821,7 +875,7 @@ AjaxUploadAttachments hook to the FormIt Call before the email hook:</p>
 <p>The AjaxUploadAttachments hook uses the properties of the hooks above.</p>
 <h2 id="remove-the-uploaded-files">Remove the uploaded files</h2>
 <p>If you want to remove the uploaded files i.e. after the mail is sent, you have to add the AjaxUploadRemove hook after the email hook:</p>
-<div class="language-html highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>[[!FormIt?
+<div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>[[!FormIt?
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>...
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="err">&amp;</span>hooks=`AjaxUpload2Formit,AjaxUploadAttachments,email,AjaxUploadRemove`
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>]]
@@ -830,7 +884,7 @@ AjaxUploadAttachments hook to the FormIt Call before the email hook:</p>
 <h2 id="make-the-upload-required">Make the upload required</h2>
 <p>If you want to make the upload required, you have to add the AjaxUploadRequired
 hook to the FormIt Call before the email hook:</p>
-<div class="language-html highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[[!FormIt?
+<div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[[!FormIt?
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>...
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="err">&amp;</span>hooks=`AjaxUpload2Formit,AjaxUploadRequired,email`
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>]]
