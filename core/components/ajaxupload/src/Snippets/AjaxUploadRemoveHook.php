@@ -8,6 +8,8 @@
 
 namespace TreehillStudio\AjaxUpload\Snippets;
 
+use modMediaSource;
+
 class AjaxUploadRemoveHook extends AjaxUploadHook
 {
     /**

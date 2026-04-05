@@ -207,6 +207,6 @@ class Parse
      */
     public function stripModxTags($string)
     {
-        return preg_replace('/\[\[([^\[\]]++|(?R))*?]]/sm', '', $string);
+        return preg_replace('/\[\[([^\[\]]++|(?R))*?]]/m', '', $string);
     }
 }

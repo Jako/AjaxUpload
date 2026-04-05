@@ -33,7 +33,7 @@ The AjaxUpload snippet uses the following properties:
 | maxFileSize       | Maximum size for one file to upload.                                                                                       | 8MB                                                        |
 | placeholderPrefix | The value of placeholderPrefix property used in the according FormIt snippet call.                                         | fi.                                                        |
 | scriptTpl         | Name of a chunk that contains the Javascript code for the upload section.                                                  | tplAjaxuploadScript                                        |
-| showCredits       | Show the credits of pqina/FilePond javascript                                                                              | 1 (Yes)                                                    |
+| showCredits       | Show the credits of pqina/FilePond javascript.                                                                             | 1 (Yes)                                                    |
 | targetMediasource | The value of ajaxuploadTargetMediasource property used in the according FormIt snippet call.                               | -                                                          |
 | uid               | Comma-separated list of unique upload queue ids.                                                                           | md5 of MODX 'site_url' setting and the current resource id |
 | uploadSectionTpl  | Name of a chunk that contains the HTML code for the upload section.                                                        | tplAjaxuploadUploadSection                                 |
@@ -63,7 +63,7 @@ The AjaxUpload2Formit and the Formit2AjaxUpload hooks use almost the same proper
 
 | Property                    | Description                                                                                                                                 | Default                                   |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| ajaxuploadCacheExpires      | Expire Time of the AjaxUpload cache (in hours)                                                                                              | System setting `ajaxupload.cache_expires` |
+| ajaxuploadCacheExpires      | Expire Time of the AjaxUpload cache (in hours).                                                                                             | System setting `ajaxupload.cache_expires` |
 | ajaxuploadFieldformat       | Format of the data saved in `ajaxuploadUid`.                                                                                                | csv                                       |
 | ajaxuploadTarget            | Target path for the uploaded files. The folder should exist or be created and must be writable for PHP.                                     | -                                         |
 | ajaxuploadTargetMediasource | If not empty, The target path is prefixed with the media source base path. Otherwise the target path is prefixed with the MODX assets path. | -                                         |

@@ -2,7 +2,7 @@
 /**
  * AjaxUpload
  *
- * Copyright 2013-2025 by Thomas Jakobi <office@treehillstudio.com>
+ * Copyright 2013-2026 by Thomas Jakobi <office@treehillstudio.com>
  *
  * @package ajaxupload
  * @subpackage classfile
@@ -42,7 +42,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '2.0.3';
+    public $version = '2.0.5';
 
     /**
      * The class options

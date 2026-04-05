@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.5] - TBA
+## [2.0.5] - 2026-03-30
 
 ### Fixed
 
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Don't sanitize the filename in the FilePond class
-- Sanitize the uploaded filename with $modx->filterPathSegment
+- Sanitize the uploaded filename with `$modx->filterPathSegment`
 - Close the session and exit after a file was sent to the client
 
 ### Fixed
@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix form submission only works when a file is uploaded [#80]
+- Fix form submission only works when a file is uploaded [#80](https://github.com/Jako/AjaxUpload/issues/80)
 
 ## [2.0.1] - 2025-03-13
 
@@ -47,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking
 
-- Add and remove some snippet properties of the snippets and hooks (see https://jako.github.io/AjaxUpload/migration/)
+- Add and remove some snippet properties of the snippets and hooks (see [jako.github.io/AjaxUpload/migration](https://jako.github.io/AjaxUpload/migration/))
 
 ### Added
 
@@ -55,7 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Switch from Valums-File-Uploader/file-uploader to pqina/filepond
+- Switch from `Valums-File-Uploader/file-uploader` to `pqina/filepond`
 
 ## [1.6.6] - 2024-06-23
 
@@ -78,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix ajaxuploadAllowOverwrite property in AjaxUpload2FormIt hook
-- Fix Default lexicon entry is not set in AjaxUploadRequired [#62]
+- Fix Default lexicon entry is not set in AjaxUploadRequired [#62](https://github.com/Jako/AjaxUpload/issues/62)
 
 ## [1.6.4] - 2023-01-24
 

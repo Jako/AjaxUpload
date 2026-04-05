@@ -8,8 +8,6 @@
 
 namespace TreehillStudio\AjaxUpload\Processors;
 
-use xPDO;
-
 /**
  * Class Processor
  */
@@ -37,7 +35,7 @@ abstract class FilePondProcessor extends Processor
      * Return a success message from the processor.
      * @param string $msg
      * @param int $code
-     * @return string|void
+     * @return void
      */
     public function filePondSuccess(string $msg = '', int $code = 200)
     {
@@ -52,7 +50,7 @@ abstract class FilePondProcessor extends Processor
      * Return a failure message from the processor.
      * @param string $msg
      * @param int $code
-     * @return string|void
+     * @return void
      */
     public function filePondFailure(string $msg = '', int $code = 400)
     {

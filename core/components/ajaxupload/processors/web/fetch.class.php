@@ -23,7 +23,7 @@ class AjaxUploadFetchProcessor extends FilePondProcessor
         // Is this a valid url
         if (!FilePond::is_url($url)) {
             return $this->filePondFailure();
-        };
+        }
 
         // Let's try to get the remote file content
         $file = FilePond::fetch($url);
@@ -36,7 +36,7 @@ class AjaxUploadFetchProcessor extends FilePondProcessor
         // Remote server returned invalid response
         if ($file['error'] !== 0) {
             return $this->filePondFailure($file['error'], 400);
-        };
+        }
 
         // If we only return headers we store the file in the transfer folder
         if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
