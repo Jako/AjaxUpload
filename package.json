@@ -5,8 +5,8 @@
   "private": true,
   "devDependencies": {
     "@fomantic/gulp-header": "^2.1.1",
-    "autoprefixer": "^10.4.27",
-    "cssnano": "^7.1.4",
+    "autoprefixer": "^10.5.0",
+    "cssnano": "^7.1.7",
     "date-format": "^4.0.14",
     "gulp": "^5.0.1",
     "gulp-concat": "^2.6.1",
@@ -17,8 +17,8 @@
     "gulp-sass": "^6.0.1",
     "gulp-uglify": "^3.0.2",
     "ordered-read-streams": "^2.0.0",
-    "postcss": "^8.5.8",
-    "sass": "^1.98.0",
+    "postcss": "^8.5.10",
+    "sass": "^1.99.0",
     "uglify-js": "^3.19.3"
   },
   "dependencies": {
