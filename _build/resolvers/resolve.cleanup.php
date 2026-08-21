@@ -6,10 +6,13 @@
  * @subpackage build
  *
  * @var array $options
- * @var xPDOObject $object
+ * @var xPDOTransport $transport
  */
 
-$success = false;
+/** @var modX $modx */
+$modx = $transport->xpdo;
+
+$success = true;
 
 if (!function_exists('recursiveRemoveFolder')) {
     function recursiveRemoveFolder($dir)
@@ -93,18 +96,13 @@ if (!function_exists('cleanupPluginEvents')) {
     }
 }
 
-if ($object->xpdo) {
-    /** @var xPDO $modx */
-    $modx =& $object->xpdo;
-
-    switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-        case xPDOTransport::ACTION_INSTALL:
-        case xPDOTransport::ACTION_UPGRADE:
-            $c = $modx->newQuery('transport.modTransportPackage');
-            $c->where(
-                [
-                    'workspace' => 1,
-                    "(SELECT
+switch ($options[xPDOTransport::PACKAGE_ACTION]) {
+    case xPDOTransport::ACTION_INSTALL:
+    case xPDOTransport::ACTION_UPGRADE:
+        $c = $modx->newQuery('transport.modTransportPackage');
+        $c->where([
+            'workspace' => 1,
+            "(SELECT
             `signature`
             FROM {$modx->getTableName('transport.modTransportPackage')} AS `latestPackage`
             WHERE `latestPackage`.`package_name` = `modTransportPackage`.`package_name`
@@ -115,47 +113,44 @@ if ($object->xpdo) {
                 IF(`release` = '' OR `release` = 'ga' OR `release` = 'pl','z',`release`) DESC,
                 `latestPackage`.`release_index` DESC
                 LIMIT 1,1) = `modTransportPackage`.`signature`",
-                ]
-            );
-            $c->where(
-                [
-                    'modTransportPackage.signature:LIKE' => $options['namespace'] . '-%',
-                    'modTransportPackage.installed:IS NOT' => null
-                ]
-            );
-            $c->limit(1);
+        ]);
+        $c->where([
+            'modTransportPackage.signature:LIKE' => $options['namespace'] . '-%',
+            'modTransportPackage.installed:IS NOT' => null
+        ]);
+        $c->limit(1);
 
-            /** @var modTransportPackage $oldPackage */
-            $oldPackage = $modx->getObject('transport.modTransportPackage', $c);
-            $corePath = $modx->getOption('core_path', null, MODX_CORE_PATH);
-            $assetsPath = $modx->getOption('assets_path', null, MODX_ASSETS_PATH);
+        /** @var modTransportPackage $oldPackage */
+        $oldPackage = $modx->getObject('transport.modTransportPackage', $c);
+        $corePath = $modx->getOption('core_path', null, MODX_CORE_PATH);
+        $assetsPath = $modx->getOption('assets_path', null, MODX_ASSETS_PATH);
 
-            if ($oldPackage && $oldPackage->compareVersion('1.6.0', '>')) {
-                $cleanup = [
-                    'core' => [
-                        'components/ajaxupload/templates'
-                    ]
-                ];
-                cleanupFolders($modx, $corePath, $assetsPath, $cleanup, 'AjaxUpload', '1.6.0');
-            }
-            if ($oldPackage && $oldPackage->compareVersion('2.0.0', '>')) {
-                $cleanup = [
-                    'assets' => [
-                        'components/ajaxupload/images',
-                    ],
-                    'core' => [
-                        'components/ajaxupload/elements/chunks/image.chunk.html',
-                        'components/ajaxupload/model/fileuploader',
-                        'components/ajaxupload/processors/web/upload.class.php',
-                    ]
-                ];
-                cleanupFolders($modx, $corePath, $assetsPath, $cleanup, 'AjaxUpload', '2.0.0');
-            }
-            $success = true;
-            break;
-        case xPDOTransport::ACTION_UNINSTALL:
-            $success = true;
-            break;
-    }
+        if ($oldPackage && $oldPackage->compareVersion('1.6.0', '>')) {
+            $cleanup = [
+                'core' => [
+                    'components/ajaxupload/templates'
+                ]
+            ];
+            cleanupFolders($modx, $corePath, $assetsPath, $cleanup, 'AjaxUpload', '1.6.0');
+        }
+        if ($oldPackage && $oldPackage->compareVersion('2.0.0', '>')) {
+            $cleanup = [
+                'assets' => [
+                    'components/ajaxupload/images',
+                ],
+                'core' => [
+                    'components/ajaxupload/elements/chunks/image.chunk.html',
+                    'components/ajaxupload/model/fileuploader',
+                    'components/ajaxupload/processors/web/upload.class.php',
+                ]
+            ];
+            cleanupFolders($modx, $corePath, $assetsPath, $cleanup, 'AjaxUpload', '2.0.0');
+        }
+
+        $success = true;
+        break;
+    case xPDOTransport::ACTION_UNINSTALL:
+        $success = true;
+        break;
 }
 return $success;
