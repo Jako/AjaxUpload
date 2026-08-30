@@ -86,7 +86,7 @@ class FilePond
      */
     public static function restrict_filename_part($str)
     {
-        return preg_replace('/[\0\x0B\t\n\r\f\a&=+%#<>~`@?\[\]\{\}\|^\'\"\\\\\/]/', '', $str);
+        return preg_replace('/[\0\x0B\t\n\r\f\a&=+%#<>~`@?\[\]{}|^\'\"\\\\\/]/', '', $str);
     }
 
     /**
@@ -216,6 +216,7 @@ Options -ExecCGI -Indexes';
      */
     public static function read_file_contents(string $filename)
     {
+        if (!$filename) return false;
         $file = self::read_file($filename);
         if (!$file) return false;
         return $file['content'];

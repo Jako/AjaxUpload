@@ -42,7 +42,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '2.0.5';
+    public $version = '2.0.6';
 
     /**
      * The class options
@@ -106,11 +106,13 @@ class AjaxUpload
 
         // Add default options
         $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
+        $uidExcludePattern = $this->getOption('uid_exclude_pattern', $options, '/[^a-z0-9]/');
         $this->options = array_merge($this->options, [
             'debug' => $this->getBooleanOption('debug', $options, false),
             'modxversion' => $modxversion['version'],
             'cacheExpires' => intval($this->getOption('cache_expires', $options, 4)),
-            'uid' => preg_replace('/[^a-z0-9]/', '', $this->getOption('uid', $options, md5($this->modx->getOption('site_url') . '-' . $resourceId))),
+            'uid' => preg_replace($uidExcludePattern, '', $this->getOption('uid', $options, md5($this->modx->getOption('site_url') . '-' . $resourceId))),
+            'uidExcludePattern' => $uidExcludePattern,
             'newFilePermissions' => $this->modx->getOption('new_file_permissions', $options, '0644'),
             'newFolderPermissions' => $this->modx->getOption('new_folder_permissions', $options, '0755'),
         ]);

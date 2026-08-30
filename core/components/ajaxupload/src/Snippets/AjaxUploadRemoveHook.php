@@ -20,7 +20,7 @@ class AjaxUploadRemoveHook extends AjaxUploadHook
     public function getDefaultProperties()
     {
         return [
-            'uid::explodeSeparated' => '',
+            'uid::explodeSeparatedUid' => '',
             'fieldformat' => 'csv',
             'targetMediasource::int' => 0,
         ];

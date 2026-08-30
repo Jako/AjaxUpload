@@ -22,8 +22,12 @@ abstract class FilePondProcessor extends Processor
 
     public function initialize()
     {
-        $this->uid = preg_replace('/[^a-z0-9]/', '', $this->getProperty('uid', '-'));
+        $uid = $this->getProperty('uid');
+        if (empty($uid)) {
+            return $this->filePondFailure();
+        }
 
+        $this->uid = preg_replace($this->ajaxupload->getOption('uidExcludePattern'), '', $uid);
         if (!$this->ajaxupload->prepareFilePond()) {
             return $this->filePondFailure();
         }

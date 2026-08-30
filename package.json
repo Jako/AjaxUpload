@@ -6,7 +6,7 @@
   "devDependencies": {
     "@fomantic/gulp-header": "^2.2.0",
     "autoprefixer": "^10.5.4",
-    "cssnano": "^7.1.9",
+    "cssnano": "^9.0.1",
     "date-format": "^4.0.14",
     "gulp": "^5.0.1",
     "gulp-concat": "^2.6.1",
@@ -17,8 +17,8 @@
     "gulp-sass": "^6.0.1",
     "gulp-uglify": "^3.0.2",
     "ordered-read-streams": "^2.0.0",
-    "postcss": "^8.5.25",
-    "sass": "^1.102.0",
+    "postcss": "^8.5.26",
+    "sass": "^1.103.1",
     "uglify-js": "^3.19.3"
   },
   "dependencies": {

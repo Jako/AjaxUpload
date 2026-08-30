@@ -24,7 +24,7 @@ class AjaxUpload2FormitHook extends AjaxUploadHook
     {
         return [
             'debug::bool' => $this->modx->getOption('ajaxupload.debug', null, false),
-            'uid::explodeSeparated' => '',
+            'uid::explodeSeparatedUid' => '',
             'target' => '',
             'fieldformat' => 'csv',
             'cacheExpires::int' => $this->modx->getOption('ajaxupload.cache_expires', null, '4'),

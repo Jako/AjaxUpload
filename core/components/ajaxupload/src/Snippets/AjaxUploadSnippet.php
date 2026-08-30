@@ -26,7 +26,7 @@ class AjaxUploadSnippet extends Snippet
         $resourceId = ($this->modx->resource) ? $this->modx->resource->get('id') : 0;
         return [
             'debug' => $this->modx->getOption('ajaxupload.debug', null, false),
-            'uid' => md5($this->modx->getOption('site_url') . '-' . $resourceId),
+            'uid::uid' => md5($this->modx->getOption('site_url') . '-' . $resourceId),
             'placeholderPrefix' => 'fi.',
             'fieldformat' => 'csv',
             'value' => '',

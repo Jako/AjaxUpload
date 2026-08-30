@@ -140,6 +140,27 @@ abstract class Snippet
     }
 
     /**
+     * @param $value
+     * @return string
+     */
+    protected function getUid($value)
+    {
+        return preg_replace($this->ajaxupload->getOption('uidExcludePattern'), '', $value);
+    }
+
+    /**
+     * Explode a separated value to an array.
+     *
+     * @param mixed $value
+     * @param string $separator
+     * @return array
+     */
+    protected function getExplodeSeparatedUid($value, $separator = ',')
+    {
+        return (is_string($value) && $value !== '') ? array_map([$this, 'getUid'], explode($separator, $value)) : [];
+    }
+
+    /**
      * Get the snippet properties.
      *
      * @return array
