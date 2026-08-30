@@ -133,7 +133,8 @@ The AjaxUploadRequired hook uses additional properties:
 
 AjaxUpload uses the following system settings in the namespace `ajaxupload`:
 
-| Key                      | Name        | Description                                    | Default |
-|--------------------------|-------------|------------------------------------------------|---------|
-| ajaxupload.cache_expires | Expire Time | Expire Time of the AjaxUpload cache (in hours) | 4       |
-| ajaxupload.debug         | Debug       | Log debug information in the MODX error log.   | No      |
+| Key                            | Name                | Description                                                                 | Default     |
+|--------------------------------|---------------------|-----------------------------------------------------------------------------|-------------|
+| ajaxupload.cache_expires       | Expire Time         | Expire Time of the AjaxUpload cache (in hours)                              | 4           |
+| ajaxupload.debug               | Debug               | Log debug information in the MODX error log.                                | No          |
+| ajaxupload.uid_exclude_pattern | UID Exclude Pattern | Regular expression pattern that excludes not allowed characters in the UID. | /[^a-z0-9]/ |
