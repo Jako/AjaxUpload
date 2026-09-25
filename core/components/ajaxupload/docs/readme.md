@@ -31,3 +31,16 @@ For more information please read the documentation on https://jako.github.io/Aja
 ## GitHub Repository
 
 https://github.com/Jako/AjaxUpload
+
+## Third party code
+
+This extra uses the code of third party software, for which we are thankful.
+
+https://github.com/pqina/filepond
+https://github.com/pqina/filepond-server-php
+
+## Third party licenses
+
+This extra includes third party software, for which we are thankful.
+
+* league/mime-type-detection@1.17.0 [MIT]

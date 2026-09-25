@@ -9,11 +9,14 @@
 use TreehillStudio\AjaxUpload\FilePond\FilePond;
 use TreehillStudio\AjaxUpload\Processors\FilePondProcessor;
 
-class AjaxUploadLoadProcessor extends FilePondProcessor
+class AjaxUploadPatchProcessor extends FilePondProcessor
 {
     public function process()
     {
         $id = $this->getProperty('id');
+        if (empty($id) || !FilePond::is_valid_transfer_id($id)) {
+            $this->filePondFailure();
+        }
 
         // Location of patch files
         $dir = TRANSFER_DIR . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR;
@@ -22,7 +25,6 @@ class AjaxUploadLoadProcessor extends FilePondProcessor
         if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
             $patch = glob($dir . '.patch.*');
             $offsets = [];
-            $size = '';
             $last_offset = 0;
             foreach ($patch as $filename) {
 
@@ -33,7 +35,7 @@ class AjaxUploadLoadProcessor extends FilePondProcessor
                 list($dir, $offset) = explode('.patch.', $filename, 2);
 
                 // Offsets
-                array_push($offsets, $offset);
+                $offsets[] = $offset;
 
                 // Test if it is missing a previous chunk
                 // Don't test first chunk (previous chunk is non-existent)
@@ -48,7 +50,7 @@ class AjaxUploadLoadProcessor extends FilePondProcessor
 
             // Return offset
             header('Upload-Offset: ' . $last_offset);
-            return $this->filePondSuccess();
+            $this->filePondSuccess();
         }
 
         // Get patch data
@@ -57,11 +59,16 @@ class AjaxUploadLoadProcessor extends FilePondProcessor
 
         // Should be numeric values, else exit
         if (!is_numeric($offset) || !is_numeric($length)) {
-            return $this->filePondFailure();
+            $this->filePondFailure();
         }
 
         // Get sanitized name
         $name = FilePond::restrict_filename($_SERVER['HTTP_UPLOAD_NAME']);
+
+        // Check whether the file extension is denied
+        if ($this->isDeniedExtension(pathinfo($name, PATHINFO_EXTENSION))) {
+            $this->filePondFailure();
+        }
 
         // Write patch file for this request
         file_put_contents($dir . '.patch.' . $offset, fopen('php://input', 'r'));
@@ -102,10 +109,17 @@ class AjaxUploadLoadProcessor extends FilePondProcessor
 
             // Done with file
             fclose($file_handle);
+
+            // Check whether the MIME type is valid
+            $mimeType = $this->finfoMimeTypeDetector->detectMimeTypeFromFile($dir . $name);
+            if (!$this->isValidMimeType($mimeType)) {
+                unlink($dir . $name);
+                $this->filePondFailure();
+            }
         }
 
-        return $this->filePondSuccess('', 204);
+        $this->filePondSuccess('', 204);
     }
 }
 
-return 'AjaxUploadLoadProcessor';
+return 'AjaxUploadPatchProcessor';

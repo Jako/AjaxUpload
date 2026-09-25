@@ -38,15 +38,17 @@ class AjaxUploadRemoveHook extends AjaxUploadHook
             /** @var modMediaSource $source */
             $source = $this->modx->getObject('sources.modMediaSource', $this->getProperty('targetMediasource'));
             $source->initialize();
-            $targetPath = $source->getBasePath();
+            $targetPath = realpath($source->getBasePath());
         } else {
-            $targetPath = $this->modx->getOption('assets_path');
+            $targetPath = realpath($this->modx->getOption('assets_path'));
         }
 
         foreach ($this->getProperty('uid') as $uid) {
             $files = $this->getUidValues($uid);
             foreach ($files as $file) {
-                if (file_exists($targetPath . $file)) {
+                // validate the file path for directory traversal
+                $path = realpath($targetPath . $file);
+                if ($path !== false && strpos($path, $targetPath) === 0 && file_exists($targetPath . $file)) {
                     unlink($targetPath . $file);
                 }
             }

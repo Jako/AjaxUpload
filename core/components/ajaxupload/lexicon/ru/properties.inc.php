@@ -8,6 +8,7 @@
 $_lang['ajaxupload.ajaxupload.acceptedFileTypes'] = 'Принимаемые типы мимов файлов для загрузки.';
 $_lang['ajaxupload.ajaxupload.addCss'] = 'Добавьте CSS в конец заголовка.';
 $_lang['ajaxupload.ajaxupload.addJscript'] = 'Добавить javascript сниппета и вызов скрипта fileuploader script в конец body.';
+$_lang['ajaxupload.ajaxupload.deniedExtensions'] = 'Недопустимые расширения файлов для загрузки.';
 $_lang['ajaxupload.ajaxupload.fieldformat'] = 'Значение свойства ajaxuploadFieldformat, используемое в соответствующем вызове сниппета FormIt.';
 $_lang['ajaxupload.ajaxupload.maxFiles'] = 'Максимальное число файлов для загрузки.';
 $_lang['ajaxupload.ajaxupload.maxFileSize'] = 'Максимальный размер одного заргужаемого файла.';

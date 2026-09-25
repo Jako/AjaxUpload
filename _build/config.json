@@ -3,7 +3,7 @@
   "lowCaseName": "ajaxupload",
   "description": "FilePond based upload for FormIt",
   "author": "Thomas Jakobi",
-  "version": "2.0.6",
+  "version": "2.1.0-rc3",
   "package": {
     "elements": {
       "chunks": [
@@ -70,6 +70,10 @@
             {
               "name": "acceptedFileTypes",
               "value": "image/jpeg,image/gif,image/png,image/webp"
+            },
+            {
+              "name": "deniedExtensions",
+              "value": ""
             },
             {
               "name": "maxFiles",

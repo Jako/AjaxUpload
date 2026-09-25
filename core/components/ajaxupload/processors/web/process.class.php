@@ -17,7 +17,7 @@ class AjaxUploadProcessProcessor extends FilePondProcessor
         // Check the post
         $post = FilePond::get_post($this->uid);
         if (!$post) {
-            return $this->filePondFailure();
+            $this->filePondFailure();
         }
 
         $transfer = new Transfer();
@@ -26,14 +26,20 @@ class AjaxUploadProcessProcessor extends FilePondProcessor
 
         // Something went wrong, most likely a field name mismatch
         if ($files !== null && count($files) === 0) {
-            return $this->filePondFailure();
+            $this->filePondFailure();
+        }
+
+        foreach ($files as $file) {
+            if (!$this->isValidFileType($file)) {
+                $this->filePondFailure();
+            }
         }
 
         // Store data
         FilePond::store_transfer(TRANSFER_DIR, $transfer);
 
         // Return uploaded file server id
-        return $this->filePondSuccess($transfer->getId(), 201);
+        $this->filePondSuccess($transfer->getId(), 201);
     }
 }
 

@@ -16,11 +16,15 @@ class AjaxUploadLoadProcessor extends FilePondProcessor
         // Check the ref
         $ref = $this->getProperty('ref');
         if (empty($ref)) {
-            return $this->filePondFailure();
+            $this->filePondFailure();
         }
 
-        // Set the file path
-        $path = UPLOAD_DIR . DIRECTORY_SEPARATOR . FilePond::restrict_filename($ref);
+        // Get and validate the file path for directory traversal
+        $baseDir = realpath(UPLOAD_DIR . DIRECTORY_SEPARATOR);
+        $path = realpath($baseDir . FilePond::restrict_filename($ref));
+        if ($path === false || strpos($path, $baseDir) !== 0) {
+            $this->filePondFailure();
+        }
 
         // Return file
         FilePond::echo_file($path);

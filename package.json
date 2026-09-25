@@ -1,25 +1,27 @@
 {
+  "fullname": "AjaxUpload",
   "name": "ajaxupload",
   "description": "FilePond based upload for FormIt",
   "author": "Thomas Jakobi <office@treehillstudio.com>",
   "private": true,
+  "version": "2.1.0-rc3",
+  "phpversion": "7.4",
+  "modxversion": "2.8",
+  "startYear": "2013",
+  "scripts": {
+    "build": "node build.js",
+    "build:bump": "node build.js bump",
+    "build:scripts": "node build.js scripts",
+    "build:sass": "node build.js sass",
+    "build:lexicon": "node build.js lexicon"
+  },
   "devDependencies": {
-    "@fomantic/gulp-header": "^2.2.0",
-    "autoprefixer": "^10.5.4",
-    "cssnano": "^9.0.1",
-    "date-format": "^4.0.14",
-    "gulp": "^5.0.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-footer": "^2.1.0",
-    "gulp-postcss": "^10.0.0",
-    "gulp-rename": "^2.1.0",
-    "gulp-replace": "^1.1.4",
-    "gulp-sass": "^6.0.1",
-    "gulp-uglify": "^3.0.2",
-    "ordered-read-streams": "^2.0.0",
-    "postcss": "^8.5.26",
-    "sass": "^1.103.1",
-    "uglify-js": "^3.19.3"
+    "autoprefixer": "^10.6.1",
+    "chokidar-cli": "^3.0.0",
+    "cssnano": "^9.0.5",
+    "postcss": "^8.5.28",
+    "sass": "^1.105.0",
+    "terser": "^5.51.2"
   },
   "dependencies": {
     "filepond": "^4.32.12",
@@ -28,9 +30,11 @@
     "filepond-plugin-image-preview": "^4.6.12"
   },
   "browserslist": [
-    "last 2 version",
     "> 1%",
-    "maintained node versions",
-    "not dead"
-  ]
+    "defaults"
+  ],
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "fsevents@2.3.3": true
+  }
 }

@@ -34,7 +34,8 @@ class AjaxUploadSnippet extends Snippet
             'addJscript::bool' => true,
             'scriptTpl' => 'tplAjaxuploadScript',
             'uploadSectionTpl' => 'tplAjaxuploadUploadSection',
-            'acceptedFileTypes::explodeSeparated' => 'image/jpeg,image/gif,image/png,image/webp',
+            'acceptedFileTypes::allowEmpty::explodeSeparated' => 'image/jpeg,image/gif,image/png,image/webp',
+            'deniedExtensions::allowEmpty::explodeSeparated' => $this->ajaxupload->getOption('deniedExtensions'),
             'maxFiles' => 3,
             'maxFileSize' => "8MB",
             'showCredits::bool' => true,
@@ -127,6 +128,24 @@ class AjaxUploadSnippet extends Snippet
             $value = $this->modx->getPlaceholder($this->getProperty('placeholderPrefix') . $this->getProperty('uid'));
         }
 
+        $this->properties['token'] = md5($this->getProperty('uid') . $this->modx->resource->get('id'));
+        $cacheKey = 'ajaxupload_' . $this->properties['token'];
+        $cacheOptions = [
+            xPDO::OPT_CACHE_KEY => $this->modx->getOption('cache_resource_key', null, 'resource'),
+            xPDO::OPT_CACHE_HANDLER => $this->modx->getOption('cache_resource_handler', null, $this->modx->getOption(xPDO::OPT_CACHE_HANDLER)),
+        ];
+        $config = $this->modx->cacheManager->get($cacheKey, $cacheOptions);
+        if (!$config) {
+            $config = [
+                'uid' => $this->getProperty('uid'),
+                'acceptedFileTypes' => $this->getProperty('acceptedFileTypes'),
+                'deniedExtensions' => $this->getProperty('deniedExtensions'),
+                'maxFiles' => $this->getProperty('maxFiles'),
+                'maxFileSize' => $this->getProperty('maxFileSize'),
+            ];
+            $this->modx->cacheManager->set($cacheKey, $config, 0, $cacheOptions);
+        }
+
         if (count($_POST)) {
             // The form field is posted as JSON by FilePond and when the validation is failing this format is used in the placeholder
             $this->properties['fieldformat'] = 'json';
@@ -153,8 +172,10 @@ class AjaxUploadSnippet extends Snippet
 
         $properties = $this->ajaxupload->options;
         $properties['name'] = $properties['uid'] . '[]';
+        //$properties['name'] = $properties['uid'] ;
         $properties['credits'] = $this->getProperty('showCredits') ? '["https://pqina.nl/", "Powered by PQINA"]' : '[]';
         $properties['acceptedFileTypes'] = json_encode($this->getProperty('acceptedFileTypes'), JSON_UNESCAPED_SLASHES);
+        $properties['token'] = $this->properties['token'];
         $properties['files'] = json_encode($files, JSON_UNESCAPED_SLASHES);
 
         $this->modx->regClientScript($this->ajaxupload->parse->getChunk($this->getProperty('scriptTpl'), $properties), true);

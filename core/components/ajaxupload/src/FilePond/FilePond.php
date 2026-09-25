@@ -111,7 +111,9 @@ class FilePond
     public static function remove_transfer_directory(string $path, string $id)
     {
         // Don't remove anything if the transfer id is not valid (just a security precaution)
-        if (!self::is_valid_transfer_id($id)) return;
+        if (!self::is_valid_transfer_id($id)) {
+            return;
+        }
 
         self::remove_directory($path . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . VARIANTS_DIR);
         self::remove_directory($path . DIRECTORY_SEPARATOR . $id);
@@ -406,6 +408,11 @@ Options -ExecCGI -Indexes';
      */
     public static function get_post(string $entry)
     {
-        return isset($_FILES[$entry]) || isset($_POST[$entry]) ? new Post($entry) : false;
+        if (isset($_FILES[$entry])) {
+            return new Post($entry);
+        } elseif (isset($_POST[$entry])) {
+            return new Post($entry[0]);
+        }
+        return false;
     }
 }

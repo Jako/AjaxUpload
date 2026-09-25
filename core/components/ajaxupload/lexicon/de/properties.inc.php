@@ -8,6 +8,7 @@
 $_lang['ajaxupload.ajaxupload.acceptedFileTypes'] = 'Akzeptierte Datei-Mime-Typen für den Upload.';
 $_lang['ajaxupload.ajaxupload.addCss'] = 'CSS am Ende des Head-Bereichs einfügen.';
 $_lang['ajaxupload.ajaxupload.addJscript'] = 'Snippet Javascript und das Fileuploader Script am Ende des Body-Bereichs einfügen.';
+$_lang['ajaxupload.ajaxupload.deniedExtensions'] = 'Nicht zugelassene Dateiendungen für den Upload.';
 $_lang['ajaxupload.ajaxupload.fieldformat'] = 'Der Wert der Eigenschaft ajaxuploadFieldformat, der im entsprechenden FormIt-Snippet-Aufruf verwendet wird.';
 $_lang['ajaxupload.ajaxupload.maxFiles'] = 'Maximale Anzahl der hochzuladenden Dateien.';
 $_lang['ajaxupload.ajaxupload.maxFileSize'] = 'Maximale Größe einer hochgeladenen Datei.';

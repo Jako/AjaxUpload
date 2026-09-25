@@ -69,8 +69,7 @@ class AjaxUpload2FormitHook extends AjaxUploadHook
                 return false;
             }
             if (!file_exists($targetPath . $this->getProperty('target'))) {
-                $cacheManager = $this->modx->getCacheManager();
-                if (!$cacheManager->writeTree($targetPath . $this->getProperty('target'))) {
+                if (!$this->modx->cacheManager->writeTree($targetPath . $this->getProperty('target'))) {
                     $this->hook->addError($uid, $this->modx->lexicon('ajaxupload.targetNotCreatable'));
                     $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not create the target folder!', '', 'AjaxUpload');
                 }

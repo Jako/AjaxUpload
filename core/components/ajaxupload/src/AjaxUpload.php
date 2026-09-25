@@ -12,7 +12,9 @@ namespace TreehillStudio\AjaxUpload;
 
 use modLexicon;
 use modX;
+use TreehillStudio\AjaxUpload\FilePond\FilePond;
 use TreehillStudio\AjaxUpload\Helper\Parse;
+use TreehillStudio\AjaxUpload\Processors\FilePondProcessor;
 use xPDO;
 
 /**
@@ -42,7 +44,7 @@ class AjaxUpload
      * The version
      * @var string $version
      */
-    public $version = '2.0.6';
+    public $version = '2.1.0-rc3';
 
     /**
      * The class options
@@ -115,6 +117,12 @@ class AjaxUpload
             'uidExcludePattern' => $uidExcludePattern,
             'newFilePermissions' => $this->modx->getOption('new_file_permissions', $options, '0644'),
             'newFolderPermissions' => $this->modx->getOption('new_folder_permissions', $options, '0755'),
+            'deniedExtensions' => $this->getExplodeSeparatedOption('denied_extensions', $options,
+                'php,pht,phtm,phtml,phar,phpt,pgif,phps,phtml,php2,php3,php4,php5,php6,php7,php16,inc,' .
+                'asp,aspx,cer,asa,' .
+                'pl,pm,cgi,lib,' .
+                'jsp,jspx,jsw,jsv,jspf'
+            ),
         ]);
         $this->debug = [];
 
@@ -164,6 +172,21 @@ class AjaxUpload
     }
 
     /**
+     * Get Exploded Separated Option.
+     *
+     * @param string $key
+     * @param array $options
+     * @param mixed $default
+     * @return array
+     */
+    protected function getExplodeSeparatedOption($key, $options = [], $default = null)
+    {
+        $option = $this->getOption($key, $options, $default);
+        return (is_string($option) && $option !== '') ? array_map('trim', explode(',', $option)) : [];
+    }
+
+
+    /**
      * Load all class files and init defaults.
      *
      * @param array $properties properties to override the default config (if set)
@@ -193,10 +216,13 @@ class AjaxUpload
         if ($this->getOption('uid')) {
             $this->createCachePath($this->getOption('cachePath') . 'tmp');
             $this->clearCachePath($this->getOption('cachePath') . 'tmp/', $this->getOption('cacheExpires'));
+            FilePond::secure_directory($this->getOption('cachePath') . 'tmp/');
             $this->createCachePath($this->getOption('cachePath') . 'uploads');
             $this->clearCachePath($this->getOption('cachePath') . 'uploads/', $this->getOption('cacheExpires'));
+            FilePond::secure_directory($this->getOption('cachePath') . 'uploads/');
             $this->createCachePath($this->getOption('cachePath') . 'variants');
             $this->clearCachePath($this->getOption('cachePath') . 'variants/', $this->getOption('cacheExpires'));
+            FilePond::secure_directory($this->getOption('cachePath') . 'variants/');
         }
         return true;
     }
@@ -305,7 +331,7 @@ class AjaxUpload
             // Clear files older than specified hours
             $filelastmodified = filemtime($path . $file);
 
-            if (($filelastmodified < $limit) && is_file($path . $file)) {
+            if (($filelastmodified < $limit) && is_file($path . $file) && $file !== '.htaccess') {
                 @unlink($path . $file);
             }
         }
@@ -318,8 +344,7 @@ class AjaxUpload
      */
     public function createCachePath($path)
     {
-        $cacheManager = $this->modx->getCacheManager();
-        if (!$cacheManager->writeTree($path, ['new_folder_permissions' => $this->getOption('newFolderPermissions')])) {
+        if (!$this->modx->cacheManager->writeTree($path, ['new_folder_permissions' => $this->getOption('newFolderPermissions')])) {
             $this->modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not create the cache path "' . $path . '".', '', 'AjaxUpload');
             return false;
         }

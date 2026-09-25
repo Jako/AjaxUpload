@@ -8,6 +8,7 @@
 $_lang['ajaxupload.ajaxupload.acceptedFileTypes'] = 'Geaccepteerde bestandstypes voor upload.';
 $_lang['ajaxupload.ajaxupload.addCss'] = 'Voeg de CSS toe aan het eind van de head.';
 $_lang['ajaxupload.ajaxupload.addJscript'] = 'Voeg de Javascript snippet en het fileuploader script toe aan het eind van de body.';
+$_lang['ajaxupload.ajaxupload.deniedExtensions'] = 'Bestandsextensies die niet zijn toegestaan voor het uploaden.';
 $_lang['ajaxupload.ajaxupload.fieldformat'] = 'De waarde van de eigenschap ajaxuploadFieldformat die wordt gebruikt in de bijbehorende FormIt-snippetoproep.';
 $_lang['ajaxupload.ajaxupload.maxFiles'] = 'Maximaal aantal bestanden voor upload.';
 $_lang['ajaxupload.ajaxupload.maxFileSize'] = 'Maximum bestandsgrootte per bestand.';

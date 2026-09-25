@@ -41,7 +41,7 @@ abstract class Processor extends modProcessor
      */
     public function checkPermissions()
     {
-        return !empty($this->permission) ? $this->modx->hasPermission($this->permission) : true;
+        return empty($this->permission) || $this->modx->hasPermission($this->permission);
     }
 
     abstract public function process();

@@ -1,7 +1,7 @@
 {
   "name": "treehillstudio/ajaxupload",
   "description": "FilePond based upload for FormIt",
-  "version": "2.0.6",
+  "version": "2.1.0-rc3",
   "authors": [
     {
       "name": "Thomas Jakobi",
@@ -19,7 +19,8 @@
     "php": ">=7.4",
     "ext-curl": "*",
     "ext-fileinfo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "league/mime-type-detection": "^1.17"
   },
   "autoload": {
     "psr-4": {

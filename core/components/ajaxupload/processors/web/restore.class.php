@@ -16,7 +16,7 @@ class AjaxUploadRestoreProcessor extends FilePondProcessor
         // Check the file id
         $id = $this->getProperty('id');
         if (empty($id) || !FilePond::is_valid_transfer_id($id)) {
-            return $this->filePondFailure();
+            $this->filePondFailure();
         }
 
         // Create transfer wrapper around upload
@@ -27,7 +27,7 @@ class AjaxUploadRestoreProcessor extends FilePondProcessor
 
         // No file returned
         if ($files !== null && count($files) === 0) {
-            return $this->filePondFailure('',404);
+            $this->filePondFailure('', 404);
         }
 
         // Return file
