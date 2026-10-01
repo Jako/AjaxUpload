@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c914f78fdd79b753797d75040ea25e8",
+    "content-hash": "2e9c8bf5b7cb1a3d55592ff7893f3536",
     "packages": [
         {
             "name": "league/mime-type-detection",

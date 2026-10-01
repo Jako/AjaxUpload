@@ -10,9 +10,11 @@ class FilePond
 {
     /**
      * @param string $url
+     * @param string|null $resolveRule Optional "host:port:ip" pin, so this final download
+     *   reuses the already-validated IP instead of doing its own, separate DNS lookup
      * @return array|false
      */
-    public static function fetch(string $url)
+    public static function fetch(string $url, ?string $resolveRule = null)
     {
         try {
             // Create temp file
@@ -21,8 +23,11 @@ class FilePond
             // Go!
             $ch = curl_init(str_replace(' ', '%20', $url));
             curl_setopt($ch, CURLOPT_FILE, $out);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); // the redirect chain has to be checked outside
             curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+            if ($resolveRule) {
+                curl_setopt($ch, CURLOPT_RESOLVE, [$resolveRule]);
+            }
 
             if (!curl_exec($ch)) {
                 throw new Exception(curl_error($ch), curl_errno($ch));

@@ -28,16 +28,18 @@ class AjaxUploadFetchProcessor extends FilePondProcessor
 
         // Is this a valid url
         if (FilePond::is_url($url)) {
-            $url = self::traceAndValidateUrl($url);
-            if (empty($url)) {
+            $trace = self::traceAndValidateUrl($url);
+            if (empty($trace)) {
                 $this->filePondFailure();
             }
+            $url = $trace['url'];
+            $resolveRule = $trace['resolve'];
         } else {
             $this->filePondFailure();
         }
 
-        // Let's try to get the remote file content
-        $file = FilePond::fetch($url);
+        // Let's try to get the remote file content using the already-validated host:port:ip pin
+        $file = FilePond::fetch($url, $resolveRule);
 
         // Something went wrong
         if (!$file) {
@@ -132,9 +134,9 @@ class AjaxUploadFetchProcessor extends FilePondProcessor
                 return false;
             }
 
-            // Send HTTP request directly to the IP (forces cURL to use the validated IP)
+            // Send HTTP request and use the CURLOPT_RESOLVE's pinning rule
             $ch = curl_init();
-            $requestUrl = $scheme . '://' . ($parts['v6'] ?? $ip) . ':' . $port . ($parts['path'] ?? '/') . (isset($parts['query']) ? '?' . $parts['query'] : '');
+            $requestUrl = $scheme . '://' . $host . ':' . $port . ($parts['path'] ?? '/') . (isset($parts['query']) ? '?' . $parts['query'] : '');
             $resolveRule = "{$host}:{$port}:{$ip}";
 
             curl_setopt_array($ch, [
@@ -145,7 +147,6 @@ class AjaxUploadFetchProcessor extends FilePondProcessor
                 CURLOPT_NOBODY => true, // HEAD request only (saves bandwidth)
                 CURLOPT_FOLLOWLOCATION => false, // IMPORTANT: We handle redirects manually!
                 CURLOPT_TIMEOUT => 4,
-                CURLOPT_HTTPHEADER => ["Host: $host"], // Required for Named Virtual Hosts
                 CURLOPT_SSL_VERIFYPEER => true,
                 CURLOPT_SSL_VERIFYHOST => 2,
             ]);
@@ -175,7 +176,7 @@ class AjaxUploadFetchProcessor extends FilePondProcessor
                 $redirectCount++;
             } else {
                 // No more redirects -> target reached safely!
-                return $currentUrl;
+                return ['url' => $currentUrl, 'resolve' => $resolveRule];
             }
         }
 

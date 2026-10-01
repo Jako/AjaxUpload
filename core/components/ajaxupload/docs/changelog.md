@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.1.0] - TBA
 
-### Changed
+### Security
 
-- Fix security issues in the FilePond upload handling
-- Fix a security issue in the AjaxUpload remove hook
+- Harden the remote fetch URL validation
+- Harden the load file handling
+- Harden the MIME type test in the upload handling
+- Harden the AjaxUploadRemove hook
 
 ## [2.0.6] - 2026-03-31
 
