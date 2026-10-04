@@ -129,6 +129,18 @@ The AjaxUploadRequired hook uses additional properties:
 |---------------------------|----------------------------------------------------|-------------------------------------------|
 | ajaxuploadRequiredMessage | The error message added, when no file is uploaded. | Lexicon entry `ajaxupload.uploadRequired` |
 
+## Security
+
+FilePond secures each temporary upload folder with a .htacces file that doesn't
+allow script file execution inside. If you are using ngnix, you have to add an
+AjaxUpload cache protection rule on your own:
+
+```
+if ($uri ~* "/assets/components/ajaxupload/cache(?:/|$)") {
+    return 403;
+}
+```
+
 ## System Settings
 
 AjaxUpload uses the following system settings in the namespace `ajaxupload`:
