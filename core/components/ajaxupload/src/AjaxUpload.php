@@ -14,7 +14,6 @@ use modLexicon;
 use modX;
 use TreehillStudio\AjaxUpload\FilePond\FilePond;
 use TreehillStudio\AjaxUpload\Helper\Parse;
-use TreehillStudio\AjaxUpload\Processors\FilePondProcessor;
 use xPDO;
 
 /**

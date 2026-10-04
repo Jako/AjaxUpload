@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Harden the load file handling
 - Harden the MIME type test in the upload handling
 - Harden the AjaxUploadRemove hook
+- Add disallowed file extensions that an uploaded file cannot use
 
 ## [2.0.6] - 2026-03-31
 
