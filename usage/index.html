@@ -458,6 +458,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Security
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#system-settings" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -650,6 +661,17 @@
     <span class="md-ellipsis">
       <span class="md-typeset">
         Make the upload required
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Security
       </span>
     </span>
   </a>
@@ -909,6 +931,14 @@ hook to the FormIt Call before the email hook:</p>
 </tr>
 </tbody>
 </table>
+<h2 id="security">Security</h2>
+<p>FilePond secures each temporary upload folder with a .htacces file that doesn't
+allow script file execution inside. If you are using ngnix, you have to add an
+AjaxUpload cache protection rule on your own:</p>
+<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>if ($uri ~* &quot;/assets/components/ajaxupload/cache(?:/|$)&quot;) {
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    return 403;
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>}
+</span></code></pre></div>
 <h2 id="system-settings">System Settings</h2>
 <p>AjaxUpload uses the following system settings in the namespace <code>ajaxupload</code>:</p>
 <table>
