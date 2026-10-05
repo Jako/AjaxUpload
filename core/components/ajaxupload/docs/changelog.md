@@ -13,7 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Harden the load file handling
 - Harden the MIME type test in the upload handling
 - Harden the AjaxUploadRemove hook
-- Add disallowed file extensions that an uploaded file cannot use
+- Add disallowed file extensions that an uploaded file cannot use [CVE-2026-95237](https://www.cve.org/CVERecord?id=CVE-2026-95237)
+
+The security issues were detected by Sosecure; Grim The Ripper Team by SOSECURE Thailand; Mr. Warathap Ratsameekomon
 
 ## [2.0.6] - 2026-03-31
 
