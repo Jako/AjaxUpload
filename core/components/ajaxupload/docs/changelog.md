@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 The security issues were detected by Sosecure; Grim The Ripper Team by SOSECURE Thailand; Mr. Warathap Ratsameekomon
 
+### Fixed
+
+- Fix the snippet property parsing for all properties where the default value can be overridden by an empty value
+
 ## [2.0.6] - 2026-03-31
 
 ### Changed

@@ -4,7 +4,7 @@
   "description": "FilePond based upload for FormIt",
   "author": "Thomas Jakobi <office@treehillstudio.com>",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.1.0-pl2",
   "phpversion": "7.4",
   "modxversion": "2.8",
   "startYear": "2013",
