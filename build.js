@@ -203,13 +203,21 @@ async function taskSass() {
 async function taskLexicon() {
     const srcDir = 'node_modules/filepond/locale';
     const destBaseDir = 'core/components/ajaxupload/lexicon';
+    // FilePond languages, that are not created as lexicon
+    const skipLanguages = ['cy', 'kur', 'lus', 'sl', 'sr', 'ur'];
 
     try {
-        const files = fs.readdir(srcDir);
-        const jsFiles = files.filter(file => file.endsWith('.js'));
-        jsFiles.forEach(file => {
+        const files = await fs.readdir(srcDir);
+        const jsFiles = files.filter(file => file.endsWith('.js')).sort();
+        for (const file of jsFiles) {
+            const destDirname = path.basename(file, '.js')
+                .replace(/(.*)[-_].*/, '\$1');
+            if (skipLanguages.includes(destDirname)) {
+                console.log(`- Skipped: ${file}`);
+                continue;
+            }
             const srcPath = path.join(srcDir, file);
-            let content = fs.readFile(srcPath, 'utf8');
+            let content = await fs.readFile(srcPath, 'utf8');
             content = content
                 .replace('export default {\n',
                     '<?php\n' +
@@ -223,15 +231,13 @@ async function taskLexicon() {
                 .replace(/'/g, '’')
                 .replace(/ *(.*?):\s+([’`"])(.*?)\2,?\s*\n/g, '$$_lang[\'ajaxupload.$1\'] = \'$3\';\n')
                 .replace(/ *};?\n?$/, '');
-            const destDirname = path.basename(file, '.js')
-                .replace(/(.*)[-_].*/, '\$1');
             const destDir = path.join(destBaseDir, destDirname);
             const destPath = path.join(destDir, 'web.inc.php');
-            fs.mkdir(destDir, { recursive: true });
-            fs.writeFile(destPath, content, 'utf8');
+            await fs.mkdir(destDir, { recursive: true });
+            await fs.writeFile(destPath, content, 'utf8');
 
-            console.log(`✓ Created: ${path.join(destDir, 'web.inc.php')}`);
-        });
+            console.log(`✓ Created: ${destPath}`);
+        }
 
         console.log('✓ Lexicon build completed successfully.');
     } catch (error) {
