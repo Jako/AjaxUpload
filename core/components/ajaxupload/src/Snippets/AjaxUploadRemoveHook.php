@@ -46,7 +46,11 @@ class AjaxUploadRemoveHook extends AjaxUploadHook
         foreach ($this->getProperty('uid') as $uid) {
             $files = $this->getUidValues($uid);
             foreach ($files as $file) {
-                if (file_exists($targetPath . $file)) {
+                // make sure target path has trailing /
+                $targetPath = rtrim($targetPath,'/') . '/';
+                // validate the file path for directory traversal
+                $path = realpath($targetPath . $file);
+                if ($path !== false && strpos($path, $targetPath) == 0 && file_exists($targetPath . $file)) {
                     unlink($targetPath . $file);
                 }
             }
