@@ -99,7 +99,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#from-1x-to-2x" class="md-skip">
+        <a href="#from-21x-to-22x" class="md-skip">
           Skip to content
         </a>
       
@@ -418,6 +418,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#from-21x-to-22x" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        From 2.1.x to 2.2.x
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From 2.1.x to 2.2.x">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cache-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Cache folder
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-chunks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Custom chunks
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Changed behaviour
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#from-1x-to-2x" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -564,6 +614,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#from-21x-to-22x" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        From 2.1.x to 2.2.x
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From 2.1.x to 2.2.x">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cache-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Cache folder
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-chunks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Custom chunks
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Changed behaviour
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#from-1x-to-2x" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -641,6 +741,97 @@
 
   <h1 id="__skip">Migration</h1>
 
+<h2 id="from-21x-to-22x">From 2.1.x to 2.2.x</h2>
+<h3 id="cache-folder">Cache folder</h3>
+<p>With version 2.2.0 the AjaxUpload cache folder has been moved into the MODX core
+folder. The location is set with the new system setting <code>ajaxupload.cache_path</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Cache folder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.1.x</td>
+<td><code>assets/components/ajaxupload/cache/</code></td>
+</tr>
+<tr>
+<td>2.2.x</td>
+<td><code>{core_path}cache/ajaxupload/</code> by default</td>
+</tr>
+</tbody>
+</table>
+<p>During the update:</p>
+<ul>
+<li>The system setting <code>ajaxupload.cache_path</code> is created with the default value
+  <code>{core_path}cache/ajaxupload/</code>.</li>
+<li>The old cache folder <code>assets/components/ajaxupload/cache/</code> is removed. It only
+  contains temporary uploads. Uploads, that are not submitted with a form at the
+  time of the update, are lost and have to be uploaded again.</li>
+<li>If you have already set <code>ajaxupload.cache_path</code> to the old cache folder, the
+  folder is not removed.</li>
+</ul>
+<p>After the update:</p>
+<ul>
+<li>Make sure that PHP can write in the new cache folder. Otherwise the upload area
+  shows the message <em>Could not create the cache folder!</em>.</li>
+<li>Make sure that the new cache folder is not accessible by the web server. See
+  <a href="../usage/#the-cache-folder">The cache folder</a> for the recommended setup, the
+  protection rules for Apache and nginx and how to check the protection.</li>
+<li>If the MODX core folder is located in the webroot and you use nginx, you need
+  a rule for the core folder. The rule for <code>/assets/components/ajaxupload/cache</code>
+  from the previous documentation can be removed.</li>
+</ul>
+<h3 id="custom-chunks">Custom chunks</h3>
+<p>If you use your own copies of the <code>tplAjaxuploadScript</code> or
+<code>tplAjaxuploadUploadSection</code> chunks (in the <code>scriptTpl</code> or <code>uploadSectionTpl</code>
+properties of the AjaxUpload snippet), start again from the new default chunks
+and re-apply your changes. Otherwise make these changes by hand:</p>
+<p><strong>tplAjaxuploadScript</strong></p>
+<ul>
+<li>The <code>fetch</code> URL has to end with <code>&amp;action=fetch&amp;url=</code> and the <code>load</code> URL with
+  <code>&amp;action=load&amp;ref=</code>. Otherwise adding files by URL and loading pre-filled
+  files does not work.</li>
+<li>The <code>process</code>, <code>patch</code> and <code>fetch</code> endpoints are objects with an <code>onerror</code>
+  handler, and <code>labelFileProcessingError</code> and <code>labelFileLoadError</code> are
+  functions. They show the reason (<em>File of invalid type</em> or <em>File is too
+  large</em>), when the server rejects a file.</li>
+<li>The FilePond labels are passed as one <code>[[+labels]]</code> object, so labels with
+  apostrophes don't break the script.</li>
+<li><code>maxFiles</code> is not passed to FilePond anymore. The <code>beforeAddFile</code>,
+  <code>onwarning</code> and <code>onremovefile</code> callbacks add the files that fit and show a
+  message for the others.</li>
+<li>A submit handler on the form blocks the submission, while files are uploading.</li>
+</ul>
+<p><strong>tplAjaxuploadUploadSection</strong></p>
+<ul>
+<li>The element <code>&lt;div id="filepond-warning-[[+uid]]" class="filepond-warning"
+  role="alert" hidden&gt;&lt;/div&gt;</code> shows the messages of the script.</li>
+<li>The <code>[[!+fi.error.[[+uid]]]]</code> placeholder is wrapped in a <code>filepond-warning</code>
+  box, so the errors of the FormIt hooks are shown in red.</li>
+</ul>
+<p>Old custom chunks keep working for normal uploads, but without these
+improvements.</p>
+<h3 id="changed-behaviour">Changed behaviour</h3>
+<ul>
+<li><strong>ajaxuploadAllowOverwrite disabled:</strong> If a file with the same filename exists
+  in the target folder, the form shows an error and the upload queue is kept.
+  Before, the uploaded file was silently dropped. See
+  <a href="../usage/#set-and-retrieve-the-upload-queue">Set and retrieve the upload queue</a>.</li>
+<li><strong>Failed saves:</strong> If a file can't be saved or an upload has expired, the form
+  shows an error and the upload queue is kept. See
+  <a href="../usage/#when-saving-fails">When saving fails</a>.</li>
+<li><strong>Order of the hooks:</strong> The AjaxUpload2Formit hook has to be the first
+  AjaxUpload hook in the <code>hooks</code> property of the FormIt call. The other
+  AjaxUpload hooks log an error, if they run before it. See
+  <a href="../usage/#order-of-the-hooks">Order of the hooks</a>.</li>
+<li><strong>Denied file extensions:</strong> A built-in list of denied file extensions is
+  always used. The <code>deniedExtensions</code> property and the
+  <code>ajaxupload.denied_extensions</code> system setting add extensions to it. See
+  <a href="../usage/#denied-file-extensions">Denied file extensions</a>.</li>
+</ul>
 <h2 id="from-1x-to-2x">From 1.x to 2.x</h2>
 <p>With version 2.x the javascript handling of the file upload has been changed
 from Valums-File-Uploader/file-uploader to pqina/filepond. Because of this

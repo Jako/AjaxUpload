@@ -635,7 +635,7 @@
 
 <h1 id="ajaxupload">AjaxUpload</h1>
 <p>AjaxUpload is an extra package for MODx Revolution. It displays an upload area
-with <a href="https://github.com/pqina/filepond">pqinoa/filepond</a> for uploading multiple
+with <a href="https://github.com/pqina/filepond">pqina/filepond</a> for uploading multiple
 files. The upload queue can be filled and saved by Formit hooks. The uploaded
 files can be attached to the FormIt mails and deleted after the form submission.</p>
 <h3 id="requirements">Requirements</h3>
@@ -646,10 +646,11 @@ files can be attached to the FormIt mails and deleted after the form submission.
 <h3 id="features">Features</h3>
 <ul>
 <li>Generate an upload area for uploading multiple files. </li>
-<li>Uploaded files gets random filenames to avoid hotlinking uploaded not
-  published files.</li>
+<li>Uploaded files are stored in a cache folder, that is not accessible by the
+  web server, until the form is submitted. Then they are saved with their
+  original filename (optionally sanitized) in the target folder.</li>
 <li>FormIt hooks to prefill the upload queue, read the upload queue after form
-  submission, attach the uploaded files to FormIt mails and delete them afer
+  submission, attach the uploaded files to FormIt mails and delete them after
   the form submission.</li>
 </ul>
 <h3 id="license">License</h3>

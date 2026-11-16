@@ -422,6 +422,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Set and retrieve the upload queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-saving-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        When saving fails
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-the-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Order of the hooks
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -465,6 +493,34 @@
       </span>
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-cache-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        The cache folder
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#denied-file-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Denied file extensions
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -632,6 +688,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Set and retrieve the upload queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-saving-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        When saving fails
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-the-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Order of the hooks
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -676,6 +760,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-cache-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        The cache folder
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#denied-file-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Denied file extensions
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -718,9 +830,12 @@
   <h1 id="__skip">Usage</h1>
 
 <h2 id="how-it-works">How it works</h2>
-<p>Ajaxupload creates an upload area for uploading multiple files in FormIt forms.
-All uploaded files are given random file names to avoid hotlinking of uploaded
-unpublished files.</p>
+<p>AjaxUpload creates an upload area for uploading multiple files in FormIt forms.
+The uploaded files are stored in the AjaxUpload cache folder, that is not
+accessible by the web server, until the form is submitted. Then the
+AjaxUpload2Formit hook saves them with their original filename (optionally
+sanitized) in the target folder. See <a href="#security">Security</a> for the cache folder
+and the checked file extensions.</p>
 <p>With two FormIt hooks the upload queues can be pre-filled from FormIt field
 value and saved into FormIt field value. With two other FormIt hooks the
 uploaded files can be attached to the FormIt mails and deleted after the form
@@ -755,8 +870,18 @@ in a form handled by FormIt:</p>
 </tr>
 <tr>
 <td>addJscript</td>
-<td>Add the snippet javascript and the fileuploader script at the end of the body.</td>
+<td>Add the snippet javascript and the FilePond script at the end of the body.</td>
 <td>1 (Yes)</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>Load the uncompressed scripts and styles, if AjaxUpload is loaded from a development installation outside of the MODX assets folder.</td>
+<td>System setting <code>ajaxupload.debug</code></td>
+</tr>
+<tr>
+<td>deniedExtensions</td>
+<td>Comma-separated list of denied file extensions. See <a href="#denied-file-extensions">Denied file extensions</a>.</td>
+<td>System setting <code>ajaxupload.denied_extensions</code></td>
 </tr>
 <tr>
 <td>fieldformat</td>
@@ -765,7 +890,7 @@ in a form handled by FormIt:</p>
 </tr>
 <tr>
 <td>maxFiles</td>
-<td>Maximum count of files to upload.</td>
+<td>Maximum count of files to upload. If more files are selected, the upload area adds only the files that fit and shows a message. The server checks the count only when the form is submitted (in the AjaxUpload2Formit hook).</td>
 <td>3</td>
 </tr>
 <tr>
@@ -795,7 +920,7 @@ in a form handled by FormIt:</p>
 </tr>
 <tr>
 <td>uid</td>
-<td>Comma-separated list of unique upload queue ids.</td>
+<td>Comma-separated list of unique upload queue ids.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></td>
 <td>md5 of MODX 'site_url' setting and the current resource id</td>
 </tr>
 <tr>
@@ -805,14 +930,14 @@ in a form handled by FormIt:</p>
 </tr>
 <tr>
 <td>value</td>
-<td>Comma-separated list of files in the upload queue. Supercedes the value that is retrieved with the Formit2AjaxUpload hook.</td>
+<td>Comma-separated list of files in the upload queue. Supersedes the value that is retrieved with the Formit2AjaxUpload hook.</td>
 <td>-</td>
 </tr>
 </tbody>
 </table>
 <p>All text output of the snippet can be edited in the MODX lexicon in the namespace <code>ajaxupload</code>.</p>
 <h2 id="set-and-retrieve-the-upload-queue">Set and retrieve the upload queue</h2>
-<p>To set/retreive the uploaded files in the upload queue by FormIt, you have to
+<p>To set/retrieve the uploaded files in the upload queue by FormIt, you have to
 use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>[[!FormIt?
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>...
@@ -823,6 +948,12 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>...
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>]]
 </span></code></pre></div>
+<p>The Formit2AjaxUpload hook (and the <code>value</code> property of the AjaxUpload snippet)
+pre-fills the upload queue with existing files. Each time the form is displayed,
+these files are copied into the AjaxUpload cache folder. The copies are removed
+after the expire time (system setting <code>ajaxupload.cache_expires</code>). On a
+frequently displayed form with large pre-filled files, the cache folder can grow
+until then.</p>
 <p>The AjaxUpload2Formit and the Formit2AjaxUpload hooks use almost the same properties:</p>
 <table>
 <thead>
@@ -860,13 +991,6 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 </tr>
 </tbody>
 </table>
-<div class="admonition warning">
-<p class="admonition-title">Beware: Absolute path needed</p>
-<p>If the ajaxuploadTargetRelativePath property is used, the ajaxuploadTarget property has to contain an absolute path. i.e:
- <div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>&amp;ajaxuploadTarget=`[[++base_path]]mycustompath/images`
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>&amp;ajaxuploadTargetRelativePath=`[[++base_path]]mycustompath`
-</span></code></pre></div></p>
-</div>
 <p>The AjaxUpload2Formit hook uses the following additional properties:</p>
 <table>
 <thead>
@@ -879,7 +1003,7 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 <tbody>
 <tr>
 <td>ajaxuploadAllowOverwrite</td>
-<td>Allow overwrite of existing files with the same filename.</td>
+<td>Allow overwrite of existing files with the same filename (see below).</td>
 <td>1 (Yes)</td>
 </tr>
 <tr>
@@ -889,9 +1013,77 @@ use the FormIt hooks in the <em>FormIt snippet</em> call:</p>
 </tr>
 </tbody>
 </table>
+<p>The uploaded files are saved with their original filename (sanitized, if
+ajaxuploadSanitizeFilename is enabled). They are never renamed to get a unique
+filename. If a file with the same filename exists in the target folder:</p>
+<ul>
+<li><strong>ajaxuploadAllowOverwrite enabled:</strong> The existing file is silently overwritten.
+  This also applies to files with the same filename uploaded in one form
+  submission: only the last one is saved and the field value contains the
+  filename once.</li>
+<li><strong>ajaxuploadAllowOverwrite disabled:</strong> The form shows an error, that a file
+  with the same filename exists. No file of this upload queue is saved and the
+  upload queue is kept, so the visitor can rename and upload the file again.
+  This also applies to files with the same filename uploaded in one form
+  submission.</li>
+</ul>
+<h3 id="when-saving-fails">When saving fails</h3>
+<p>The AjaxUpload2Formit hook stops the form submission with an error, if a file
+can't be saved (i.e. the target folder is not writable), if a file with the same
+filename exists and ajaxuploadAllowOverwrite is disabled or if an upload has
+expired. In this case, the files of the upload queue, that were already saved,
+are moved back into the upload queue. The upload queue is kept, so the visitor
+can fix the problem and submit the form again.</p>
+<p>This has some limitations:</p>
+<ul>
+<li><strong>Overwritten files can't be restored:</strong> If ajaxuploadAllowOverwrite is
+  enabled and a saved file has overwritten an existing file, the existing file is
+  lost, even if the form submission fails afterwards. The same applies to two
+  files with the same filename in one submission: the first one can't be
+  restored in the upload queue.</li>
+<li><strong>Multiple upload queues:</strong> If the form contains more than one upload queue
+  (a comma-separated list in ajaxuploadUid), the upload queues are saved one
+  after the other. If saving fails for an upload queue, the files of the upload
+  queues saved before stay in the target folder and these upload queues are
+  displayed empty. When the visitor submits the form again without uploading
+  these files again, they are missing in the submission.</li>
+</ul>
+<h3 id="order-of-the-hooks">Order of the hooks</h3>
+<p>The AjaxUpload2Formit hook saves the uploaded files in the target folder, removes
+them from the upload queue and replaces the field value with the saved filenames.
+This can't be undone by a hook that runs after it. If a later hook fails, FormIt
+displays the form again, but the upload queue is empty and the already saved
+files stay in the target folder. When the visitor uploads the files again, they
+are saved a second time. The files of the failed submission are never removed –
+not even by the AjaxUploadRemove hook – so the target folder fills up and is
+never emptied.</p>
+<p>Because of that, the AjaxUpload2Formit hook has to run <strong>after every hook that
+can fail</strong>, i.e. spam protection hooks or custom validation hooks:</p>
+<div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>[[!FormIt?
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>...
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="err">&amp;</span>hooks=`spam,myValidationHook,AjaxUpload2Formit,AjaxUploadAttachments,email,AjaxUploadRemove`
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>]]
+</span></code></pre></div>
+<p>The AjaxUpload2Formit hook has to be the <strong>first AjaxUpload hook</strong> that runs
+after the form is submitted. Before it runs, the field value contains only the
+ids of the not yet saved uploads. The other AjaxUpload hooks (AjaxUploadRequired,
+AjaxUploadAttachments and AjaxUploadRemove) work with the saved files, so they
+have to run after the AjaxUpload2Formit hook. If one of them runs before, it
+logs an error in the MODX error log and handles the upload queue as empty. The
+email hook needs the saved files as attachments, so it has to run after the
+AjaxUpload2Formit hook, too.</p>
+<div class="admonition warning">
+<p class="admonition-title">Make sure that the email hook does not fail</p>
+<p>The email hook runs after the AjaxUpload2Formit hook and can fail, i.e. if
+the mail server is not reachable or the mail settings are wrong. In this
+case the saved files of the submission stay in the target folder and are
+never removed. Check the mail settings of the site and test the form after
+each change of the mail configuration.</p>
+</div>
 <h2 id="attach-the-uploaded-files-to-a-mail">Attach the uploaded files to a mail</h2>
 <p>If you want to attach the uploaded files to the email, you have to add the
-AjaxUploadAttachments hook to the FormIt Call before the email hook:</p>
+AjaxUploadAttachments hook to the FormIt Call after the AjaxUpload2Formit hook
+and before the email hook (see <a href="#order-of-the-hooks">Order of the hooks</a>):</p>
 <div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>[[!FormIt?
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>...
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="err">&amp;</span>hooks=`AjaxUpload2Formit,AjaxUploadAttachments,email`
@@ -908,7 +1100,12 @@ AjaxUploadAttachments hook to the FormIt Call before the email hook:</p>
 <p>The AjaxUploadRemove hook uses the properties of the hooks above.</p>
 <h2 id="make-the-upload-required">Make the upload required</h2>
 <p>If you want to make the upload required, you have to add the AjaxUploadRequired
-hook to the FormIt Call before the email hook:</p>
+hook to the FormIt Call after the AjaxUpload2Formit hook and before the email
+hook. The AjaxUploadRequired hook checks the saved files, so it has to run after
+the AjaxUpload2Formit hook (see <a href="#order-of-the-hooks">Order of the hooks</a>). It
+only fails, when no file was uploaded, so no file of that upload queue was saved
+before. If the form contains more than one upload queue, the files of the other
+upload queues could already be saved, when the hook fails.</p>
 <div class="language-html highlight"><span class="filename">HTML</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[[!FormIt?
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>...
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="err">&amp;</span>hooks=`AjaxUpload2Formit,AjaxUploadRequired,email`
@@ -929,16 +1126,74 @@ hook to the FormIt Call before the email hook:</p>
 <td>The error message added, when no file is uploaded.</td>
 <td>Lexicon entry <code>ajaxupload.uploadRequired</code></td>
 </tr>
+<tr>
+<td>ajaxuploadRequiredUid</td>
+<td>Comma-separated list of the upload queue ids (from <code>ajaxuploadUid</code>), that require an upload.</td>
+<td>All upload queues in <code>ajaxuploadUid</code></td>
+</tr>
 </tbody>
 </table>
 <h2 id="security">Security</h2>
-<p>FilePond secures each temporary upload folder with a .htacces file that doesn't
-allow script file execution inside. If you are using ngnix, you have to add an
-AjaxUpload cache protection rule on your own:</p>
-<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>if ($uri ~* &quot;/assets/components/ajaxupload/cache(?:/|$)&quot;) {
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    return 403;
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>}
+<h3 id="the-cache-folder">The cache folder</h3>
+<p>Uploaded files are stored in the AjaxUpload cache folder, until the form is
+submitted and the AjaxUpload2Formit hook saves them in the target folder. Files
+that are not saved are removed after the expire time (system setting
+<code>ajaxupload.cache_expires</code>, 4 hours by default). The files in the cache folder
+are only delivered to the visitor by the AjaxUpload connector. The web server
+never has to access this folder directly.</p>
+<p>The location of the cache folder is set with the <code>ajaxupload.cache_path</code> system
+setting. Since AjaxUpload 2.2.0 the default is <code>{core_path}cache/ajaxupload/</code>.</p>
+<p>The cache folder should <strong>never be accessible by the web server</strong>, so that a
+not yet submitted upload can't be requested directly with its URL.</p>
+<p>The <code>ajaxupload.cache_path</code> system setting can contain the placeholders
+<code>{core_path}</code>, <code>{base_path}</code> and <code>{assets_path}</code>. An absolute path (starting
+with <code>/</code> or a drive letter like <code>C:\</code>) is used as it is. A relative path is
+relative to the MODX assets path. The folder is created automatically and must
+be writable by PHP. If it can't be created, the upload area shows the message
+<em>Could not create the cache folder!</em> and the MODX error log contains the path,
+that could not be created.</p>
+<div class="admonition tip">
+<p class="admonition-title">Recommended setup</p>
+<p>Move the MODX core folder outside of the webroot, as recommended by the
+MODX documentation for the advanced installation. Then the default
+<code>{core_path}cache/ajaxupload/</code> is not accessible by the web server at all.</p>
+</div>
+<p>If the MODX core folder is located in the webroot, make sure that it is
+protected:</p>
+<ul>
+<li><strong>Apache:</strong> Rename the file <code>core/ht.access</code> to <code>core/.htaccess</code>. It denies
+  the access to the whole core folder. AjaxUpload additionally creates a
+  <code>.htaccess</code> file in each cache folder, that disables the script execution and
+  the directory listing.</li>
+<li>
+<p><strong>nginx:</strong> nginx ignores <code>.htaccess</code> files. You have to deny the access to the
+  core folder in the server configuration:</p>
+<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>location ^~ /core/ {
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    deny all;
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    return 404;
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>}
 </span></code></pre></div>
+</li>
+</ul>
+<p>If you set <code>ajaxupload.cache_path</code> to a different folder inside the webroot,
+you have to protect that folder the same way.</p>
+<p>To check the protection, open the URL of the <code>.htaccess</code> file in the
+<code>tmp</code> subfolder of the cache folder in the browser, i.e.
+<code>https://example.com/core/cache/ajaxupload/tmp/.htaccess</code> for the default
+setting with the core folder in the webroot. The web server has to answer with
+an error (403 or 404) and must not show the file content.</p>
+<h3 id="denied-file-extensions">Denied file extensions</h3>
+<p>AjaxUpload never accepts a file with a denied file extension, even if its MIME
+type is accepted by the <code>acceptedFileTypes</code> property. The denied file extensions
+are combined from:</p>
+<ul>
+<li><strong>A built-in list</strong> of script file extensions (i.e. <code>php</code>, <code>phtml</code>, <code>asp</code>,
+  <code>jsp</code> and <code>cgi</code>), that is always used.</li>
+<li><strong>The <code>deniedExtensions</code> property</strong> of the AjaxUpload snippet. If it is not
+  set, the system setting <code>ajaxupload.denied_extensions</code> is used. The system
+  setting is not created during the installation, you can create it, if you want
+  to deny additional file extensions on the whole site.</li>
+</ul>
 <h2 id="system-settings">System Settings</h2>
 <p>AjaxUpload uses the following system settings in the namespace <code>ajaxupload</code>:</p>
 <table>
@@ -958,9 +1213,15 @@ AjaxUpload cache protection rule on your own:</p>
 <td>4</td>
 </tr>
 <tr>
+<td>ajaxupload.cache_path</td>
+<td>Cache Path</td>
+<td>Path of the AjaxUpload cache with the not yet saved uploads. See <a href="#the-cache-folder">The cache folder</a> for the placeholders and the recommended setup.</td>
+<td>{core_path}cache/ajaxupload/</td>
+</tr>
+<tr>
 <td>ajaxupload.debug</td>
 <td>Debug</td>
-<td>Log debug information in the MODX error log.</td>
+<td>Load the uncompressed scripts and styles in a development installation (see the <code>debug</code> property of the AjaxUpload snippet).</td>
 <td>No</td>
 </tr>
 <tr>
